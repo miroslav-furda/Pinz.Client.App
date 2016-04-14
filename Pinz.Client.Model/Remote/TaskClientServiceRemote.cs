@@ -19,18 +19,20 @@ namespace Com.Pinz.Client.Model.Remote
         private Dictionary<Category, ObservableCollection<Task>> tasksMap;
 
         private ITaskRemoteService taskRemoteService;
+        private TaskFilter filter;
 
         [Inject]
-        public TaskClientServiceRemote(ITaskRemoteService taskRemoteService)
+        public TaskClientServiceRemote(ITaskRemoteService taskRemoteService, TaskFilter filter)
         {
             this.taskRemoteService = taskRemoteService;
+            this.filter = filter;
 
             Projects = new ObservableCollection<Project>();
             BindingOperations.EnableCollectionSynchronization(Projects, _projectsLock);
             categoriesMap = new Dictionary<Project, ObservableCollection<Category>>();
             tasksMap = new Dictionary<Category, ObservableCollection<Task>>();
 
-            //filter.PropertyChanged += TaskFilter_PropertyChanged;
+            filter.PropertyChanged += TaskFilter_PropertyChanged;
         }
 
 
@@ -146,12 +148,6 @@ namespace Com.Pinz.Client.Model.Remote
 
         #region private Filter
 
-        private bool FilterTasks(Task taskitem)
-        {
-            return true;
-        }
-
-        /*
         private void TaskFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             foreach (Category category in tasksMap.Keys)
@@ -159,7 +155,7 @@ namespace Com.Pinz.Client.Model.Remote
                 ReadAllTasksByCategory(category);
             }
         }
-        
+
         private bool FilterTasks(Task taskitem)
         {
             bool retval = true;
@@ -185,7 +181,6 @@ namespace Com.Pinz.Client.Model.Remote
             }
             return retval;
         }
-        */
         #endregion
 
 

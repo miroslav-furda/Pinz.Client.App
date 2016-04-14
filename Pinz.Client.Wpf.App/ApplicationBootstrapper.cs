@@ -1,4 +1,5 @@
-﻿using Com.Pinz.Client.Model.Remote;
+﻿using Com.Pinz.Client.Model;
+using Com.Pinz.Client.Model.Remote;
 using Com.Pinz.Client.Model.Service;
 using Com.Pinz.Client.Module.Login;
 using Com.Pinz.Client.Module.TaskManager;
@@ -39,8 +40,7 @@ namespace Com.Pinz.Client.Wpf.App
             Kernel.Load(new TaskManagerNinjectModule());
             Kernel.Load(new ServiceConsumerNinjectModule());
             Kernel.Load(new LoginNinjectModule());
-
-            Kernel.Bind<ITaskClientService>().To<TaskClientServiceRemote>().InSingletonScope();
+            Kernel.Load(new ClientModelNinjectModule());
         }
     }
 }
