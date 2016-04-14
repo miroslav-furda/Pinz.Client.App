@@ -14,9 +14,9 @@
              d:DataContext ="{d:DesignInstance {x:Type dvm:TaskShowEditDesignModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="100" d:DesignWidth="300">
     <UserControl.Resources>
-        <Image x:Key="StartImage" Source="pack://application:,,,/Pinz.Commons;Component/Resources/start.png" Width="10" Height="10"/>
-        <!--Image x:Key="InProgressImage" Source="pack://application:,,,/Pinz.Commons;Component/Resources/forward.png" Width="10" Height="10"/-->
-        <Image x:Key="EditImage" Source="pack://application:,,,/Pinz.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
+        <Image x:Key="StartImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/start.png" Width="10" Height="10"/>
+        <!--Image x:Key="InProgressImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/forward.png" Width="10" Height="10"/-->
+        <Image x:Key="EditImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
         <convertLoc:CategoryToCompleteBool x:Key="CategoryToBool" />
         <convert:InverseBooleanConverter x:Key="InverseBool"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVisibilityConv"/>

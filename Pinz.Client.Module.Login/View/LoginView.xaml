@@ -27,7 +27,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="pack://application:,,,/Pinz.WpfClient.Infrastructure;Component/Resources/pinz/pinz_64x64.png" Margin="10" Stretch="None"/>
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/pinz/pinz_64x64.png" Margin="10" Stretch="None"/>
 
         <Label Grid.Row="1" Grid.Column="1" Content="{x:Static p:Resources.LoginView_UserName}" Margin="2"/>
         <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Credentials.UserName}"  Margin="2" IsEnabled="{Binding IsNotWorking}"/>
@@ -42,7 +42,7 @@
         <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Content="{Binding ErrorMessage}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
 
         <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="5"  
-               gif:ImageBehavior.AnimatedSource="pack://application:,,,/Pinz.WpfClient.Infrastructure;Component/Resources/processing2.gif" Margin="10" 
+               gif:ImageBehavior.AnimatedSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/processing2.gif" Margin="10" 
                Visibility="{Binding IsNotWorking, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" Stretch="None" />
 
     </Grid>

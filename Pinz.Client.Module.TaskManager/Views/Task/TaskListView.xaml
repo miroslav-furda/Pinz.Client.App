@@ -15,7 +15,7 @@
              d:DesignHeight="100" d:DesignWidth="300">
     
     <UserControl.Resources>
-        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Commons;Component/Resources/add.png" Width="10" Height="10"/>
+        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/add.png" Width="10" Height="10"/>
         <Style TargetType="{x:Type ItemsControl}" x:Key="ItemsControlStyle" BasedOn="{StaticResource {x:Type ItemsControl}}">
             <Style.Triggers>
                 <DataTrigger  Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}"  Value="0">
@@ -30,7 +30,7 @@
             </Style.Triggers>
         </Style>
         <DataTemplate x:Key="TaskDragTemplate">
-            <Image Source="pack://application:,,,/Pinz.Commons;Component/Resources/tasklist.png" Width="64" VerticalAlignment="Center"/>
+            <Image Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/tasklist.png" Width="64" VerticalAlignment="Center"/>
         </DataTemplate>
     </UserControl.Resources>
 

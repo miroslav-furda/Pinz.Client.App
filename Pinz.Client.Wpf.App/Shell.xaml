@@ -6,7 +6,7 @@
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:local="clr-namespace:Com.Pinz.Client.Wpf.App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Pinz" Height="350" Width="525" Icon="pack://application:,,,/Pinz.Client.Commons;Component/Resources/pinz/pin_16x16.png">
     <Grid>
         <ContentControl Name="PinzMainContentRegion" prism:RegionManager.RegionName="PinzMainContentRegion" Margin="5"/>
     </Grid>

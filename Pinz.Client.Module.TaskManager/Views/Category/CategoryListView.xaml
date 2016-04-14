@@ -11,7 +11,7 @@
              d:DataContext ="{d:DesignInstance {x:Type dvm:CategoryListDesignModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Commons;Component/Resources/add.png" Width="10" Height="10"/>
+        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/add.png" Width="10" Height="10"/>
     </UserControl.Resources>
 
     <Grid>
