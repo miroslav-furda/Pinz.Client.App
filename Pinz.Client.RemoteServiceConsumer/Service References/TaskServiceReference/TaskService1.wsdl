@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://pinzonline.com/services" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pinzonline.com/services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://pinzonline.com/services/Imports">
+      <xsd:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/TaskService.svc?xsd=xsd0" namespace="http://pinzonline.com/services" />
+      <xsd:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/TaskService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/TaskService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model" />
+      <xsd:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/TaskService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Com.Pinzonline.DomainModel" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITaskService_ReadAllTasksByCategoryId_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReadAllTasksByCategoryId" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_ReadAllTasksByCategoryId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReadAllTasksByCategoryIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_ReadAllCategoriesByProjectId_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReadAllCategoriesByProjectId" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_ReadAllCategoriesByProjectId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReadAllCategoriesByProjectIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_ReadAllProjectsForUserEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReadAllProjectsForUserEmail" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_ReadAllProjectsForUserEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReadAllProjectsForUserEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_CreateTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTask" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_CreateTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_UpdateTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTask" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_UpdateTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_DeleteTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTask" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_DeleteTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_CreateCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateCategory" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_CreateCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_UpdateCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCategory" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_UpdateCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_DeleteCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCategory" />
+  </wsdl:message>
+  <wsdl:message name="ITaskService_DeleteCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCategoryResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITaskService">
+    <wsdl:operation name="ReadAllTasksByCategoryId">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/ReadAllTasksByCategoryId" message="tns:ITaskService_ReadAllTasksByCategoryId_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/ReadAllTasksByCategoryIdResponse" message="tns:ITaskService_ReadAllTasksByCategoryId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadAllCategoriesByProjectId">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/ReadAllCategoriesByProjectId" message="tns:ITaskService_ReadAllCategoriesByProjectId_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/ReadAllCategoriesByProjectIdResponse" message="tns:ITaskService_ReadAllCategoriesByProjectId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadAllProjectsForUserEmail">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/ReadAllProjectsForUserEmail" message="tns:ITaskService_ReadAllProjectsForUserEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/ReadAllProjectsForUserEmailResponse" message="tns:ITaskService_ReadAllProjectsForUserEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateTask">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/CreateTask" message="tns:ITaskService_CreateTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/CreateTaskResponse" message="tns:ITaskService_CreateTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTask">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/UpdateTask" message="tns:ITaskService_UpdateTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/UpdateTaskResponse" message="tns:ITaskService_UpdateTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/DeleteTask" message="tns:ITaskService_DeleteTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/DeleteTaskResponse" message="tns:ITaskService_DeleteTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateCategory">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/CreateCategory" message="tns:ITaskService_CreateCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/CreateCategoryResponse" message="tns:ITaskService_CreateCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCategory">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/UpdateCategory" message="tns:ITaskService_UpdateCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/UpdateCategoryResponse" message="tns:ITaskService_UpdateCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCategory">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/ITaskService/DeleteCategory" message="tns:ITaskService_DeleteCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/ITaskService/DeleteCategoryResponse" message="tns:ITaskService_DeleteCategory_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

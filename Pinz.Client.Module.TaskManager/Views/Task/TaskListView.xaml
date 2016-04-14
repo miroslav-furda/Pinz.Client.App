@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Com.Pinz.Client.Module.TaskManager.Views.TaskListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Com.Pinz.Client.Module.TaskManager.Views"
+             xmlns:p="clr-namespace:Com.Pinz.Client.Module.TaskManager.Properties"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+             xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
+             xmlns:ext="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
+             xmlns:prism="http://www.codeplex.com/prism"
+             mc:Ignorable="d" 
+             xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.TaskManager.DesignModels;assembly=Pinz.Client.Module.TaskManager.DesignModels"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:TaskListDesignModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="100" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Commons;Component/Resources/add.png" Width="10" Height="10"/>
+        <Style TargetType="{x:Type ItemsControl}" x:Key="ItemsControlStyle" BasedOn="{StaticResource {x:Type ItemsControl}}">
+            <Style.Triggers>
+                <DataTrigger  Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}"  Value="0">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBlock Text="{x:Static p:Resources.NoTasks}" Margin="3,0,0,0"  FontSize="10" VerticalAlignment="Bottom"   Foreground="#FF6E6C6C"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="TaskDragTemplate">
+            <Image Source="pack://application:,,,/Pinz.Commons;Component/Resources/tasklist.png" Width="64" VerticalAlignment="Center"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ItemsControl  Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Tasks}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="3"
+                       dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" dd:DragDrop.DropHandler="{Binding}"  dd:DragDrop.DragAdornerTemplate="{StaticResource TaskDragTemplate}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Grid.Column="0" Grid.Row="0" Name="TaskShowEdit" prism:RegionManager.RegionName="TaskShowEditRegion" prism:RegionManager.RegionContext="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Grid.Column="0" Grid.Row="1" Content="{StaticResource AddImage}" ToolTip="{x:Static p:Resources.CreateTask_Button}" Command="{Binding CreateTask, Mode=OneWay}"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,5,0"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="Com.Pinz.Client.Module.TaskManager.Views.TaskEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Com.Pinz.Client.Module.TaskManager.Views"
+             xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
+             xmlns:Model="clr-namespace:Com.Pinz.DomainModel;assembly=Pinz.DomainModel"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:p="clr-namespace:Com.Pinz.Client.Module.TaskManager.Properties"
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ext="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
+             mc:Ignorable="d" 
+             xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.TaskManager.DesignModels;assembly=Pinz.Client.Module.TaskManager.DesignModels"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:TaskShowEditDesignModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <Image x:Key="OkImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
+        <Image x:Key="CancelImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
+        <Image x:Key="DeleteImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
+        <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
+        <convert:Enum2LocalizedStringConverter x:Key="Enum2LocString"/>
+
+        <Style x:Key="FormBodyField">
+            <Setter Property="TextBox.VerticalAlignment" Value="Top"/>
+            <Setter Property="TextBox.TextWrapping" Value="Wrap"/>
+            <Setter Property="TextBox.MinLines" Value="2"/>
+            <Setter Property="TextBox.AcceptsReturn" Value="True"/>
+        </Style>
+        <ObjectDataProvider x:Key="StatusEnumValues" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Model:TaskStatus"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="FormLabel">
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="FormField">
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
+        </Style>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding DeleteConfirmation, Mode=OneWay}">
+            <prism:PopupWindowAction  CenterOverAssociatedObject="True" IsModal="True" />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Visibility="{Binding EditMode, Converter={StaticResource BoolToVis} ,  ConverterParameter=Normal}" Margin="5,2,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0"  Content="{x:Static p:Resources.BodyLabel}" Style="{StaticResource FormLabel}" />
+        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Task.Body}" MaxWidth="{Binding ActualWidth, ElementName=fieldsGrid, Mode=OneWay}" Style="{StaticResource FormBodyField}"/>
+
+        <Grid x:Name="fieldsGrid" Grid.Row="2" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition SharedSizeGroup="firstColumn" Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition SharedSizeGroup="firstColumn"  Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Separator Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" />
+
+            <Label Grid.Column="0" Grid.Row="1"  Content="{x:Static p:Resources.CreationDateLabel}" Style="{StaticResource FormLabel}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Task.CreationTime , StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>
+            <Label Grid.Column="2" Grid.Row="1"  Content="{x:Static p:Resources.StartDateLabel}" Style="{StaticResource FormLabel}" />
+            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Task.StartDate, StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>
+
+            <Label Grid.Column="0" Grid.Row="2"  Content="{x:Static p:Resources.DueDateLabel}" Style="{StaticResource FormLabel}" />
+            <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding Task.DueDate, StringFormat=\{0:d\} }" Style="{StaticResource FormField}"/>
+            <Label Grid.Column="2" Grid.Row="2"  Content="{x:Static p:Resources.DateCompletedLabel}" Style="{StaticResource FormLabel}" />
+            <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding Task.DateCompleted, StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>
+
+            <Separator Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" />
+
+            <Label Grid.Column="0" Grid.Row="4"  Content="{x:Static p:Resources.OwnerLabel}" Style="{StaticResource FormLabel}" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Task.Owner}" Style="{StaticResource FormField}"/>
+            <Label Grid.Column="2" Grid.Row="4"  Content="{x:Static p:Resources.StatusLabel}" Style="{StaticResource FormLabel}" />
+            <ComboBox Grid.Column="3" Grid.Row="4" SelectedValue="{Binding Task.Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusEnumValues}}"  Style="{StaticResource FormField}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock d:Text="{Binding}"  Text="{Binding Converter={StaticResource Enum2LocString}, ConverterParameter={x:Static p:Resources.ResourceManager}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Grid.Column="0" Grid.Row="5"  Content="{x:Static p:Resources.PriorityLabel}" Style="{StaticResource FormLabel}" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Task.Priority}" Style="{StaticResource FormField}"/>
+            <Label Grid.Column="2" Grid.Row="5"  Content="{x:Static p:Resources.ActualWorkLabel}" Style="{StaticResource FormLabel}" />
+            <Slider Grid.Column="3" Grid.Row="5" Value="{Binding Task.ActualWork}" Style="{StaticResource FormField}"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="{StaticResource DeleteImage}" ToolTip="{x:Static p:Resources.Button_Delete_Tooltip}" Command="{Binding Path=DeleteCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  />
+            <Button Grid.Column="1" Content="{StaticResource OkImage}" ToolTip="{x:Static p:Resources.Button_Ok}" Command="{Binding Path=OkCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  />
+            <Button Grid.Column="2" Content="{StaticResource CancelImage}" ToolTip="{x:Static p:Resources.Button_Cancel}" Command="{Binding Path=CancelCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left"  />
+
+        </Grid>
+    </Grid>
+</UserControl>

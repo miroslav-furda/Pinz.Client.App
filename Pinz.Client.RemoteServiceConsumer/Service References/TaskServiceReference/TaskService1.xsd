@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Com.Pinzonline.DomainModel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Com.Pinzonline.DomainModel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="TaskPriority">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Low" />
+      <xs:enumeration value="Normal" />
+      <xs:enumeration value="High" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TaskPriority" nillable="true" type="tns:TaskPriority" />
+  <xs:simpleType name="TaskStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TaskNotStarted" />
+      <xs:enumeration value="TaskInProgress" />
+      <xs:enumeration value="TaskComplete" />
+      <xs:enumeration value="TaskWaiting" />
+      <xs:enumeration value="TaskDeferred" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TaskStatus" nillable="true" type="tns:TaskStatus" />
+</xs:schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Pinz.WpfClient.Module.TaskManager </id>
+    <version>$version$</version>
+    <title>Task Manager module for Pinz</title>
+    <authors>Miroslav Furda</authors>
+    <owners>Miroslav Furda</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Task management WPF cleint.</description>
+    <releaseNotes>Initial version.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Pinz WPF Task</tags>
+  </metadata>
+</package>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Com.Pinz.Client.Module.Login.View.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Com.Pinz.Client.Module.Login.View"
+             xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
+             xmlns:p="clr-namespace:Com.Pinz.Client.Module.Login.Properties"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <UserControl.Resources>
+        <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+    <Grid Margin="0,20,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="pack://application:,,,/Pinz.WpfClient.Infrastructure;Component/Resources/pinz/pinz_64x64.png" Margin="10" Stretch="None"/>
+
+        <Label Grid.Row="1" Grid.Column="1" Content="{x:Static p:Resources.LoginView_UserName}" Margin="2"/>
+        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Credentials.UserName}"  Margin="2" IsEnabled="{Binding IsNotWorking}"/>
+        <Label Grid.Row="2" Grid.Column="1" Content="{x:Static p:Resources.LoginView_Password}" Margin="2"/>
+        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding Credentials.Password}" Margin="2" IsEnabled="{Binding IsNotWorking}"/>
+
+        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0">
+            <Button Content="{x:Static p:Resources.LoginView_LoginButton}" 
+                ToolTip="{x:Static p:Resources.LoginView_LoginButton_Tooltip}" Command="{Binding Path=LoginCommand}" 
+                VerticalAlignment="Center" Margin="0,5,0,0" HorizontalAlignment="Center" IsEnabled="{Binding IsNotWorking}"/>
+        </Border>
+        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Content="{Binding ErrorMessage}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="5"  
+               gif:ImageBehavior.AnimatedSource="pack://application:,,,/Pinz.WpfClient.Infrastructure;Component/Resources/processing2.gif" Margin="10" 
+               Visibility="{Binding IsNotWorking, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" Stretch="None" />
+
+    </Grid>
+</UserControl>

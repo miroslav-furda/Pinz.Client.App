@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5983c473-f8e5-4287-8570-962c5c0ca156" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/PinzAdminService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PinzAdminService.xsd" MetadataType="Schema" ID="77235ac5-62ec-4761-9c75-3ebe62858992" SourceId="1" SourceUrl="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/PinzAdminService.svc?xsd=xsd2" />
+    <MetadataFile FileName="PinzAdminService.wsdl" MetadataType="Wsdl" ID="845f463d-2716-42b2-9e5c-a83ebc5ca5cd" SourceId="1" SourceUrl="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/PinzAdminService.svc?wsdl" />
+    <MetadataFile FileName="PinzAdminService.disco" MetadataType="Disco" ID="9daddd05-10df-4fbf-b0ab-93dd1368e57b" SourceId="1" SourceUrl="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/PinzAdminService.svc?disco" />
+    <MetadataFile FileName="PinzAdminService1.xsd" MetadataType="Schema" ID="34c8486d-12b0-4243-875a-d6a08704a859" SourceId="1" SourceUrl="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/PinzAdminService.svc?xsd=xsd0" />
+    <MetadataFile FileName="PinzAdminService2.xsd" MetadataType="Schema" ID="48de3a03-00bb-44b7-9f64-1bbae4dd1689" SourceId="1" SourceUrl="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/PinzAdminService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

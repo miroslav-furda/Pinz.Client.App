@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Pinz.Client.RemoteServiceConsumer</id>
+    <version>$version$</version>
+    <title>Service consumer for Pinz WCF services</title>
+    <authors>Miroslav Furda</authors>
+    <owners>Miroslav Furda</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Consumer of the Pinz WCF Services for client.</description>
+    <releaseNotes>Initial version.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Pinz Client Service</tags>
+  </metadata>
+</package>

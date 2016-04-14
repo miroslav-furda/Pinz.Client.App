@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/TaskService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/TaskService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Com.Pinzonline.DomainModel" />
+  <xs:complexType name="ArrayOfTaskDO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaskDO" nillable="true" type="tns:TaskDO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTaskDO" nillable="true" type="tns:ArrayOfTaskDO" />
+  <xs:complexType name="TaskDO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActualWork" type="xs:int" />
+      <xs:element minOccurs="0" name="Body" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CategoryId" type="ser:guid" />
+      <xs:element minOccurs="0" name="CreationTime" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DateCompleted" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DueDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IsComplete" type="xs:boolean" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Com.Pinzonline.DomainModel" minOccurs="0" name="Priority" nillable="true" type="q1:TaskPriority" />
+      <xs:element minOccurs="0" name="StartDate" nillable="true" type="xs:dateTime" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Com.Pinzonline.DomainModel" minOccurs="0" name="Status" type="q2:TaskStatus" />
+      <xs:element minOccurs="0" name="TaskId" type="ser:guid" />
+      <xs:element minOccurs="0" name="TaskName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserId" nillable="true" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaskDO" nillable="true" type="tns:TaskDO" />
+  <xs:complexType name="ArrayOfCategoryDO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CategoryDO" nillable="true" type="tns:CategoryDO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCategoryDO" nillable="true" type="tns:ArrayOfCategoryDO" />
+  <xs:complexType name="CategoryDO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CategoryId" type="ser:guid" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjectId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryDO" nillable="true" type="tns:CategoryDO" />
+  <xs:complexType name="ArrayOfProjectDO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ProjectDO" nillable="true" type="tns:ProjectDO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProjectDO" nillable="true" type="tns:ArrayOfProjectDO" />
+  <xs:complexType name="ProjectDO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CompanyId" type="ser:guid" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjectId" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProjectDO" nillable="true" type="tns:ProjectDO" />
+</xs:schema>

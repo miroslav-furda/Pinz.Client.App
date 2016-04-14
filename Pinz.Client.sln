@@ -1,0 +1,106 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Commons", "Pinz.Client.Commons\Pinz.Client.Commons.csproj", "{64BBC1DC-7F3B-4BBF-871D-FABFD6EA3721}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Commons.UnitTest", "Pinz.Client.Commons.UnitTest\Pinz.Client.Commons.UnitTest.csproj", "{B693BC08-88FF-44AE-846A-F26B14F83ECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.DomainModel", "Pinz.Client.DomainModel\Pinz.Client.DomainModel.csproj", "{85AEDD42-798E-4D82-A2C7-53D63DE77D02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.RemoteServiceConsumer", "Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj", "{AC10ED84-4EFC-41F3-ACDD-709B51BEFBB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.RemoteServiceConsumer.IntegrationTest", "Pinz.Client.RemoteServiceConsumer.IntegrationTest\Pinz.Client.RemoteServiceConsumer.IntegrationTest.csproj", "{FF2DED53-E8F4-4E9F-BA8B-BD3ACD7D1C15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module", "Module", "{7252AAA3-82B1-4609-A2E4-94E1B66B13D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.Login", "Pinz.Client.Module.Login\Pinz.Client.Module.Login.csproj", "{085572F8-2FBB-47F6-8E5F-12341EBC1159}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{D39096AA-4DCD-47B1-98F4-98F4110003BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{1F988C8D-5860-425D-AEF6-32343AA8E9EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Model", "Pinz.Client.Model\Pinz.Client.Model.csproj", "{C85D0C64-52BF-429B-8228-86FAC72E7256}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.TaskManager", "Pinz.Client.Module.TaskManager\Pinz.Client.Module.TaskManager.csproj", "{FB721829-CE20-482A-A5E3-E544450EC4CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.TaskManager.DesignModels", "Pinz.Client.Module.TaskManager.DesignModels\Pinz.Client.Module.TaskManager.DesignModels.csproj", "{028C2DAE-B765-406A-B97A-09ADEB9797F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A44D93A6-7532-4105-9CC4-0288E5C064C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.TaskManager.UnitTest", "Pinz.Client.Module.TaskManager.UnitTest\Pinz.Client.Module.TaskManager.UnitTest.csproj", "{90A952A4-D765-43D9-966D-1474DE603E25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{BA4C28AE-A12E-42A7-827F-CA3F94332501}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Wpf.App", "Pinz.Client.Wpf.App\Pinz.Client.Wpf.App.csproj", "{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64BBC1DC-7F3B-4BBF-871D-FABFD6EA3721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BBC1DC-7F3B-4BBF-871D-FABFD6EA3721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BBC1DC-7F3B-4BBF-871D-FABFD6EA3721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BBC1DC-7F3B-4BBF-871D-FABFD6EA3721}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B693BC08-88FF-44AE-846A-F26B14F83ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B693BC08-88FF-44AE-846A-F26B14F83ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B693BC08-88FF-44AE-846A-F26B14F83ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B693BC08-88FF-44AE-846A-F26B14F83ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85AEDD42-798E-4D82-A2C7-53D63DE77D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85AEDD42-798E-4D82-A2C7-53D63DE77D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85AEDD42-798E-4D82-A2C7-53D63DE77D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85AEDD42-798E-4D82-A2C7-53D63DE77D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC10ED84-4EFC-41F3-ACDD-709B51BEFBB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC10ED84-4EFC-41F3-ACDD-709B51BEFBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC10ED84-4EFC-41F3-ACDD-709B51BEFBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC10ED84-4EFC-41F3-ACDD-709B51BEFBB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF2DED53-E8F4-4E9F-BA8B-BD3ACD7D1C15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF2DED53-E8F4-4E9F-BA8B-BD3ACD7D1C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF2DED53-E8F4-4E9F-BA8B-BD3ACD7D1C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF2DED53-E8F4-4E9F-BA8B-BD3ACD7D1C15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{085572F8-2FBB-47F6-8E5F-12341EBC1159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{085572F8-2FBB-47F6-8E5F-12341EBC1159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{085572F8-2FBB-47F6-8E5F-12341EBC1159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{085572F8-2FBB-47F6-8E5F-12341EBC1159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C85D0C64-52BF-429B-8228-86FAC72E7256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C85D0C64-52BF-429B-8228-86FAC72E7256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C85D0C64-52BF-429B-8228-86FAC72E7256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C85D0C64-52BF-429B-8228-86FAC72E7256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB721829-CE20-482A-A5E3-E544450EC4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB721829-CE20-482A-A5E3-E544450EC4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB721829-CE20-482A-A5E3-E544450EC4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB721829-CE20-482A-A5E3-E544450EC4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{028C2DAE-B765-406A-B97A-09ADEB9797F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{028C2DAE-B765-406A-B97A-09ADEB9797F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{028C2DAE-B765-406A-B97A-09ADEB9797F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{028C2DAE-B765-406A-B97A-09ADEB9797F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90A952A4-D765-43D9-966D-1474DE603E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90A952A4-D765-43D9-966D-1474DE603E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90A952A4-D765-43D9-966D-1474DE603E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90A952A4-D765-43D9-966D-1474DE603E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64BBC1DC-7F3B-4BBF-871D-FABFD6EA3721} = {1F988C8D-5860-425D-AEF6-32343AA8E9EA}
+		{B693BC08-88FF-44AE-846A-F26B14F83ECA} = {1F988C8D-5860-425D-AEF6-32343AA8E9EA}
+		{85AEDD42-798E-4D82-A2C7-53D63DE77D02} = {1F988C8D-5860-425D-AEF6-32343AA8E9EA}
+		{AC10ED84-4EFC-41F3-ACDD-709B51BEFBB3} = {D39096AA-4DCD-47B1-98F4-98F4110003BE}
+		{FF2DED53-E8F4-4E9F-BA8B-BD3ACD7D1C15} = {D39096AA-4DCD-47B1-98F4-98F4110003BE}
+		{085572F8-2FBB-47F6-8E5F-12341EBC1159} = {7252AAA3-82B1-4609-A2E4-94E1B66B13D2}
+		{C85D0C64-52BF-429B-8228-86FAC72E7256} = {D39096AA-4DCD-47B1-98F4-98F4110003BE}
+		{FB721829-CE20-482A-A5E3-E544450EC4CC} = {7252AAA3-82B1-4609-A2E4-94E1B66B13D2}
+		{028C2DAE-B765-406A-B97A-09ADEB9797F8} = {A44D93A6-7532-4105-9CC4-0288E5C064C0}
+		{A44D93A6-7532-4105-9CC4-0288E5C064C0} = {7252AAA3-82B1-4609-A2E4-94E1B66B13D2}
+		{90A952A4-D765-43D9-966D-1474DE603E25} = {A44D93A6-7532-4105-9CC4-0288E5C064C0}
+		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0} = {BA4C28AE-A12E-42A7-827F-CA3F94332501}
+	EndGlobalSection
+EndGlobal
