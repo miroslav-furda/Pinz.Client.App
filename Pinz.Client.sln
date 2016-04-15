@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{BA4C28AE-A12
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Wpf.App", "Pinz.Client.Wpf.App\Pinz.Client.Wpf.App.csproj", "{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.Administration", "Pinz.Client.Module.Administration\Pinz.Client.Module.Administration.csproj", "{443C39E4-79C4-4C24-BDC3-136033375319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{443C39E4-79C4-4C24-BDC3-136033375319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{443C39E4-79C4-4C24-BDC3-136033375319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{443C39E4-79C4-4C24-BDC3-136033375319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{443C39E4-79C4-4C24-BDC3-136033375319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{A44D93A6-7532-4105-9CC4-0288E5C064C0} = {7252AAA3-82B1-4609-A2E4-94E1B66B13D2}
 		{90A952A4-D765-43D9-966D-1474DE603E25} = {A44D93A6-7532-4105-9CC4-0288E5C064C0}
 		{26CCA664-A635-4816-AA8F-3EC8CEFF92E0} = {BA4C28AE-A12E-42A7-827F-CA3F94332501}
+		{443C39E4-79C4-4C24-BDC3-136033375319} = {7252AAA3-82B1-4609-A2E4-94E1B66B13D2}
 	EndGlobalSection
 EndGlobal
