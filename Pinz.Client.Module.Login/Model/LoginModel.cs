@@ -1,17 +1,35 @@
 ﻿using Com.Pinz.Client.Commons;
+using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Model.Service;
-using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {
-    public class LoginModel : BindableBase
+    public class LoginModel : BindableValidationBase
     {
+        private string _userName;
+        [Required]
+        [EmailAddress]
+        public string UserName
+        {
+            get { return _userName; }
+            set { SetProperty(ref _userName, value); }
+        }
+
+        private string _password;
+        [Required]
+        public string Password
+        {
+            get { return _password; }
+            set { SetProperty(ref _password, value); }
+        }
+
+
         private bool _isNotWorking;
         public bool IsNotWorking
         {
@@ -26,7 +44,6 @@ namespace Com.Pinz.Client.Module.Login.Model
         }
 
         public DelegateCommand LoginCommand { get; private set; }
-        public UserNameClientCredentials Credentials { get; private set; }
 
         private string _errorMessage;
         public string ErrorMessage
@@ -42,46 +59,47 @@ namespace Com.Pinz.Client.Module.Login.Model
         }
 
         private IRegionManager regionManager;
-        private ITaskClientService taskService;
+        private IAdminClientService adminClientService;
 
         [Inject]
-        public LoginModel(UserNameClientCredentials credentials, IRegionManager regionManager, ITaskClientService taskService)
+        public LoginModel(IAdminClientService adminClientService, IRegionManager regionManager)
         {
-            this.Credentials = credentials;
+            this.adminClientService = adminClientService;
             this.regionManager = regionManager;
-            this.taskService = taskService;
             IsNotWorking = true;
 
             LoginCommand = new DelegateCommand(login);
-
-            Credentials.UserName = "test@test.com";
-            Credentials.Password = "test";
         }
 
         private async void login()
         {
-            try
+            if (!ValidateModel())
             {
-                IsNotWorking = false;
-                Credentials.UpdateCredentialsForAllFactories();
-                await AsyncLogin();
-                regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
-            }
-            catch
-            {
-                ErrorMessage = Properties.Resources.BadLogin;
-            }
-            finally
-            {
-                IsNotWorking = true;
+                try
+                {
+                    IsNotWorking = false;
+                    bool success = await AsyncLogin();
+                    if (success)
+                        regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
+                    else
+                        ErrorMessage = Properties.Resources.BadLogin;
+                }
+                catch
+                {
+                    ErrorMessage = Properties.Resources.BadLogin;
+                }
+                finally
+                {
+                    IsNotWorking = true;
+                }
             }
         }
 
-        private Task AsyncLogin()
+        private Task<bool> AsyncLogin()
         {
             return Task.Run(() =>
             {
-                taskService.ReadAllProjectsForCurrentUser();
+                return adminClientService.loginUser(UserName, Password);
             });
         }
     }

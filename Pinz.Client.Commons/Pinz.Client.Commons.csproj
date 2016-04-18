@@ -65,6 +65,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RegionNames.cs" />
+    <Compile Include="Wpf\Converter\BooleanOrConverter.cs" />
     <Compile Include="Wpf\Converter\Enum2LocalizedStringConverter.cs" />
     <Compile Include="Wpf\Converter\InverseBooleanConverter.cs" />
     <Compile Include="Wpf\Converter\ParametrizedBooleanToVisibilityConverter.cs" />
@@ -101,6 +102,9 @@
   <ItemGroup>
     <Resource Include="Resources\processing.gif" />
     <Resource Include="Resources\Processing2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\admin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,7 @@
 ﻿using Com.Pinz.Client.Model;
 using Com.Pinz.Client.Model.Remote;
 using Com.Pinz.Client.Model.Service;
+using Com.Pinz.Client.Module.Administration;
 using Com.Pinz.Client.Module.Login;
 using Com.Pinz.Client.Module.TaskManager;
 using Com.Pinz.Client.RemoteServiceConsumer;
@@ -32,6 +33,7 @@ namespace Com.Pinz.Client.Wpf.App
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(LoginModule));
             moduleCatalog.AddModule(typeof(TaskManagerModule));
+            moduleCatalog.AddModule(typeof(AdministrationModule));
         }
 
         protected override void ConfigureKernel()

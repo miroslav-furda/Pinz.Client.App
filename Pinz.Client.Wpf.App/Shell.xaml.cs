@@ -1,4 +1,6 @@
 ﻿using Com.Pinz.Client.Commons;
+using Com.Pinz.Client.Model.Service;
+using Ninject;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
@@ -13,15 +15,18 @@ namespace Com.Pinz.Client.Wpf.App
     {
         private const string LoginModuleName = "LoginModule";
         private static Uri LoginViewUri = new Uri("/LoginView", UriKind.Relative);
+        private static Uri AdministrationViewUri = new Uri("/AdministrationMainView", UriKind.Relative);
 
         private IModuleManager ModuleManager;
         private IRegionManager RegionManager;
 
-        public Shell(IModuleManager ModuleManager, IRegionManager RegionManager)
+        [Inject]
+        public Shell(IAdminClientService model, IModuleManager ModuleManager, IRegionManager RegionManager)
         {
             this.ModuleManager = ModuleManager;
             this.RegionManager = RegionManager;
             InitializeComponent();
+            DataContext = model;
         }
 
 
@@ -48,6 +53,11 @@ namespace Com.Pinz.Client.Wpf.App
                             LoginViewUri);
                     }
                 };
+        }
+
+        private void AdminButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.RegionManager.RequestNavigate( RegionNames.MainContentRegion, AdministrationViewUri);
         }
     }
 }

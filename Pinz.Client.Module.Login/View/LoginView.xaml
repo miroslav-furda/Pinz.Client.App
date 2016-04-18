@@ -25,23 +25,28 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/pinz/pinz_64x64.png" Margin="10" Stretch="None"/>
 
-        <Label Grid.Row="1" Grid.Column="1" Content="{x:Static p:Resources.LoginView_UserName}" Margin="2"/>
-        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Credentials.UserName}"  Margin="2" IsEnabled="{Binding IsNotWorking}"/>
-        <Label Grid.Row="2" Grid.Column="1" Content="{x:Static p:Resources.LoginView_Password}" Margin="2"/>
-        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding Credentials.Password}" Margin="2" IsEnabled="{Binding IsNotWorking}"/>
+        <!--ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"  x:Name="ErrorList" ItemsSource="{Binding Errors.Errors}" /-->
 
-        <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0">
+        <Label Grid.Row="2" Grid.Column="1" Content="{x:Static p:Resources.LoginView_UserName}" Margin="2"/>
+        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"  Margin="2" IsEnabled="{Binding IsNotWorking}" 
+                 Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
+        <Label Grid.Row="3" Grid.Column="1" Content="{x:Static p:Resources.LoginView_Password}" Margin="2"/>
+        <TextBox Grid.Row="3" Grid.Column="2"  Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" IsEnabled="{Binding IsNotWorking}"
+                 Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
+
+        <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="0,5,0,0">
             <Button Content="{x:Static p:Resources.LoginView_LoginButton}" 
                 ToolTip="{x:Static p:Resources.LoginView_LoginButton_Tooltip}" Command="{Binding Path=LoginCommand}" 
                 VerticalAlignment="Center" Margin="0,5,0,0" HorizontalAlignment="Center" IsEnabled="{Binding IsNotWorking}"/>
         </Border>
-        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Content="{Binding ErrorMessage}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Content="{Binding ErrorMessage}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
 
-        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="5"  
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="6"  
                gif:ImageBehavior.AnimatedSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/processing2.gif" Margin="10" 
                Visibility="{Binding IsNotWorking, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" Stretch="None" />
 

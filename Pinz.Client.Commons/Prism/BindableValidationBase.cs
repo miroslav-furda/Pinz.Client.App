@@ -14,8 +14,12 @@ namespace Com.Pinz.Client.Commons.Prism
 
         protected override bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            ValidateModelProperty(value, propertyName);
-            return base.SetProperty(ref storage, value, propertyName);
+            var result = base.SetProperty(ref storage, value, propertyName);
+            if (result && !string.IsNullOrEmpty(propertyName))
+            {
+                ValidateModelProperty(value, propertyName);
+            }
+            return result;
         }
 
 
@@ -37,33 +41,40 @@ namespace Com.Pinz.Client.Commons.Prism
             RaiseErrorsChanged(propertyName);
         }
 
-        /*
-        protected void ValidateModel()
+
+        protected bool ValidateModel()
         {
+            foreach(string propertyName in _validationErrors.Keys)
+            {
+                RaiseErrorsChanged(propertyName);
+            }
             _validationErrors.Clear();
+
             ICollection<ValidationResult> validationResults = new List<ValidationResult>();
             ValidationContext validationContext = new ValidationContext(this, null, null);
             if (!Validator.TryValidateObject(this, validationContext, validationResults, true))
             {
                 foreach (ValidationResult validationResult in validationResults)
                 {
-                    string property = validationResult.MemberNames.ElementAt(0);
-                    if (_validationErrors.ContainsKey(property))
+                    IEnumerator<string> enumerator = validationResult.MemberNames.GetEnumerator();
+                    if (enumerator.MoveNext())
                     {
-                        _validationErrors[property].Add(validationResult.ErrorMessage);
-                    }
-                    else
-                    {
-                        _validationErrors.Add(property, new List<string> { validationResult.ErrorMessage });
+                        string propertyName = enumerator.Current;
+                        if (_validationErrors.ContainsKey(propertyName))
+                        {
+                            _validationErrors[propertyName].Add(validationResult.ErrorMessage);
+                        }
+                        else
+                        {
+                            _validationErrors.Add(propertyName, new List<string> { validationResult.ErrorMessage });
+                        }
+                        RaiseErrorsChanged(propertyName);
                     }
                 }
             }
+            return _validationErrors.Count > 0;
+        }
 
-            //Raise the ErrorsChanged for all properties explicitly
-            ErrorsChanged("Username");
-            ErrorsChanged("Name");
-    }
-*/
 
         #region INotifyDataErrorInfo members
         public bool HasErrors
