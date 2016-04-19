@@ -87,12 +87,12 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (!PasswordChangeModel.ValidateModel())
             {
-                if( adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPasword, PasswordChangeModel.NewPasword, PasswordChangeModel.NewPasword2))
+                if( adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2))
                 {
                     ChangeNotification.Raise(new Notification()
                     {
-                        Title = "Password change",
-                        Content = "Password changed"
+                        Title = Properties.Resources.PasswordChange_Title,
+                        Content = Properties.Resources.PasswordChange_Success
                     });
                     IsPasswordInEditMode = false;
                 }
@@ -100,8 +100,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 {
                     ChangeNotification.Raise(new Notification()
                     {
-                        Title = "Password change",
-                        Content = "Failed to change password"
+                        Title = Properties.Resources.PasswordChange_Title,
+                        Content = Properties.Resources.PasswordChange_Failed
                     });
                 }
             }

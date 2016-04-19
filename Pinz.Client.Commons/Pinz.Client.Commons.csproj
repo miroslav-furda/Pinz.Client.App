@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Prism\BindableValidationBase.cs" />
+    <Compile Include="Wpf\Extensions\PasswordBoxAssistant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -105,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\admin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Prism\Validation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

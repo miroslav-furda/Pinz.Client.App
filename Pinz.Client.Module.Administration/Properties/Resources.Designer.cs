@@ -70,6 +70,33 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to change password.
+        /// </summary>
+        public static string PasswordChange_Failed {
+            get {
+                return ResourceManager.GetString("PasswordChange_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password changed.
+        /// </summary>
+        public static string PasswordChange_Success {
+            get {
+                return ResourceManager.GetString("PasswordChange_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password change.
+        /// </summary>
+        public static string PasswordChange_Title {
+            get {
+                return ResourceManager.GetString("PasswordChange_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EMail.
         /// </summary>
         public static string User_EMail {

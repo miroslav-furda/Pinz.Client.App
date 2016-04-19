@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Login.View"
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
+             xmlns:extensions="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
              xmlns:p="clr-namespace:Com.Pinz.Client.Module.Login.Properties"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
@@ -33,11 +34,11 @@
         <!--ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"  x:Name="ErrorList" ItemsSource="{Binding Errors.Errors}" /-->
 
         <Label Grid.Row="2" Grid.Column="1" Content="{x:Static p:Resources.LoginView_UserName}" Margin="2"/>
-        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"  Margin="2" IsEnabled="{Binding IsNotWorking}" 
+        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding UserName, UpdateSourceTrigger=LostFocus}"  Margin="2" IsEnabled="{Binding IsNotWorking}" 
                  Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
         <Label Grid.Row="3" Grid.Column="1" Content="{x:Static p:Resources.LoginView_Password}" Margin="2"/>
-        <TextBox Grid.Row="3" Grid.Column="2"  Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" IsEnabled="{Binding IsNotWorking}"
-                 Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
+        <PasswordBox Grid.Row="3" Grid.Column="2"  extensions:PasswordBoxAssistant.BindPassword="true"  extensions:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="2" IsEnabled="{Binding IsNotWorking}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
         <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="0,5,0,0">
             <Button Content="{x:Static p:Resources.LoginView_LoginButton}" IsDefault="True"
