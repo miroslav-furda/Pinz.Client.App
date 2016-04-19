@@ -61,6 +61,33 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string AdministrationTab_Title_Company {
+            get {
+                return ResourceManager.GetString("AdministrationTab_Title_Company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        public static string AdministrationTab_Title_Project {
+            get {
+                return ResourceManager.GetString("AdministrationTab_Title_Project", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string AdministrationTab_Title_User {
+            get {
+                return ResourceManager.GetString("AdministrationTab_Title_User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         public static string ChangePaswword_Button {

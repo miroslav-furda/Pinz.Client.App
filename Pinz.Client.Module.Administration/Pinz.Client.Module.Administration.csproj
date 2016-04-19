@@ -78,7 +78,9 @@
   <ItemGroup>
     <Compile Include="AdministrationModule.cs" />
     <Compile Include="DesignModel\UserSelfAdministrationDesignModel.cs" />
+    <Compile Include="Model\CompanyAdministrationModel.cs" />
     <Compile Include="Model\PasswordChangeViewModel.cs" />
+    <Compile Include="Model\ProjectAdministrationModel.cs" />
     <Compile Include="Model\UserSelfAdministrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -95,6 +97,12 @@
     </Compile>
     <Compile Include="View\AdministrationMainView.xaml.cs">
       <DependentUpon>AdministrationMainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CompanyAdministrationView.xaml.cs">
+      <DependentUpon>CompanyAdministrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectAdministrationView.xaml.cs">
+      <DependentUpon>ProjectAdministrationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserSelfAdministrationView.xaml.cs">
       <DependentUpon>UserSelfAdministrationView.xaml</DependentUpon>
@@ -128,6 +136,14 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="View\AdministrationMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CompanyAdministrationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectAdministrationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -72,6 +72,7 @@
     <Compile Include="Wpf\Converter\ParametrizedBooleanToVisibilityConverter.cs" />
     <Compile Include="Wpf\Extensions\DoubleClickExtension.cs" />
     <Compile Include="Wpf\Extensions\FocusExtension.cs" />
+    <Compile Include="Wpf\Extensions\TabModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

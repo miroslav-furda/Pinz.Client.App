@@ -1,16 +1,18 @@
-﻿using System;
-using Com.Pinz.Client.DomainModel;
+﻿using Com.Pinz.Client.DomainModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using Com.Pinz.Client.Model.Service;
 using AutoMapper;
 using Ninject;
 using Prism.Interactivity.InteractionRequest;
+using Com.Pinz.Client.Commons.Wpf.Extensions;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
     public class UserSelfAdministrationModel : BindableBase
     {
+        public TabModel TabModel { get; private set; }
+
         public User CurrentUser { get; private set; }
         private User BackupUser { get; set; }
 
@@ -54,10 +56,17 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public InteractionRequest<INotification> ChangeNotification { get; private set; }
 
         [Inject]
-        public UserSelfAdministrationModel(IAdminClientService adminService, [Named("WpfClientMapper") ]  IMapper mapper)
+        public UserSelfAdministrationModel(IAdminClientService adminService, [Named("WpfClientMapper")]  IMapper mapper)
         {
             this.adminService = adminService;
             this.mapper = mapper;
+
+            TabModel = new TabModel()
+            {
+                Title = Properties.Resources.AdministrationTab_Title_User,
+                CanClose = false,
+                IsModified = false
+            };
 
             CurrentUser = adminService.CurrentUser;
             BackupUser = new User();
@@ -87,7 +96,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (!PasswordChangeModel.ValidateModel())
             {
-                if( adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2))
+                if (adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2))
                 {
                     ChangeNotification.Raise(new Notification()
                     {
@@ -131,7 +140,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (IsPasswordInEditMode)
                 CancelPasswordChange();
-            mapper.Map(CurrentUser,BackupUser);
+            mapper.Map(CurrentUser, BackupUser);
             IsUserInEditMode = true;
         }
     }

@@ -7,7 +7,14 @@
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Administration.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TabItem}" x:Key="HeaderStyle">
+            <Setter Property="Header"
+                Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.DataContext.TabModel.Title}" />
+        </Style>
+    </UserControl.Resources>
+ 
     <Grid>
-        <ContentControl Name="UserSelfAdministration" prism:RegionManager.RegionName="UserSelfAdministrationRegion" Margin="5"/>    
+        <TabControl  Name="UserSelfAdministration" prism:RegionManager.RegionName="UserSelfAdministrationRegion" Margin="5" ItemContainerStyle="{StaticResource HeaderStyle}"/>    
     </Grid>
 </UserControl>
