@@ -7,6 +7,12 @@
       <xsd:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/AdministrationService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IAdministrationService_ChangeUserPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeUserPassword" />
+  </wsdl:message>
+  <wsdl:message name="IAdministrationService_ChangeUserPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeUserPasswordResponse" />
+  </wsdl:message>
   <wsdl:message name="IAdministrationService_ReadProjectsForCompanyId_InputMessage">
     <wsdl:part name="parameters" element="tns:ReadProjectsForCompanyId" />
   </wsdl:message>
@@ -74,6 +80,10 @@
     <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
   </wsdl:message>
   <wsdl:portType name="IAdministrationService">
+    <wsdl:operation name="ChangeUserPassword">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/IAdministrationService/ChangeUserPassword" message="tns:IAdministrationService_ChangeUserPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/IAdministrationService/ChangeUserPasswordResponse" message="tns:IAdministrationService_ChangeUserPassword_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="ReadProjectsForCompanyId">
       <wsdl:input wsaw:Action="http://pinzonline.com/services/IAdministrationService/ReadProjectsForCompanyId" message="tns:IAdministrationService_ReadProjectsForCompanyId_InputMessage" />
       <wsdl:output wsaw:Action="http://pinzonline.com/services/IAdministrationService/ReadProjectsForCompanyIdResponse" message="tns:IAdministrationService_ReadProjectsForCompanyId_OutputMessage" />

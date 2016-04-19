@@ -6,6 +6,8 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.Service
 {
     public interface IAdministrationRemoteService
     {
+        bool ChangeUserPassword(User user, string oldPassword, string newPassword, string newPassword2);
+
         List<Project> ReadProjectsForCompany(Company company);
 
         List<User> ReadAllUsersForCompany(Company company);

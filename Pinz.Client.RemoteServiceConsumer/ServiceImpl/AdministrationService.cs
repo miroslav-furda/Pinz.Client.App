@@ -21,6 +21,11 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
             this.clientFactory = clientFactory;
         }
 
+        public bool ChangeUserPassword(User user, string oldPassword, string newPassword, string newPassword2)
+        {
+            return adminChannel.ChangeUserPassword(user.UserId, oldPassword, newPassword, newPassword2);
+        }
+
         public void AddUserToProject(User user, Project project, bool isProjectAdmin)
         {
             adminChannel.AddUserToProject(user.UserId, project.ProjectId, isProjectAdmin);

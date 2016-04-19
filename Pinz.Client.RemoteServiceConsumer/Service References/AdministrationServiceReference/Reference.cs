@@ -312,6 +312,12 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://pinzonline.com/services", ConfigurationName="AdministrationServiceReference.IAdministrationService")]
     public interface IAdministrationService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ChangeUserPassword", ReplyAction="http://pinzonline.com/services/IAdministrationService/ChangeUserPasswordResponse")]
+        bool ChangeUserPassword(System.Guid userId, string oldPassword, string newPassword, string newPassword2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ChangeUserPassword", ReplyAction="http://pinzonline.com/services/IAdministrationService/ChangeUserPasswordResponse")]
+        System.Threading.Tasks.Task<bool> ChangeUserPasswordAsync(System.Guid userId, string oldPassword, string newPassword, string newPassword2);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ReadProjectsForCompanyId", ReplyAction="http://pinzonline.com/services/IAdministrationService/ReadProjectsForCompanyIdRes" +
             "ponse")]
         System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO> ReadProjectsForCompanyId(System.Guid companyId);
@@ -410,6 +416,14 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
         
         public AdministrationServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public bool ChangeUserPassword(System.Guid userId, string oldPassword, string newPassword, string newPassword2) {
+            return base.Channel.ChangeUserPassword(userId, oldPassword, newPassword, newPassword2);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ChangeUserPasswordAsync(System.Guid userId, string oldPassword, string newPassword, string newPassword2) {
+            return base.Channel.ChangeUserPasswordAsync(userId, oldPassword, newPassword, newPassword2);
         }
         
         public System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO> ReadProjectsForCompanyId(System.Guid companyId) {

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://www.codeplex.com/prism"
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Administration.View"
              xmlns:p="clr-namespace:Com.Pinz.Client.Module.Administration.Properties"
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
@@ -16,7 +18,12 @@
         <Image x:Key="EditImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ChangeNotification, Mode=OneWay}">
+            <prism:PopupWindowAction  CenterOverAssociatedObject="True" IsModal="True" />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -44,9 +51,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0"  Content="{x:Static p:Resources.User_FirstName}" Margin="2"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CurrentUser.FirstName}" IsEnabled="{Binding IsUserInEditMode}" Margin="2"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CurrentUser.FirstName}" IsEnabled="{Binding IsUserInEditMode}" Margin="2"
+                         Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
                 <Label Grid.Column="0" Grid.Row="1"  Content="{x:Static p:Resources.User_FamilyName}" Margin="2"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CurrentUser.FamilyName}" IsEnabled="{Binding IsUserInEditMode}" Margin="2"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CurrentUser.FamilyName}" IsEnabled="{Binding IsUserInEditMode}" Margin="2"
+                         Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
                 <Button Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="2"  Content="{StaticResource EditImage}" Command="{Binding Path=StartUserChangesCommand}" VerticalAlignment="Center" Margin="5" 
                         Visibility="{Binding IsUserInEditMode, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" HorizontalAlignment="Right"  />
@@ -81,11 +90,11 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Grid.Row="0"  Content="{x:Static p:Resources.User_OldPassword}" Margin="2"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PasswordChangeModel.OldPasword}" Margin="2"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding PasswordChangeModel.OldPasword}" Margin="2" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
                     <Label Grid.Column="0" Grid.Row="1"  Content="{x:Static p:Resources.User_NewPassword}" Margin="2"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PasswordChangeModel.NewPassword}" Margin="2"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PasswordChangeModel.NewPassword}" Margin="2" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
                     <Label Grid.Column="0" Grid.Row="2"  Content="{x:Static p:Resources.User_NewPassword2}" Margin="2"/>
-                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PasswordChangeModel.NewPassword2}" Margin="2"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding PasswordChangeModel.NewPassword2}" Margin="2" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
                     <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
                         <Grid.RowDefinitions>

@@ -42,7 +42,7 @@ namespace Com.Pinz.Client.Commons.Prism
         }
 
 
-        protected bool ValidateModel()
+        public bool ValidateModel()
         {
             foreach(string propertyName in _validationErrors.Keys)
             {

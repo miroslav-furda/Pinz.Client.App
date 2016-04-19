@@ -8,6 +8,8 @@ namespace Com.Pinz.Client.Model.Service
         bool IsUserLoggedIn { get; }
 
         bool loginUser(string email, string password);
-        void ChangePasswordForUser(User currentUser, string oldPasword, string newPasword, string newPasword2);
+        bool ChangePasswordForUser(User currentUser, string oldPasword, string newPasword, string newPasword2);
+
+        void UpdateUser(User user);
     }
 }

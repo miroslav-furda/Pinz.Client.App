@@ -40,7 +40,7 @@
                  Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
         <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="0,5,0,0">
-            <Button Content="{x:Static p:Resources.LoginView_LoginButton}" 
+            <Button Content="{x:Static p:Resources.LoginView_LoginButton}" IsDefault="True"
                 ToolTip="{x:Static p:Resources.LoginView_LoginButton_Tooltip}" Command="{Binding Path=LoginCommand}" 
                 VerticalAlignment="Center" Margin="0,5,0,0" HorizontalAlignment="Center" IsEnabled="{Binding IsNotWorking}"/>
         </Border>

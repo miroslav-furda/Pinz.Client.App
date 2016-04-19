@@ -57,7 +57,7 @@ namespace Com.Pinz.Client.Wpf.App
 
         private void AdminButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RegionManager.RequestNavigate( RegionNames.MainContentRegion, AdministrationViewUri);
+            this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, AdministrationViewUri);
         }
     }
 }

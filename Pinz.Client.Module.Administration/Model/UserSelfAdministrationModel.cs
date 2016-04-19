@@ -3,6 +3,9 @@ using Com.Pinz.Client.DomainModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using Com.Pinz.Client.Model.Service;
+using AutoMapper;
+using Ninject;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
@@ -46,12 +49,18 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public DelegateCommand CancelPasswordChangeCommand { get; private set; }
 
         private IAdminClientService adminService;
+        private IMapper mapper;
 
-        public UserSelfAdministrationModel(IAdminClientService adminService)
+        public InteractionRequest<INotification> ChangeNotification { get; private set; }
+
+        [Inject]
+        public UserSelfAdministrationModel(IAdminClientService adminService, [Named("WpfClientMapper") ]  IMapper mapper)
         {
             this.adminService = adminService;
+            this.mapper = mapper;
 
             CurrentUser = adminService.CurrentUser;
+            BackupUser = new User();
 
             IsUserInEditMode = false;
             IsPasswordInEditMode = false;
@@ -65,6 +74,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
             ChangeUserPasswordCommand = new DelegateCommand(ChangeUserPassword);
             CancelPasswordChangeCommand = new DelegateCommand(CancelPasswordChange);
 
+            ChangeNotification = new InteractionRequest<INotification>();
+
         }
 
         private void CancelPasswordChange()
@@ -74,32 +85,53 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private void ChangeUserPassword()
         {
-            if (!PasswordChangeModel.HasErrors)
+            if (!PasswordChangeModel.ValidateModel())
             {
-                adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPasword, PasswordChangeModel.NewPasword, PasswordChangeModel.NewPasword2);
-                IsPasswordInEditMode = false;
+                if( adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPasword, PasswordChangeModel.NewPasword, PasswordChangeModel.NewPasword2))
+                {
+                    ChangeNotification.Raise(new Notification()
+                    {
+                        Title = "Password change",
+                        Content = "Password changed"
+                    });
+                    IsPasswordInEditMode = false;
+                }
+                else
+                {
+                    ChangeNotification.Raise(new Notification()
+                    {
+                        Title = "Password change",
+                        Content = "Failed to change password"
+                    });
+                }
             }
         }
 
         private void StartPasswordChange()
         {
+            if (IsUserInEditMode)
+                CancelUserChanges();
             PasswordChangeModel.Reset();
             IsPasswordInEditMode = true;
         }
 
         private void CancelUserChanges()
         {
+            mapper.Map(BackupUser, CurrentUser);
             IsUserInEditMode = false;
         }
 
         private void SaveUserChanges()
         {
             IsUserInEditMode = false;
-            throw new NotImplementedException();
+            adminService.UpdateUser(CurrentUser);
         }
 
         private void StartUserChanges()
         {
+            if (IsPasswordInEditMode)
+                CancelPasswordChange();
+            mapper.Map(CurrentUser,BackupUser);
             IsUserInEditMode = true;
         }
     }

@@ -10,14 +10,12 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public string OldPasword
         {
             get { return _oldPasword; }
-            set
-            {
-                SetProperty(ref this._oldPasword, value);
-            }
+            set { SetProperty(ref this._oldPasword, value); }
         }
 
         private string _newPasword;
         [Required]
+        [MinLength(6)]
         public string NewPasword
         {
             get { return _newPasword; }
@@ -26,6 +24,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private string _newPasword2;
         [Required]
+        [MinLength(6)]
         public string NewPasword2
         {
             get { return _newPasword2; }

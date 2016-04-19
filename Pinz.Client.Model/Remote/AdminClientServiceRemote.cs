@@ -10,6 +10,7 @@ namespace Com.Pinz.Client.Model.Remote
     {
         private UserNameClientCredentials userCredentials;
         private IAuthorisationRemoteService authorisationService;
+        private IAdministrationRemoteService administrationService;
 
         public User CurrentUser { get; private set; }
 
@@ -26,10 +27,11 @@ namespace Com.Pinz.Client.Model.Remote
             }
         }
 
-        public AdminClientServiceRemote(UserNameClientCredentials userCredentials, IAuthorisationRemoteService authorisationService)
+        public AdminClientServiceRemote(UserNameClientCredentials userCredentials, IAuthorisationRemoteService authorisationService, IAdministrationRemoteService administrationService)
         {
             this.userCredentials = userCredentials;
             this.authorisationService = authorisationService;
+            this.administrationService = administrationService;
         }
 
 
@@ -45,9 +47,14 @@ namespace Com.Pinz.Client.Model.Remote
             return true;
         }
 
-        public void ChangePasswordForUser(User currentUser, string oldPasword, string newPasword, string newPasword2)
+        public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            administrationService.UpdateUser(user);
+        }
+
+        public bool ChangePasswordForUser(User currentUser, string oldPassword, string newPassword, string newPassword2)
+        {
+            return administrationService.ChangeUserPassword(currentUser, oldPassword, newPassword, newPassword2);
         }
     }
 }
