@@ -6,6 +6,8 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.Service
 {
     public interface IAdministrationRemoteService
     {
+        User InviteNewUser(string newUserEmail, Project project, User invitingUser);
+
         void SetProjectAdminFlag(Guid userId, Guid projectId, bool isProjectAdmin);
 
         List<User> ReadAllUsersByProject(Project project);

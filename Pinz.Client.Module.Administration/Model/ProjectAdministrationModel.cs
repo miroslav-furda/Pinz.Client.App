@@ -8,10 +8,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Ninject;
 using System;
+using System.ComponentModel.DataAnnotations;
+using Com.Pinz.Client.Commons.Prism;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
-    public class ProjectAdministrationModel : BindableBase
+    public class ProjectAdministrationModel : BindableValidationBase
     {
         public TabModel TabModel { get; private set; }
         public List<Project> Projects { get; private set; }
@@ -47,6 +49,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         }
 
         private string _newUserEmail;
+        [EmailAddress]
         public string NewUserEmail
         {
             get
@@ -55,7 +58,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
             }
             set
             {
-                _newUserEmail = value;
+                SetProperty(ref this._newUserEmail, value);
                 InviteUserCommand.RaiseCanExecuteChanged();
             }
         }
@@ -128,7 +131,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         #region CanExecute
         private bool CanExecuteInviteUser()
         {
-            return !String.IsNullOrWhiteSpace(NewUserEmail);
+            return !String.IsNullOrWhiteSpace(NewUserEmail) && !HasErrors;
         }
 
         private bool CanExecuteRemoveUserFromProject()
@@ -144,7 +147,11 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private void InviteUser()
         {
-            throw new NotImplementedException();
+            if (!HasErrors)
+            {
+                User newUser = adminService.InviteNewUser(NewUserEmail, SelectedProject);
+                ProjectUsers.Add(newUser);
+            }
         }
 
         private void RemoveUserFromProject()

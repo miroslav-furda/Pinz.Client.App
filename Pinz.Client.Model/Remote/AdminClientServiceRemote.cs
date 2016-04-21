@@ -35,6 +35,11 @@ namespace Com.Pinz.Client.Model.Remote
             this.administrationService = administrationService;
         }
 
+        public User InviteNewUser(string newUserEmail, Project project)
+        {
+            return administrationService.InviteNewUser(newUserEmail, project, CurrentUser);
+        }
+
         public void SetProjectAdminFlag(Guid userId, Guid projectId, bool isProjectAdmin)
         {
             administrationService.SetProjectAdminFlag(userId, projectId, isProjectAdmin);

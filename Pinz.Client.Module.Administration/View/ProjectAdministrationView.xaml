@@ -123,7 +123,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Project_InviteUserEmail}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewUserEmail}" Margin="5" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewUserEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"  Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}" />
                     <Button Grid.Row="0" Grid.Column="2"  Content="{x:Static p:Resources.Project_InviteUser}" Command="{Binding InviteUserCommand}" Margin="5"/>
 
                 </Grid>

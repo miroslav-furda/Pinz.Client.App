@@ -21,6 +21,12 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
             this.clientFactory = clientFactory;
         }
 
+        public User InviteNewUser(string newUserEmail, Project project, User invitingUser)
+        {
+            AdministrationServiceReference.UserDO user = adminChannel.InviteNewUser(newUserEmail, project.ProjectId, invitingUser.UserId);
+            return mapper.Map<User>(user);
+        }
+
         public void SetProjectAdminFlag(Guid userId, Guid projectId, bool isProjectAdmin)
         {
             adminChannel.SetProjectAdminFlag(userId, projectId, isProjectAdmin);

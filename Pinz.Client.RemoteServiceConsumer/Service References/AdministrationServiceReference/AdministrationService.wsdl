@@ -7,6 +7,12 @@
       <xsd:import schemaLocation="http://5a109c6b4fcb4234a03b4dad3883a59d.cloudapp.net/AdministrationService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IAdministrationService_InviteNewUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:InviteNewUser" />
+  </wsdl:message>
+  <wsdl:message name="IAdministrationService_InviteNewUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InviteNewUserResponse" />
+  </wsdl:message>
   <wsdl:message name="IAdministrationService_SetProjectAdminFlag_InputMessage">
     <wsdl:part name="parameters" element="tns:SetProjectAdminFlag" />
   </wsdl:message>
@@ -98,6 +104,10 @@
     <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
   </wsdl:message>
   <wsdl:portType name="IAdministrationService">
+    <wsdl:operation name="InviteNewUser">
+      <wsdl:input wsaw:Action="http://pinzonline.com/services/IAdministrationService/InviteNewUser" message="tns:IAdministrationService_InviteNewUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://pinzonline.com/services/IAdministrationService/InviteNewUserResponse" message="tns:IAdministrationService_InviteNewUser_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="SetProjectAdminFlag">
       <wsdl:input wsaw:Action="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlag" message="tns:IAdministrationService_SetProjectAdminFlag_InputMessage" />
       <wsdl:output wsaw:Action="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlagResponse" message="tns:IAdministrationService_SetProjectAdminFlag_OutputMessage" />

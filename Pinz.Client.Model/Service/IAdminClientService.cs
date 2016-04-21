@@ -28,5 +28,6 @@ namespace Com.Pinz.Client.Model.Service
 
         List<User> ReadAllUsersByProject(Project project);
 
+        User InviteNewUser(string newUserEmail, Project project);
     }
 }

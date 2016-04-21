@@ -15,99 +15,6 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ProjectDO", Namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model")]
-    [System.SerializableAttribute()]
-    public partial class ProjectDO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Guid CompanyIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string DescriptionField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Guid ProjectIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Guid CompanyId {
-            get {
-                return this.CompanyIdField;
-            }
-            set {
-                if ((this.CompanyIdField.Equals(value) != true)) {
-                    this.CompanyIdField = value;
-                    this.RaisePropertyChanged("CompanyId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Description {
-            get {
-                return this.DescriptionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
-                    this.DescriptionField = value;
-                    this.RaisePropertyChanged("Description");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Guid ProjectId {
-            get {
-                return this.ProjectIdField;
-            }
-            set {
-                if ((this.ProjectIdField.Equals(value) != true)) {
-                    this.ProjectIdField = value;
-                    this.RaisePropertyChanged("ProjectId");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="UserDO", Namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model")]
     [System.SerializableAttribute()]
     public partial class UserDO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -249,6 +156,99 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ProjectDO", Namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model")]
+    [System.SerializableAttribute()]
+    public partial class ProjectDO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid CompanyIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid ProjectIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid CompanyId {
+            get {
+                return this.CompanyIdField;
+            }
+            set {
+                if ((this.CompanyIdField.Equals(value) != true)) {
+                    this.CompanyIdField = value;
+                    this.RaisePropertyChanged("CompanyId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid ProjectId {
+            get {
+                return this.ProjectIdField;
+            }
+            set {
+                if ((this.ProjectIdField.Equals(value) != true)) {
+                    this.ProjectIdField = value;
+                    this.RaisePropertyChanged("ProjectId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="CompanyDO", Namespace="http://schemas.datacontract.org/2004/07/Com.Pinz.Server.DataAccess.Model")]
     [System.SerializableAttribute()]
     public partial class CompanyDO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -311,6 +311,12 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://pinzonline.com/services", ConfigurationName="AdministrationServiceReference.IAdministrationService")]
     public interface IAdministrationService {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/InviteNewUser", ReplyAction="http://pinzonline.com/services/IAdministrationService/InviteNewUserResponse")]
+        Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO InviteNewUser(string newUserEmail, System.Guid projectId, System.Guid invitingUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/InviteNewUser", ReplyAction="http://pinzonline.com/services/IAdministrationService/InviteNewUserResponse")]
+        System.Threading.Tasks.Task<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO> InviteNewUserAsync(string newUserEmail, System.Guid projectId, System.Guid invitingUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlag", ReplyAction="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlagResponse" +
             "")]
@@ -440,6 +446,14 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
         
         public AdministrationServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
+        }
+        
+        public Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO InviteNewUser(string newUserEmail, System.Guid projectId, System.Guid invitingUserId) {
+            return base.Channel.InviteNewUser(newUserEmail, projectId, invitingUserId);
+        }
+        
+        public System.Threading.Tasks.Task<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO> InviteNewUserAsync(string newUserEmail, System.Guid projectId, System.Guid invitingUserId) {
+            return base.Channel.InviteNewUserAsync(newUserEmail, projectId, invitingUserId);
         }
         
         public void SetProjectAdminFlag(System.Guid userId, System.Guid projectId, bool isProjectAdmin) {
