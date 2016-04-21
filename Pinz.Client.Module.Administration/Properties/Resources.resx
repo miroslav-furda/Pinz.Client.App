@@ -138,6 +138,21 @@
   <data name="PasswordChange_Title" xml:space="preserve">
     <value>Password change</value>
   </data>
+  <data name="Project_AdminProjects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="Project_AllCompanyUsers" xml:space="preserve">
+    <value>All company users</value>
+  </data>
+  <data name="Project_InviteUser" xml:space="preserve">
+    <value>Invite user</value>
+  </data>
+  <data name="Project_InviteUserEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Project_ProjectUsers" xml:space="preserve">
+    <value>Project users</value>
+  </data>
   <data name="User_EMail" xml:space="preserve">
     <value>EMail</value>
   </data>

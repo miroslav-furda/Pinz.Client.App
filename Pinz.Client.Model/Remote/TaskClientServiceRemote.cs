@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
+using System;
 
 namespace Com.Pinz.Client.Model.Remote
 {
@@ -202,5 +203,7 @@ namespace Com.Pinz.Client.Model.Remote
 
             return observableCollection;
         }
+
+  
     }
 }

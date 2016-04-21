@@ -1,5 +1,6 @@
 ﻿using Com.Pinz.Client.DomainModel;
 using Com.Pinz.DomainModel;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Com.Pinz.Client.Model.Service

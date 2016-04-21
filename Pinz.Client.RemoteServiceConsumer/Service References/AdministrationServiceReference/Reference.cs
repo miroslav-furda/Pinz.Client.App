@@ -312,11 +312,35 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://pinzonline.com/services", ConfigurationName="AdministrationServiceReference.IAdministrationService")]
     public interface IAdministrationService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlag", ReplyAction="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlagResponse" +
+            "")]
+        void SetProjectAdminFlag(System.Guid userId, System.Guid projectId, bool isProjectAdmin);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlag", ReplyAction="http://pinzonline.com/services/IAdministrationService/SetProjectAdminFlagResponse" +
+            "")]
+        System.Threading.Tasks.Task SetProjectAdminFlagAsync(System.Guid userId, System.Guid projectId, bool isProjectAdmin);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ChangeUserPassword", ReplyAction="http://pinzonline.com/services/IAdministrationService/ChangeUserPasswordResponse")]
         bool ChangeUserPassword(System.Guid userId, string oldPassword, string newPassword, string newPassword2);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ChangeUserPassword", ReplyAction="http://pinzonline.com/services/IAdministrationService/ChangeUserPasswordResponse")]
         System.Threading.Tasks.Task<bool> ChangeUserPasswordAsync(System.Guid userId, string oldPassword, string newPassword, string newPassword2);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ReadAdminProjectsForUser", ReplyAction="http://pinzonline.com/services/IAdministrationService/ReadAdminProjectsForUserRes" +
+            "ponse")]
+        System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO> ReadAdminProjectsForUser(System.Guid userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ReadAdminProjectsForUser", ReplyAction="http://pinzonline.com/services/IAdministrationService/ReadAdminProjectsForUserRes" +
+            "ponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO>> ReadAdminProjectsForUserAsync(System.Guid userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ReadAllUsersByProject", ReplyAction="http://pinzonline.com/services/IAdministrationService/ReadAllUsersByProjectRespon" +
+            "se")]
+        System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO> ReadAllUsersByProject(System.Guid projectId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ReadAllUsersByProject", ReplyAction="http://pinzonline.com/services/IAdministrationService/ReadAllUsersByProjectRespon" +
+            "se")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO>> ReadAllUsersByProjectAsync(System.Guid projectId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://pinzonline.com/services/IAdministrationService/ReadProjectsForCompanyId", ReplyAction="http://pinzonline.com/services/IAdministrationService/ReadProjectsForCompanyIdRes" +
             "ponse")]
@@ -418,12 +442,36 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference {
                 base(binding, remoteAddress) {
         }
         
+        public void SetProjectAdminFlag(System.Guid userId, System.Guid projectId, bool isProjectAdmin) {
+            base.Channel.SetProjectAdminFlag(userId, projectId, isProjectAdmin);
+        }
+        
+        public System.Threading.Tasks.Task SetProjectAdminFlagAsync(System.Guid userId, System.Guid projectId, bool isProjectAdmin) {
+            return base.Channel.SetProjectAdminFlagAsync(userId, projectId, isProjectAdmin);
+        }
+        
         public bool ChangeUserPassword(System.Guid userId, string oldPassword, string newPassword, string newPassword2) {
             return base.Channel.ChangeUserPassword(userId, oldPassword, newPassword, newPassword2);
         }
         
         public System.Threading.Tasks.Task<bool> ChangeUserPasswordAsync(System.Guid userId, string oldPassword, string newPassword, string newPassword2) {
             return base.Channel.ChangeUserPasswordAsync(userId, oldPassword, newPassword, newPassword2);
+        }
+        
+        public System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO> ReadAdminProjectsForUser(System.Guid userId) {
+            return base.Channel.ReadAdminProjectsForUser(userId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO>> ReadAdminProjectsForUserAsync(System.Guid userId) {
+            return base.Channel.ReadAdminProjectsForUserAsync(userId);
+        }
+        
+        public System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO> ReadAllUsersByProject(System.Guid projectId) {
+            return base.Channel.ReadAllUsersByProject(projectId);
+        }
+        
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.UserDO>> ReadAllUsersByProjectAsync(System.Guid projectId) {
+            return base.Channel.ReadAllUsersByProjectAsync(projectId);
         }
         
         public System.Collections.Generic.List<Com.Pinz.Client.RemoteServiceConsumer.AdministrationServiceReference.ProjectDO> ReadProjectsForCompanyId(System.Guid companyId) {

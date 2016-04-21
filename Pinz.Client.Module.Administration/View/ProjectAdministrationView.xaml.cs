@@ -15,5 +15,10 @@ namespace Com.Pinz.Client.Module.Administration.View
             InitializeComponent();
             DataContext = model;
         }
+
+        private void CheckBox_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

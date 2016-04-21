@@ -124,6 +124,51 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Projects.
+        /// </summary>
+        public static string Project_AdminProjects {
+            get {
+                return ResourceManager.GetString("Project_AdminProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All company users.
+        /// </summary>
+        public static string Project_AllCompanyUsers {
+            get {
+                return ResourceManager.GetString("Project_AllCompanyUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite user.
+        /// </summary>
+        public static string Project_InviteUser {
+            get {
+                return ResourceManager.GetString("Project_InviteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Project_InviteUserEmail {
+            get {
+                return ResourceManager.GetString("Project_InviteUserEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project users.
+        /// </summary>
+        public static string Project_ProjectUsers {
+            get {
+                return ResourceManager.GetString("Project_ProjectUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EMail.
         /// </summary>
         public static string User_EMail {

@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdministrationModule.cs" />
+    <Compile Include="DesignModel\ProjectAdministrationDesignModel.cs" />
     <Compile Include="DesignModel\UserSelfAdministrationDesignModel.cs" />
     <Compile Include="Model\CompanyAdministrationModel.cs" />
     <Compile Include="Model\PasswordChangeViewModel.cs" />

@@ -98,7 +98,7 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.Administration
             user.FamilyName = "Neungamat";
             service.UpdateUser(user);
 
-            List<User> users = service.ReadAllUsersForCompany(company);
+            List<User> users = service.ReadAllUsersForCompany(company.CompanyId);
             Assert.AreEqual(1, users.Count());
             Assert.AreEqual(user.FamilyName, users[0].FamilyName);
         }
@@ -139,7 +139,7 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.Administration
             Assert.IsNotNull(user.UserId);
 
             service.DeleteUser(user);
-            List<User> users = service.ReadAllUsersForCompany(company);
+            List<User> users = service.ReadAllUsersForCompany(company.CompanyId);
             Assert.AreEqual(0, users.Count());
         }
 

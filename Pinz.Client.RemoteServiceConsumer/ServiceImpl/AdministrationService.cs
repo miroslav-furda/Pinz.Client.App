@@ -21,6 +21,11 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
             this.clientFactory = clientFactory;
         }
 
+        public void SetProjectAdminFlag(Guid userId, Guid projectId, bool isProjectAdmin)
+        {
+            adminChannel.SetProjectAdminFlag(userId, projectId, isProjectAdmin);
+        }
+
         public bool ChangeUserPassword(User user, string oldPassword, string newPassword, string newPassword2)
         {
             return adminChannel.ChangeUserPassword(user.UserId, oldPassword, newPassword, newPassword2);
@@ -36,11 +41,18 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
             adminChannel.RemoveUserFromProject(user.UserId, project.ProjectId);
         }
 
-        public List<User> ReadAllUsersForCompany(Company company)
+        public List<User> ReadAllUsersForCompany(Guid companyId)
         {
-            List<AdministrationServiceReference.UserDO> rUsers = adminChannel.ReadAllUsersForCompanyId(company.CompanyId);
+            List<AdministrationServiceReference.UserDO> rUsers = adminChannel.ReadAllUsersForCompanyId(companyId);
             List<User> users = mapper.Map<List<AdministrationServiceReference.UserDO>, List<User>>(rUsers);
             return users;
+        }
+
+        public List<User> ReadAllUsersByProject(Project project)
+        {
+            List<AdministrationServiceReference.UserDO> rUsers = adminChannel.ReadAllUsersByProject(project.ProjectId);
+            List<User> userList = mapper.Map<List<AdministrationServiceReference.UserDO>, List<User>>(rUsers);
+            return userList;
         }
 
         public Company ReadCompanyById(Guid id)
@@ -52,6 +64,13 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
         public List<Project> ReadProjectsForCompany(Company company)
         {
             List<AdministrationServiceReference.ProjectDO> rProjects = adminChannel.ReadProjectsForCompanyId(company.CompanyId);
+            List<Project> projectList = mapper.Map<List<AdministrationServiceReference.ProjectDO>, List<Project>>(rProjects);
+            return projectList;
+        }
+
+        public List<Project> ReadAdminProjectsForUser(User user)
+        {
+            List<AdministrationServiceReference.ProjectDO> rProjects = adminChannel.ReadAdminProjectsForUser(user.UserId);
             List<Project> projectList = mapper.Map<List<AdministrationServiceReference.ProjectDO>, List<Project>>(rProjects);
             return projectList;
         }

@@ -111,6 +111,10 @@
   <ItemGroup>
     <Folder Include="Prism\Validation\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\double-arrowhead-left.png" />
+    <Resource Include="Resources\double-arrowhead-right.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

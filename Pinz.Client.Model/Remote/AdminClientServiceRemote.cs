@@ -3,6 +3,7 @@ using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Model.Service;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Prism.Mvvm;
+using System.Collections.Generic;
 
 namespace Com.Pinz.Client.Model.Remote
 {
@@ -34,6 +35,25 @@ namespace Com.Pinz.Client.Model.Remote
             this.administrationService = administrationService;
         }
 
+        public void SetProjectAdminFlag(Guid userId, Guid projectId, bool isProjectAdmin)
+        {
+            administrationService.SetProjectAdminFlag(userId, projectId, isProjectAdmin);
+        }
+
+        public List<User> ReadAllUsersByProject(Project project)
+        {
+            return administrationService.ReadAllUsersByProject(project);
+        }
+
+        public void AddUserToProject(User user, Project project)
+        {
+            administrationService.AddUserToProject(user, project, false);
+        }
+
+        public void RemoveUserFromProject(User user, Project project)
+        {
+            administrationService.RemoveUserFromProject(user, project);
+        }
 
         public bool loginUser(string email, string password)
         {
@@ -55,6 +75,16 @@ namespace Com.Pinz.Client.Model.Remote
         public bool ChangePasswordForUser(User currentUser, string oldPassword, string newPassword, string newPassword2)
         {
             return administrationService.ChangeUserPassword(currentUser, oldPassword, newPassword, newPassword2);
+        }
+
+        public List<Project> ReadAdminProjectsForCurrentUser()
+        {
+            return administrationService.ReadAdminProjectsForUser(CurrentUser);
+        }
+
+        public List<User> ReadAllUsersForCompany()
+        {
+            return administrationService.ReadAllUsersForCompany(CurrentUser.CompanyId);
         }
     }
 }
