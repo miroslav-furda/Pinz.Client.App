@@ -57,6 +57,6 @@
             </RibbonTab>
         </Ribbon>
 
-        <ContentControl Grid.Row="1" Name="PinzMainContentRegion" prism:RegionManager.RegionName="PinzMainContentRegion" Margin="5"/>
+        <ContentControl Grid.Row="1" Name="PinzMainRegion" prism:RegionManager.RegionName="PinzMainRegion"/>
     </Grid>
 </Window>

@@ -16,7 +16,7 @@ namespace Com.Pinz.Client.Model.Service
 
         bool IsUserLoggedIn { get; }
 
-        bool loginUser(string email, string password);
+        System.Threading.Tasks.Task<bool> loginUser(string email, string password);
 
         bool ChangePasswordForUser(User currentUser, string oldPasword, string newPasword, string newPasword2);
 

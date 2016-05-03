@@ -8,6 +8,6 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.Service
 
         bool IsUserComapnyAdmin(User user);
 
-        User ReadUserByEmail(string email);
+        System.Threading.Tasks.Task<User> ReadUserByEmail(string email);
     }
 }

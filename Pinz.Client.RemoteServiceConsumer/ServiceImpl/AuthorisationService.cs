@@ -31,9 +31,11 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
             return channel.IsUserProjectAdmin(user.UserId, project.ProjectId);
         }
 
-        public User ReadUserByEmail(string email)
+        public async System.Threading.Tasks.Task<User> ReadUserByEmail(string email)
         {
-            return mapper.Map<User>(channel.ReadUserByEmail(email));
+            System.Threading.Tasks.Task<AuthorisationServiceReference.UserDO> t = channel.ReadUserByEmailAsync(email);
+            AuthorisationServiceReference.UserDO user = await t;
+            return mapper.Map<User>(user);
         }
 
         public override void OpenChannel()

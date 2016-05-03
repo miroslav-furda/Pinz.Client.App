@@ -201,6 +201,10 @@
       <Project>{085572f8-2fbb-47f6-8e5f-12341ebc1159}</Project>
       <Name>Pinz.Client.Module.Login</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pinz.Client.Module.Main\Pinz.Client.Module.Main.csproj">
+      <Project>{2e531ea6-a500-4ae2-880b-fa49d1e2dd16}</Project>
+      <Name>Pinz.Client.Module.Main</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pinz.Client.Module.TaskManager\Pinz.Client.Module.TaskManager.csproj">
       <Project>{fb721829-ce20-482a-a5e3-e544450ec4cc}</Project>
       <Name>Pinz.Client.Module.TaskManager</Name>

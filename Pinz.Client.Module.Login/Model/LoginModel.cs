@@ -78,7 +78,7 @@ namespace Com.Pinz.Client.Module.Login.Model
                 try
                 {
                     IsNotWorking = false;
-                    bool success = await AsyncLogin();
+                    bool success = await adminClientService.loginUser(UserName, Password);
                     if (success)
                         regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
                     else

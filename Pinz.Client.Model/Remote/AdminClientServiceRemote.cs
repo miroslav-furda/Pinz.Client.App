@@ -60,13 +60,13 @@ namespace Com.Pinz.Client.Model.Remote
             administrationService.RemoveUserFromProject(user, project);
         }
 
-        public bool loginUser(string email, string password)
+        public async System.Threading.Tasks.Task<bool> loginUser(string email, string password)
         {
             userCredentials.UserName = email;
             userCredentials.Password = password;
             userCredentials.UpdateCredentialsForAllFactories();
 
-            CurrentUser = authorisationService.ReadUserByEmail(email);
+            CurrentUser = await authorisationService.ReadUserByEmail(email);
             IsUserLoggedIn = true;
 
             return true;
