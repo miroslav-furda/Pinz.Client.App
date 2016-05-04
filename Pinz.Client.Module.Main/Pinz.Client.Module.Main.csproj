@@ -69,6 +69,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.14\lib\net\WpfAnimatedGif.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InjectAttribute.cs" />
@@ -113,6 +117,10 @@
     <ProjectReference Include="..\Pinz.Client.Commons\Pinz.Client.Commons.csproj">
       <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
       <Name>Pinz.Client.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj">
+      <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
+      <Name>Pinz.Client.RemoteServiceConsumer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

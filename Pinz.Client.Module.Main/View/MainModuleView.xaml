@@ -4,10 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Main.View"
+             xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
     <Grid>
         <ContentControl Name="MainContentRegion" prism:RegionManager.RegionName="MainContentRegion" Margin="5"/>
+
+        <Grid x:Name="Overlay" Panel.ZIndex="1000" Visibility="{Binding IsServiceRunning, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}">
+            <Grid.Background>
+                <SolidColorBrush Color="Gray" Opacity=".3"/>
+            </Grid.Background>
+            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="6"  
+               gif:ImageBehavior.AnimatedSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/processing2.gif" Margin="10" 
+                Stretch="None" Panel.ZIndex="100" />
+        </Grid>
+
     </Grid>
 </UserControl>

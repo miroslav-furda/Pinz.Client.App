@@ -74,9 +74,9 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.Authorisation
         }
 
         [TestMethod]
-        public void ReadUserByEmail()
+        public async void ReadUserByEmail()
         {
-            User rUser = authorisationService.ReadUserByEmail(user.EMail);
+            User rUser = await authorisationService.ReadUserByEmail(user.EMail);
 
             Assert.AreEqual(user.UserId, rUser.UserId);
         }

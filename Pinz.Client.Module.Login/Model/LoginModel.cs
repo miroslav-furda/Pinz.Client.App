@@ -29,20 +29,6 @@ namespace Com.Pinz.Client.Module.Login.Model
             set { SetProperty(ref _password, value); }
         }
 
-
-        private bool _isNotWorking;
-        public bool IsNotWorking
-        {
-            get
-            {
-                return _isNotWorking;
-            }
-            private set
-            {
-                SetProperty(ref this._isNotWorking, value);
-            }
-        }
-
         public DelegateCommand LoginCommand { get; private set; }
 
         private string _errorMessage;
@@ -66,8 +52,6 @@ namespace Com.Pinz.Client.Module.Login.Model
         {
             this.adminClientService = adminClientService;
             this.regionManager = regionManager;
-            IsNotWorking = true;
-
             LoginCommand = new DelegateCommand(login);
         }
 
@@ -77,7 +61,6 @@ namespace Com.Pinz.Client.Module.Login.Model
             {
                 try
                 {
-                    IsNotWorking = false;
                     bool success = await adminClientService.loginUser(UserName, Password);
                     if (success)
                         regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
@@ -90,7 +73,6 @@ namespace Com.Pinz.Client.Module.Login.Model
                 }
                 finally
                 {
-                    IsNotWorking = true;
                 }
             }
         }
