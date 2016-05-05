@@ -52,13 +52,13 @@
     <Compile Include="TaskShowEditDesignModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pinz.Client.DomainModel\Pinz.Client.DomainModel.csproj">
-      <Project>{85aedd42-798e-4d82-a2c7-53d63de77d02}</Project>
-      <Name>Pinz.Client.DomainModel</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Pinz.Client.Commons\Pinz.Client.Commons.csproj">
+      <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
+      <Name>Pinz.Client.Commons</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

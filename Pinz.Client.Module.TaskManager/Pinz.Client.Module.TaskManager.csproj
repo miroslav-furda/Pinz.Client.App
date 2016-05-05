@@ -173,14 +173,6 @@
       <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
       <Name>Pinz.Client.Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pinz.Client.DomainModel\Pinz.Client.DomainModel.csproj">
-      <Project>{85aedd42-798e-4d82-a2c7-53d63de77d02}</Project>
-      <Name>Pinz.Client.DomainModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pinz.Client.Model\Pinz.Client.Model.csproj">
-      <Project>{c85d0c64-52bf-429b-8228-86fac72e7256}</Project>
-      <Name>Pinz.Client.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pinz.Client.Module.TaskManager.DesignModels\Pinz.Client.Module.TaskManager.DesignModels.csproj">
       <Project>{028c2dae-b765-406a-b97a-09adeb9797f8}</Project>
       <Name>Pinz.Client.Module.TaskManager.DesignModels</Name>

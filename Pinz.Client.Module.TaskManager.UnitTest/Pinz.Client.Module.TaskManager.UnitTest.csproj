@@ -97,14 +97,6 @@
       <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
       <Name>Pinz.Client.Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pinz.Client.DomainModel\Pinz.Client.DomainModel.csproj">
-      <Project>{85aedd42-798e-4d82-a2c7-53d63de77d02}</Project>
-      <Name>Pinz.Client.DomainModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pinz.Client.Model\Pinz.Client.Model.csproj">
-      <Project>{c85d0c64-52bf-429b-8228-86fac72e7256}</Project>
-      <Name>Pinz.Client.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pinz.Client.Module.TaskManager\Pinz.Client.Module.TaskManager.csproj">
       <Project>{fb721829-ce20-482a-a5e3-e544450ec4cc}</Project>
       <Name>Pinz.Client.Module.TaskManager</Name>
@@ -113,6 +105,9 @@
       <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
       <Name>Pinz.Client.RemoteServiceConsumer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

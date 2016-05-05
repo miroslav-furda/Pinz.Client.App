@@ -1,5 +1,4 @@
 ﻿using Com.Pinz.Client.Commons.Prism;
-using Com.Pinz.Client.DomainModel.Properties;
 using Com.Pinz.DomainModel;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +10,7 @@ namespace Com.Pinz.Client.DomainModel
         public Guid TaskId { get; set; }
 
         private string _taskName;
-        [Required(ErrorMessageResourceName = "Task_TaskName_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "Task_TaskName_Required", ErrorMessageResourceType = typeof(Resources))]
         public string TaskName
         {
             get { return _taskName; }
@@ -33,7 +32,7 @@ namespace Com.Pinz.Client.DomainModel
         }
 
         private DateTime _creationTime;
-        [Required(ErrorMessageResourceName = "Task_CreationTime_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "Task_CreationTime_Required", ErrorMessageResourceType = typeof(Resources))]
         public DateTime CreationTime
         {
             get { return _creationTime; }
@@ -70,7 +69,7 @@ namespace Com.Pinz.Client.DomainModel
         }
 
         private TaskStatus _status;
-        [Required(ErrorMessageResourceName = "Task_TaskStatus_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "Task_TaskStatus_Required", ErrorMessageResourceType = typeof(Resources))]
         public TaskStatus Status
         {
             get { return _status; }
@@ -85,7 +84,7 @@ namespace Com.Pinz.Client.DomainModel
         }
 
         private Guid _categoryId;
-        [Required(ErrorMessageResourceName = "Task_Category_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "Task_Category_Required", ErrorMessageResourceType = typeof(Resources))]
         public Guid CategoryId
         {
             get { return _categoryId; }

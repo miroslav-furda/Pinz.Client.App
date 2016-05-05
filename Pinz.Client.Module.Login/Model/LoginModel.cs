@@ -1,6 +1,7 @@
 ﻿using Com.Pinz.Client.Commons;
 using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Model;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
 using Prism.Regions;
@@ -45,12 +46,18 @@ namespace Com.Pinz.Client.Module.Login.Model
 
         private IRegionManager regionManager;
         private ApplicationGlobalModel applicationGlobalModel;
+        private UserNameClientCredentials userCredentials;
+        private IAuthorisationRemoteService authorisationService;
 
         [Inject]
-        public LoginModel(ApplicationGlobalModel applicationGlobalModel, IRegionManager regionManager)
+        public LoginModel(ApplicationGlobalModel applicationGlobalModel, UserNameClientCredentials userCredentials,
+            IAuthorisationRemoteService authorisationService, IRegionManager regionManager)
         {
             this.applicationGlobalModel = applicationGlobalModel;
             this.regionManager = regionManager;
+            this.userCredentials = userCredentials;
+            this.authorisationService = authorisationService;
+
             LoginCommand = new DelegateCommand(login);
         }
 
@@ -60,7 +67,7 @@ namespace Com.Pinz.Client.Module.Login.Model
             {
                 try
                 {
-                    await System.Threading.Tasks.Task.Run(() => applicationGlobalModel.loginUser(UserName, Password));
+                    await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
                     regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
                 }
                 catch
@@ -71,6 +78,16 @@ namespace Com.Pinz.Client.Module.Login.Model
                 {
                 }
             }
+        }
+
+        public void loginUser(string email, string password)
+        {
+            userCredentials.UserName = email;
+            userCredentials.Password = password;
+            userCredentials.UpdateCredentialsForAllFactories();
+
+            applicationGlobalModel.CurrentUser = authorisationService.ReadUserByEmail(email);
+            applicationGlobalModel.IsUserLoggedIn = true;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Com.Pinz.Client.Commons.Prism;
-using Com.Pinz.Client.DomainModel.Properties;
 using Com.Pinz.DomainModel;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -40,7 +39,7 @@ namespace Com.Pinz.Client.DomainModel
         }
 
         private Guid _companyId;
-        [Required(ErrorMessageResourceName = "User_Company_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "User_Company_Required", ErrorMessageResourceType = typeof(Resources))]
         public Guid CompanyId
         {
             get { return _companyId; }

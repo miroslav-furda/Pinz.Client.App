@@ -1,5 +1,4 @@
 ﻿using Com.Pinz.Client.Commons.Prism;
-using Com.Pinz.Client.DomainModel.Properties;
 using Com.Pinz.DomainModel;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +13,7 @@ namespace Com.Pinz.Client.DomainModel
         }
 
         private string _name;
-        [Required(ErrorMessageResourceName = "Category_Name_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "Category_Name_Required", ErrorMessageResourceType = typeof(Resources))]
         public string Name
         {
             get { return _name; }
@@ -22,7 +21,7 @@ namespace Com.Pinz.Client.DomainModel
         }
 
         private Guid _projectId;
-        [Required(ErrorMessageResourceName = "Category_Project_Required", ErrorMessageResourceType = typeof(Resources))]
+        [Required]//(ErrorMessageResourceName = "Category_Project_Required", ErrorMessageResourceType = typeof(Resources))]
         public Guid ProjectId
         {
             get { return _projectId; }

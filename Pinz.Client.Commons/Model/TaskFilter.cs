@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace Com.Pinz.Client.Model
+namespace Com.Pinz.Client.Commons.Model
 {
     public class TaskFilter : BindableBase
     {
