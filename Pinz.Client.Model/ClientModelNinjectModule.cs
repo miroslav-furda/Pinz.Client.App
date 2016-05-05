@@ -1,6 +1,4 @@
 ﻿using Ninject.Modules;
-using Com.Pinz.Client.Model.Service;
-using Com.Pinz.Client.Model.Remote;
 using AutoMapper;
 using Ninject.Activation;
 using Com.Pinz.Client.DomainModel;
@@ -13,7 +11,6 @@ namespace Com.Pinz.Client.Model
         {
             Kernel.Bind<TaskFilter>().ToSelf().InSingletonScope();
             Kernel.Bind<ApplicationGlobalModel>().ToSelf().InSingletonScope();
-            Kernel.Bind<ITaskClientService>().To<TaskClientServiceRemote>().InSingletonScope();
 
             Kernel.Bind<IMapper>().ToMethod(StartAutoMapper).InSingletonScope().Named("WpfClientMapper");
         }

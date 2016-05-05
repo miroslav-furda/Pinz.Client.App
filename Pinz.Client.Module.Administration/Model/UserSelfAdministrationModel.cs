@@ -1,7 +1,6 @@
 ﻿using Com.Pinz.Client.DomainModel;
 using Prism.Commands;
 using Prism.Mvvm;
-using Com.Pinz.Client.Model.Service;
 using AutoMapper;
 using Ninject;
 using Prism.Interactivity.InteractionRequest;

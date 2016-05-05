@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Com.Pinz.Client.Model.Service;
-using System.Collections.ObjectModel;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
+using System.Collections.Generic;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Category
 {
@@ -10,16 +10,16 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
     {
         private CategoryListModel model;
 
-        private Mock<ITaskClientService> taskService;
+        private Mock<ITaskRemoteService> taskService;
 
         [TestInitialize]
         public void SetUpFixture()
         {
-            ObservableCollection<DomainModel.Category> categories = new ObservableCollection<DomainModel.Category>() {
+            List<DomainModel.Category> categories = new List<DomainModel.Category>() {
                 new DomainModel.Category { Name = "category 1" },
                 new DomainModel.Category { Name = "category 2" }
             };
-            taskService = new Mock<ITaskClientService>();
+            taskService = new Mock<ITaskRemoteService>();
             taskService.Setup(x => x.ReadAllCategoriesByProject(It.IsAny<DomainModel.Project>())).Returns(categories);
 
             model = new CategoryListModel(taskService.Object);

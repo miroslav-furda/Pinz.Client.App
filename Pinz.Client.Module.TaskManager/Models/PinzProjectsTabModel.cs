@@ -1,9 +1,7 @@
 ﻿using Com.Pinz.Client.DomainModel;
-using Com.Pinz.Client.Model.Service;
 using Ninject;
 using Prism.Regions;
 using System.Collections.ObjectModel;
-using System;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.Model;
 using System.Collections.Generic;

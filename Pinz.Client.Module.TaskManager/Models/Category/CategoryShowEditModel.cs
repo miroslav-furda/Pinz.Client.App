@@ -1,6 +1,6 @@
 ﻿using Com.Pinz.Client.DomainModel;
-using Com.Pinz.Client.Model.Service;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
 using Prism.Events;
@@ -26,12 +26,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public DelegateCommand CancelEditCategory { get; private set; }
         public DelegateCommand UpdateCategory { get; private set; }
 
-        private ITaskClientService service;
+        private ITaskRemoteService service;
         private IEventAggregator eventAggregator;
         private string originalCategoryName;
 
         [Inject]
-        public CategoryShowEditModel(ITaskClientService service, IEventAggregator eventAggregator)
+        public CategoryShowEditModel(ITaskRemoteService service, IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
             this.service = service;
@@ -54,9 +54,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 OnCancelEditCategory();
         }
 
-        private void OnUpdateCategory()
+        private async void OnUpdateCategory()
         {
-            service.UpdateCategory(Category);
+            await System.Threading.Tasks.Task.Run(() => service.UpdateCategory(Category) );
             IsEditorEnabled = false;
         }
 

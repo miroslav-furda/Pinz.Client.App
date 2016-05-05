@@ -1,6 +1,6 @@
 ﻿using Com.Pinz.Client.DomainModel;
-using Com.Pinz.Client.Model.Service;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.DomainModel;
 using Ninject;
 using Prism.Commands;
@@ -43,12 +43,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public DelegateCommand<bool?> CompleteCommand { get; private set; }
         public DelegateCommand EditCommand { get; private set; }
 
-        private ITaskClientService service;
+        private ITaskRemoteService service;
         private IEventAggregator eventAggregator;
 
 
         [Inject]
-        public TaskShowEditModel(ITaskClientService service, IEventAggregator eventAggregator)
+        public TaskShowEditModel(ITaskRemoteService service, IEventAggregator eventAggregator)
         {
             this.service = service;
             this.eventAggregator = eventAggregator;
@@ -81,23 +81,23 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             EditCommand.RaiseCanExecuteChanged();
         }
 
-        private void OnComplete(bool? selected)
+        private async void OnComplete(bool? selected)
         {
             if (selected == true)
             {
-                service.ChangeTaskStatus(Task, TaskStatus.TaskComplete);
+                await System.Threading.Tasks.Task.Run(() => service.ChangeTaskStatus(Task, TaskStatus.TaskComplete));
             }
             else if (selected == false)
             {
-                service.ChangeTaskStatus(Task, TaskStatus.TaskNotStarted);
+                await System.Threading.Tasks.Task.Run(() => service.ChangeTaskStatus(Task, TaskStatus.TaskNotStarted));
             }
             CompleteCommand.RaiseCanExecuteChanged();
             StartCommand.RaiseCanExecuteChanged();
         }
 
-        private void OnStart()
+        private async void OnStart()
         {
-            service.ChangeTaskStatus(Task, TaskStatus.TaskInProgress);
+            await System.Threading.Tasks.Task.Run(() => service.ChangeTaskStatus(Task, TaskStatus.TaskInProgress));
             StartCommand.RaiseCanExecuteChanged();
         }
 

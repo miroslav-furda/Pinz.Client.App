@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using Ninject;
-using System.Linq;
 using Prism.Mvvm;
 using Com.Pinz.Client.DomainModel;
 using Prism.Commands;
-using Com.Pinz.Client.Model.Service;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
+using System.Collections.Generic;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -20,7 +20,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             set
             {
                 SetProperty(ref this._project, value);
-                Categories = taskService.ReadAllCategoriesByProject(value);
+                LoadCategories();
             }
         }
 
@@ -39,18 +39,29 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         public DelegateCommand CreateCategory { get; private set; }
 
-        private ITaskClientService taskService;
+        private ITaskRemoteService taskService;
 
         [Inject]
-        public CategoryListModel(ITaskClientService taskService)
+        public CategoryListModel(ITaskRemoteService taskService)
         {
             this.taskService = taskService;
+            Categories = new ObservableCollection<Category>();
             CreateCategory = new DelegateCommand(OnCreateCategory);
         }
 
         private void OnCreateCategory()
         {
             taskService.CreateCategoryInProject(Project);
+        }
+
+        private async void LoadCategories()
+        {
+            Categories.Clear();
+            if (Project != null)
+            {
+                List<Category> categories = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllCategoriesByProject(Project));
+                categories.ForEach(Categories.Add);
+            }
         }
     }
 }

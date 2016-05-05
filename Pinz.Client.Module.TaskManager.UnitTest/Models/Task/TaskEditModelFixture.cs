@@ -1,9 +1,9 @@
 ﻿using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Com.Pinz.Client.Model.Service;
 using Com.Pinz.Client.Module.TaskManager.Events;
 using Prism.Events;
 using AutoMapper;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 {
@@ -11,13 +11,13 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
     public class TaskEditModelFixture
     {
         private TaskEditModel model;
-        private Mock<ITaskClientService> taskService;
+        private Mock<ITaskRemoteService> taskService;
         private Mock<TaskEditStartedEvent> taskEditStartEvent;
 
         [TestInitialize]
         public void SetUpFixture()
         {
-            taskService = new Mock<ITaskClientService>();
+            taskService = new Mock<ITaskRemoteService>();
             var eventAgregator = new Mock<IEventAggregator>();
 
             taskEditStartEvent = new Mock<TaskEditStartedEvent>();

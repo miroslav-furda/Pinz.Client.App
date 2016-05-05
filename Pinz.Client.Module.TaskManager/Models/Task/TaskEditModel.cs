@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Com.Pinz.Client.DomainModel;
-using Com.Pinz.Client.Model.Service;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
 using Prism.Events;
@@ -44,12 +44,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public InteractionRequest<IConfirmation> DeleteConfirmation { get; private set; }
 
         private IEventAggregator eventAggregator;
-        private ITaskClientService service;
+        private ITaskRemoteService service;
         private Task originalTask;
         private IMapper mapper;
 
         [Inject]
-        public TaskEditModel(ITaskClientService service, IEventAggregator eventAggregator,[Named("WpfClientMapper")] IMapper mapper)
+        public TaskEditModel(ITaskRemoteService service, IEventAggregator eventAggregator,[Named("WpfClientMapper")] IMapper mapper)
         {
             this.service = service;
             this.eventAggregator = eventAggregator;
@@ -75,13 +75,13 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             {
                 Title = Properties.Resources.DeleteConfirmation_Title,
                 Content = Properties.Resources.DeleteConfirmation_Content
-            }, (dialog) =>
+            }, async (dialog) =>
             {
                 if (dialog.Confirmed)
                 {
                     EditMode = false;
                     eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
-                    service.DeleteTask(this.Task);
+                    await System.Threading.Tasks.Task.Run(() => service.DeleteTask(this.Task));
                 }
             });
         }
@@ -99,9 +99,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
         }
 
-        private void OnOkExecute()
+        private async void OnOkExecute()
         {
-            service.UpdateTask(this.Task);
+            await System.Threading.Tasks.Task.Run(() => service.UpdateTask(this.Task));
             EditMode = false;
             eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
         }

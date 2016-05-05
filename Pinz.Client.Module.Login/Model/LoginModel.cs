@@ -1,14 +1,11 @@
 ﻿using Com.Pinz.Client.Commons;
 using Com.Pinz.Client.Commons.Prism;
-using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Model;
-using Com.Pinz.Client.Model.Service;
 using Ninject;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {

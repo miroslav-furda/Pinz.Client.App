@@ -1,8 +1,6 @@
 ﻿using Com.Pinz.Client.Commons.Wpf.Extensions;
 using Com.Pinz.Client.DomainModel;
-using Com.Pinz.Client.Model.Service;
 using Prism.Commands;
-using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.Model;
-using Prism.Regions;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {

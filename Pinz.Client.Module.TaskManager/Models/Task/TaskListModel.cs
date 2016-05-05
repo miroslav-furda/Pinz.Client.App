@@ -1,9 +1,10 @@
 ﻿using Com.Pinz.Client.DomainModel;
-using Com.Pinz.Client.Model.Service;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using GongSolutions.Wpf.DragDrop;
 using Ninject;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -37,19 +38,17 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             set
             {
                 SetProperty(ref this._category, value);
-                if (value != null)
-                    Tasks = service.ReadAllTasksByCategory(Category);
-                else
-                    Tasks = null;
+                LoadTasks();
             }
         }
 
-        private ITaskClientService service;
+        private ITaskRemoteService service;
 
         [Inject]
-        public TaskListModel(ITaskClientService service)
+        public TaskListModel(ITaskRemoteService service)
         {
             this.service = service;
+            Tasks = new ObservableCollection<Task>();
             CreateTask = new DelegateCommand(OnCreateTask);
         }
 
@@ -73,17 +72,27 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
-        void IDropTarget.Drop(IDropInfo dropInfo)
+        async void IDropTarget.Drop(IDropInfo dropInfo)
         {
             Task sourceItem = dropInfo.Data as Task;
             Task targetItem = dropInfo.TargetItem as Task;
 
-            service.MoveTaskToCategory(sourceItem, Category);
+            await System.Threading.Tasks.Task.Run(() => service.MoveTaskToCategory(sourceItem, Category));
         }
 
-        private void OnCreateTask()
+        private async void OnCreateTask()
         {
-            service.CreateTaskInCategory(this.Category);
+            await System.Threading.Tasks.Task.Run(() => service.CreateTaskInCategory(this.Category));
+        }
+
+        private async void LoadTasks()
+        {
+            Tasks.Clear();
+            if (Category != null)
+            {
+                List<Task> tasks = await System.Threading.Tasks.Task.Run(() => service.ReadAllTasksByCategory(Category));
+                tasks.ForEach(Tasks.Add);
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Com.Pinz.Client.Model.Service;
 using Prism.Events;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Category
 {
@@ -10,12 +10,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
     public class CategoryShowEditModelFixture
     {
         private CategoryShowEditModel _model;
-        private Mock<ITaskClientService> _taskService;
+        private Mock<ITaskRemoteService> _taskService;
 
         [TestInitialize]
         public void SetUpFixture()
         {
-            _taskService = new Mock<ITaskClientService>();
+            _taskService = new Mock<ITaskRemoteService>();
 
             var eventAgregator = new Mock<IEventAggregator>();
             var categoryEditStartedEvent = new Mock<CategoryEditStartedEvent>();
