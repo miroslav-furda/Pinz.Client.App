@@ -31,10 +31,9 @@ namespace Com.Pinz.Client.RemoteServiceConsumer.ServiceImpl
             return channel.IsUserProjectAdmin(user.UserId, project.ProjectId);
         }
 
-        public async System.Threading.Tasks.Task<User> ReadUserByEmail(string email)
+        public User ReadUserByEmail(string email)
         {
-            System.Threading.Tasks.Task<AuthorisationServiceReference.UserDO> t = channel.ReadUserByEmailAsync(email);
-            AuthorisationServiceReference.UserDO user = await t;
+            AuthorisationServiceReference.UserDO user = channel.ReadUserByEmail(email);
             return mapper.Map<User>(user);
         }
 

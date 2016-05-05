@@ -1,5 +1,7 @@
 ﻿using Com.Pinz.Client.Commons;
 using Com.Pinz.Client.Commons.Prism;
+using Com.Pinz.Client.DomainModel;
+using Com.Pinz.Client.Model;
 using Com.Pinz.Client.Model.Service;
 using Ninject;
 using Prism.Commands;
@@ -45,12 +47,12 @@ namespace Com.Pinz.Client.Module.Login.Model
         }
 
         private IRegionManager regionManager;
-        private IAdminClientService adminClientService;
+        private ApplicationGlobalModel applicationGlobalModel;
 
         [Inject]
-        public LoginModel(IAdminClientService adminClientService, IRegionManager regionManager)
+        public LoginModel(ApplicationGlobalModel applicationGlobalModel, IRegionManager regionManager)
         {
-            this.adminClientService = adminClientService;
+            this.applicationGlobalModel = applicationGlobalModel;
             this.regionManager = regionManager;
             LoginCommand = new DelegateCommand(login);
         }
@@ -61,11 +63,8 @@ namespace Com.Pinz.Client.Module.Login.Model
             {
                 try
                 {
-                    bool success = await adminClientService.loginUser(UserName, Password);
-                    if (success)
-                        regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
-                    else
-                        ErrorMessage = Properties.Resources.BadLogin;
+                    await System.Threading.Tasks.Task.Run(() => applicationGlobalModel.loginUser(UserName, Password));
+                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
                 }
                 catch
                 {
@@ -75,14 +74,6 @@ namespace Com.Pinz.Client.Module.Login.Model
                 {
                 }
             }
-        }
-
-        private Task<bool> AsyncLogin()
-        {
-            return Task.Run(() =>
-            {
-                return adminClientService.loginUser(UserName, Password);
-            });
         }
     }
 }

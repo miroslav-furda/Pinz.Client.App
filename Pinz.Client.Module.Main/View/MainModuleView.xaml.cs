@@ -1,5 +1,6 @@
 ﻿using Com.Pinz.Client.Commons;
 using Com.Pinz.Client.Module.Main.Model;
+using Com.Pinz.Client.RemoteServiceConsumer.Callback;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
@@ -31,7 +32,7 @@ namespace Com.Pinz.Client.Module.Main.View
         private IRegionManager RegionManager;
 
         [Inject]
-        public MainModuleView(MainModuleModel model,IModuleManager ModuleManager, IRegionManager RegionManager)
+        public MainModuleView(IServiceRunningIndicator model,IModuleManager ModuleManager, IRegionManager RegionManager)
         {
             this.ModuleManager = ModuleManager;
             this.RegionManager = RegionManager;

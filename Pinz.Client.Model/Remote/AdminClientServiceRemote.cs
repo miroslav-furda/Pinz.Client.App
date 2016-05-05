@@ -35,6 +35,17 @@ namespace Com.Pinz.Client.Model.Remote
             this.administrationService = administrationService;
         }
 
+        public bool loginUser(string email, string password)
+        {
+            userCredentials.UserName = email;
+            userCredentials.Password = password;
+            userCredentials.UpdateCredentialsForAllFactories();
+
+            User user  = authorisationService.ReadUserByEmail(email);
+            return true;
+        }
+
+
         public User InviteNewUser(string newUserEmail, Project project)
         {
             return administrationService.InviteNewUser(newUserEmail, project, CurrentUser);
@@ -60,17 +71,6 @@ namespace Com.Pinz.Client.Model.Remote
             administrationService.RemoveUserFromProject(user, project);
         }
 
-        public async System.Threading.Tasks.Task<bool> loginUser(string email, string password)
-        {
-            userCredentials.UserName = email;
-            userCredentials.Password = password;
-            userCredentials.UpdateCredentialsForAllFactories();
-
-            CurrentUser = await authorisationService.ReadUserByEmail(email);
-            IsUserLoggedIn = true;
-
-            return true;
-        }
 
         public void UpdateUser(User user)
         {

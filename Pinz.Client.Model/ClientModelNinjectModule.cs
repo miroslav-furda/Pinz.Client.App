@@ -12,6 +12,7 @@ namespace Com.Pinz.Client.Model
         public override void Load()
         {
             Kernel.Bind<TaskFilter>().ToSelf().InSingletonScope();
+            Kernel.Bind<ApplicationGlobalModel>().ToSelf().InSingletonScope();
             Kernel.Bind<ITaskClientService>().To<TaskClientServiceRemote>().InSingletonScope();
             Kernel.Bind<IAdminClientService>().To<AdminClientServiceRemote>().InSingletonScope();
 
