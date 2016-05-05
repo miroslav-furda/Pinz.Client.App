@@ -109,6 +109,10 @@
       <Project>{fb721829-ce20-482a-a5e3-e544450ec4cc}</Project>
       <Name>Pinz.Client.Module.TaskManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj">
+      <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
+      <Name>Pinz.Client.RemoteServiceConsumer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

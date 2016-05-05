@@ -14,7 +14,6 @@ namespace Com.Pinz.Client.Model
             Kernel.Bind<TaskFilter>().ToSelf().InSingletonScope();
             Kernel.Bind<ApplicationGlobalModel>().ToSelf().InSingletonScope();
             Kernel.Bind<ITaskClientService>().To<TaskClientServiceRemote>().InSingletonScope();
-            Kernel.Bind<IAdminClientService>().To<AdminClientServiceRemote>().InSingletonScope();
 
             Kernel.Bind<IMapper>().ToMethod(StartAutoMapper).InSingletonScope().Named("WpfClientMapper");
         }

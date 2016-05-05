@@ -60,9 +60,7 @@
     <Compile Include="ApplicationGlobalModel.cs" />
     <Compile Include="ClientModelNinjectModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Remote\AdminClientServiceRemote.cs" />
     <Compile Include="Remote\TaskClientServiceRemote.cs" />
-    <Compile Include="Service\IAdminClientService.cs" />
     <Compile Include="Service\ITaskClientService.cs" />
     <Compile Include="TaskFilter.cs" />
   </ItemGroup>

@@ -133,6 +133,10 @@
       <Project>{c85d0c64-52bf-429b-8228-86fac72e7256}</Project>
       <Name>Pinz.Client.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj">
+      <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
+      <Name>Pinz.Client.RemoteServiceConsumer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

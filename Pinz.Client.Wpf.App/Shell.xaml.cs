@@ -1,7 +1,6 @@
 ﻿using Com.Pinz.Client.Commons;
-using Com.Pinz.Client.Model.Service;
+using Com.Pinz.Client.Model;
 using Ninject;
-using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.Windows;
@@ -17,7 +16,7 @@ namespace Com.Pinz.Client.Wpf.App
         private IRegionManager RegionManager;
 
         [Inject]
-        public Shell(IAdminClientService model, IRegionManager RegionManager)
+        public Shell(ApplicationGlobalModel model, IRegionManager RegionManager)
         {
             this.RegionManager = RegionManager;
             InitializeComponent();

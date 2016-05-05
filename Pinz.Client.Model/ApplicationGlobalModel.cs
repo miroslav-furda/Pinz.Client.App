@@ -40,6 +40,7 @@ namespace Com.Pinz.Client.Model
             userCredentials.UpdateCredentialsForAllFactories();
 
             CurrentUser = authorisationService.ReadUserByEmail(email);
+            IsUserLoggedIn = true;
             return CurrentUser;
         }
     }

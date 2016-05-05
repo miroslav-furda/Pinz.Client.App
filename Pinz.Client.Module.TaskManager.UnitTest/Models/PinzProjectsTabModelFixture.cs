@@ -1,7 +1,8 @@
-﻿using Com.Pinz.Client.Model.Service;
+﻿using Com.Pinz.Client.Model;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -9,27 +10,27 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
     public class PinzProjectsTabModelFixture
     {
         private PinzProjectsTabModel model;
-        private Mock<ITaskClientService> taskService;
+        private Mock<ITaskRemoteService> taskService;
 
         [TestInitialize]
         public void SetUpFixture()
         {
-            ObservableCollection<DomainModel.Project> projects = new ObservableCollection<DomainModel.Project>() {
+            List<DomainModel.Project> projects = new List<DomainModel.Project>() {
                 new DomainModel.Project { Name = "test" },
                 new DomainModel.Project { Name = "test2" }
             };
-            taskService = new Mock<ITaskClientService>();
+            taskService = new Mock<ITaskRemoteService>();
             taskService.Setup(x => x.ReadAllProjectsForCurrentUser()).Returns(projects);
-            taskService.Setup(x => x.Projects).Returns(projects);
+            Mock<ApplicationGlobalModel> globalModel = new Mock<ApplicationGlobalModel>();
 
-            model = new PinzProjectsTabModel(taskService.Object);
+            model = new PinzProjectsTabModel(taskService.Object, globalModel.Object);
         }
 
         [TestMethod]
         public void InitializationSetsValues()
         {
             Assert.AreEqual(model.Projects.Count, 2);
-            taskService.Verify(m => m.Projects);
+            taskService.Verify(m => m.ReadAllProjectsForCurrentUser());
         }
     }
 }

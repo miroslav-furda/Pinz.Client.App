@@ -185,6 +185,10 @@
       <Project>{028c2dae-b765-406a-b97a-09adeb9797f8}</Project>
       <Name>Pinz.Client.Module.TaskManager.DesignModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj">
+      <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
+      <Name>Pinz.Client.RemoteServiceConsumer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

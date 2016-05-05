@@ -6,6 +6,8 @@ using AutoMapper;
 using Ninject;
 using Prism.Interactivity.InteractionRequest;
 using Com.Pinz.Client.Commons.Wpf.Extensions;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
+using Com.Pinz.Client.Model;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
@@ -50,13 +52,14 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public DelegateCommand ChangeUserPasswordCommand { get; private set; }
         public DelegateCommand CancelPasswordChangeCommand { get; private set; }
 
-        private IAdminClientService adminService;
+        private IAdministrationRemoteService adminService;
         private IMapper mapper;
 
         public InteractionRequest<INotification> ChangeNotification { get; private set; }
 
         [Inject]
-        public UserSelfAdministrationModel(IAdminClientService adminService, [Named("WpfClientMapper")]  IMapper mapper)
+        public UserSelfAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel,
+            [Named("WpfClientMapper")]  IMapper mapper)
         {
             this.adminService = adminService;
             this.mapper = mapper;
@@ -68,7 +71,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 IsModified = false
             };
 
-            CurrentUser = adminService.CurrentUser;
+            CurrentUser = globalModel.CurrentUser;
             BackupUser = new User();
 
             IsUserInEditMode = false;
@@ -92,11 +95,13 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsPasswordInEditMode = false;
         }
 
-        private void ChangeUserPassword()
+        private async void ChangeUserPassword()
         {
             if (!PasswordChangeModel.ValidateModel())
             {
-                if (adminService.ChangePasswordForUser(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2))
+                bool success = await System.Threading.Tasks.Task.Run(() =>
+                adminService.ChangeUserPassword(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2));
+                if (success)
                 {
                     ChangeNotification.Raise(new Notification()
                     {
@@ -130,10 +135,10 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsUserInEditMode = false;
         }
 
-        private void SaveUserChanges()
+        private async void SaveUserChanges()
         {
+            await System.Threading.Tasks.Task.Run(() => adminService.UpdateUser(CurrentUser));
             IsUserInEditMode = false;
-            adminService.UpdateUser(CurrentUser);
         }
 
         private void StartUserChanges()

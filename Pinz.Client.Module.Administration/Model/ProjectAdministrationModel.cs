@@ -10,13 +10,33 @@ using Ninject;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Com.Pinz.Client.Commons.Prism;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
+using Com.Pinz.Client.Model;
+using Prism.Regions;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
     public class ProjectAdministrationModel : BindableValidationBase
     {
         public TabModel TabModel { get; private set; }
-        public List<Project> Projects { get; private set; }
+
+        private List<Project> _projects;
+        public List<Project> Projects
+        {
+            get
+            {
+                if(_projects == null)
+                {
+                    LoadProjects();
+                }
+                return _projects;
+
+            }
+            set
+            {
+                SetProperty(ref this._projects, value);
+            }
+        }
         public ObservableCollection<User> AllCompanyUsers { get; private set; }
         public ObservableCollection<User> ProjectUsers { get; private set; }
 
@@ -97,12 +117,14 @@ namespace Com.Pinz.Client.Module.Administration.Model
         }
 
 
-        private IAdminClientService adminService;
+        private IAdministrationRemoteService adminService;
+        private ApplicationGlobalModel globalModel;
 
         [Inject]
-        public ProjectAdministrationModel(IAdminClientService adminService)
+        public ProjectAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel)
         {
             this.adminService = adminService;
+            this.globalModel = globalModel;
 
             TabModel = new TabModel()
             {
@@ -111,7 +133,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 IsModified = false
             };
 
-            Projects = adminService.ReadAdminProjectsForCurrentUser();
+
             IsProjectSelected = false;
 
             AllCompanyUsers = new ObservableCollection<User>();
@@ -145,43 +167,48 @@ namespace Com.Pinz.Client.Module.Administration.Model
         }
         #endregion
 
-        private void InviteUser()
+        private async void InviteUser()
         {
             if (!HasErrors)
             {
-                User newUser = adminService.InviteNewUser(NewUserEmail, SelectedProject);
+                User newUser = await System.Threading.Tasks.Task.Run(() => adminService.InviteNewUser(NewUserEmail, SelectedProject, globalModel.CurrentUser));
                 ProjectUsers.Add(newUser);
             }
         }
 
-        private void RemoveUserFromProject()
+        private async void RemoveUserFromProject()
         {
-            adminService.RemoveUserFromProject(ProjectSelectedUser, SelectedProject);
+            await System.Threading.Tasks.Task.Run(() =>  adminService.RemoveUserFromProject(ProjectSelectedUser, SelectedProject) );
             AllCompanyUsers.Add(ProjectSelectedUser);
             ProjectUsers.Remove(ProjectSelectedUser);
         }
 
-        private void AddUserToProject()
+        private async void AddUserToProject()
         {
-            adminService.AddUserToProject(AllCompanySelectedUser, SelectedProject);
+            await System.Threading.Tasks.Task.Run(() => adminService.AddUserToProject(AllCompanySelectedUser, SelectedProject, false));
             ProjectUsers.Add(AllCompanySelectedUser);
             AllCompanyUsers.Remove(AllCompanySelectedUser);
         }
 
-        private void SelectProjectRefs()
+        private async void SelectProjectRefs()
         {
             IsProjectSelected = true;
             ProjectUsers.Clear();
-            List<User> projectUserList = adminService.ReadAllUsersByProject(SelectedProject);
+            List<User> projectUserList = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersByProject(SelectedProject));
             projectUserList.ForEach(ProjectUsers.Add);
 
             AllCompanyUsers.Clear();
-            adminService.ReadAllUsersForCompany().ForEach(u =>
+            List<User> users = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersForCompany(globalModel.CurrentUser.CompanyId));
+            users.ForEach(u =>
             {
                 if (!projectUserList.Any(pu => pu.UserId == u.UserId))
                     AllCompanyUsers.Add(u);
             });
         }
 
+        public async void LoadProjects()
+        {
+            Projects =  await System.Threading.Tasks.Task.Run(() => adminService.ReadAdminProjectsForUser(globalModel.CurrentUser));
+        }
     }
 }
