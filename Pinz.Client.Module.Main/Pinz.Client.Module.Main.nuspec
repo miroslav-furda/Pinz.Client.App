@@ -12,4 +12,9 @@
     <copyright>Copyright 2016</copyright>
     <tags>Pinz WPF Task</tags>
   </metadata>
+  <files>
+    <file src="bin\$configuration$\Pinz.Client.Module.Login.dll" target="lib\net452" />
+    <file src="bin\$configuration$\Pinz.Client.Module.Administration.dll" target="lib\net452" />
+    <file src="bin\$configuration$\Pinz.Client.Module.TaskManager.dll" target="lib\net452" />
+  </files>
 </package>
