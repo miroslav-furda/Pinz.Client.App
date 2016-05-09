@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Pinz.WpfClient.Module.TaskManager </id>
+    <id>Pinz.Client.Module.Main</id>
     <version>$version$</version>
-    <title>Task Manager module for Pinz</title>
+    <title>Main module for Pinz</title>
     <authors>Miroslav Furda</authors>
     <owners>Miroslav Furda</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Task management WPF cleint.</description>
+    <description>Task management WPF client.</description>
     <releaseNotes>Initial version.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Pinz WPF Task</tags>
