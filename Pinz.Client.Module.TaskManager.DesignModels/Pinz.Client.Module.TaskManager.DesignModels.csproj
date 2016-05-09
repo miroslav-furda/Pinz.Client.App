@@ -30,6 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pinz.Client.Base, Version=0.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.Client.Commons, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.Client.RemoteServiceConsumer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Pinz.DomainModel, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pinz.DomainModel.0.2.0.0\lib\net452\Pinz.DomainModel.dll</HintPath>
       <Private>True</Private>
@@ -53,12 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Pinz.Client.Commons\Pinz.Client.Commons.csproj">
-      <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
-      <Name>Pinz.Client.Commons</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

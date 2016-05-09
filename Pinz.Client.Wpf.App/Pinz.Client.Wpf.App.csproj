@@ -59,6 +59,18 @@
       <HintPath>..\packages\Ninject.Extensions.Interception.DynamicProxy.3.2.0.0\lib\net45-full\Ninject.Extensions.Interception.DynamicProxy.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Pinz.Client.Base, Version=0.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.Client.Commons, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.Client.RemoteServiceConsumer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Pinz.DomainModel, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pinz.DomainModel.0.2.0.0\lib\net452\Pinz.DomainModel.dll</HintPath>
       <Private>True</Private>
@@ -180,10 +192,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pinz.Client.Commons\Pinz.Client.Commons.csproj">
-      <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
-      <Name>Pinz.Client.Commons</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pinz.Client.Module.Administration\Pinz.Client.Module.Administration.csproj">
       <Project>{443c39e4-79c4-4c24-bdc3-136033375319}</Project>
       <Name>Pinz.Client.Module.Administration</Name>
@@ -199,10 +207,6 @@
     <ProjectReference Include="..\Pinz.Client.Module.TaskManager\Pinz.Client.Module.TaskManager.csproj">
       <Project>{fb721829-ce20-482a-a5e3-e544450ec4cc}</Project>
       <Name>Pinz.Client.Module.TaskManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj">
-      <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
-      <Name>Pinz.Client.RemoteServiceConsumer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

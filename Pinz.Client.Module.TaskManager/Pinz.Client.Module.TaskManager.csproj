@@ -54,6 +54,18 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Pinz.Client.Base, Version=0.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.Client.Commons, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.Client.RemoteServiceConsumer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.5.3.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Pinz.DomainModel, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pinz.DomainModel.0.2.0.0\lib\net452\Pinz.DomainModel.dll</HintPath>
       <Private>True</Private>
@@ -169,17 +181,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pinz.Client.Commons\Pinz.Client.Commons.csproj">
-      <Project>{64bbc1dc-7f3b-4bbf-871d-fabfd6ea3721}</Project>
-      <Name>Pinz.Client.Commons</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Pinz.Client.Module.TaskManager.DesignModels\Pinz.Client.Module.TaskManager.DesignModels.csproj">
       <Project>{028c2dae-b765-406a-b97a-09adeb9797f8}</Project>
       <Name>Pinz.Client.Module.TaskManager.DesignModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pinz.Client.RemoteServiceConsumer\Pinz.Client.RemoteServiceConsumer.csproj">
-      <Project>{ac10ed84-4efc-41f3-acdd-709b51befbb3}</Project>
-      <Name>Pinz.Client.RemoteServiceConsumer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
