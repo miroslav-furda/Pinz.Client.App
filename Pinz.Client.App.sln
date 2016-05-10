@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.Administ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.Module.Main", "Pinz.Client.Module.Main\Pinz.Client.Module.Main.csproj", "{2E531EA6-A500-4AE2-880B-FA49D1E2DD16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinz.Client.App", "Pinz.Client.App\Pinz.Client.App.csproj", "{B64A2188-32CD-4F5D-9821-9C47D0E8126A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{2E531EA6-A500-4AE2-880B-FA49D1E2DD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E531EA6-A500-4AE2-880B-FA49D1E2DD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E531EA6-A500-4AE2-880B-FA49D1E2DD16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B64A2188-32CD-4F5D-9821-9C47D0E8126A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B64A2188-32CD-4F5D-9821-9C47D0E8126A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B64A2188-32CD-4F5D-9821-9C47D0E8126A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B64A2188-32CD-4F5D-9821-9C47D0E8126A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

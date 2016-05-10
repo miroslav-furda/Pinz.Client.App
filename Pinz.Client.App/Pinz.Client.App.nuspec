@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Pinz.Client.Module.Main</id>
+    <id>Pinz.Client.App</id>
     <version>$version$</version>
-    <title>Main module for Pinz</title>
+    <title>Modules for Pinz</title>
     <authors>Miroslav Furda</authors>
     <owners>Miroslav Furda</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -13,6 +13,7 @@
     <tags>Pinz WPF Task</tags>
   </metadata>
   <files>
+    <file src="bin\$configuration$\Pinz.Client.Module.Main.dll" target="lib\net452" />
     <file src="bin\$configuration$\Pinz.Client.Module.Login.dll" target="lib\net452" />
     <file src="bin\$configuration$\Pinz.Client.Module.Administration.dll" target="lib\net452" />
     <file src="bin\$configuration$\Pinz.Client.Module.TaskManager.dll" target="lib\net452" />
