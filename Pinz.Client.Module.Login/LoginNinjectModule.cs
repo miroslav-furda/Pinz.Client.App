@@ -1,6 +1,6 @@
 ﻿using Ninject.Modules;
 
-namespace Com.Pinz.WpfClient.Module.Login
+namespace Com.Pinz.Client.Module.Login
 {
     public class LoginNinjectModule : NinjectModule
     {

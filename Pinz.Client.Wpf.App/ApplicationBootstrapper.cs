@@ -7,7 +7,6 @@ using Com.Pinz.Client.Module.Login;
 using Com.Pinz.Client.Module.Main;
 using Com.Pinz.Client.Module.TaskManager;
 using Com.Pinz.Client.RemoteServiceConsumer;
-using Com.Pinz.WpfClient.Module.Login;
 using Ninject;
 using Ninject.Activation;
 using Prism.Modularity;
