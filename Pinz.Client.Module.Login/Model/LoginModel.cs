@@ -68,7 +68,7 @@ namespace Com.Pinz.Client.Module.Login.Model
                 try
                 {
                     await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
-                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative));
+                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("/PinzProjectsTabView", UriKind.Relative));
                 }
                 catch
                 {
