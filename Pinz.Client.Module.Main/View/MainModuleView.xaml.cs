@@ -59,9 +59,7 @@ namespace Com.Pinz.Client.Module.Main.View
                     //     
                     if (e.ModuleInfo.ModuleName == LoginModuleName)
                     {
-                        this.RegionManager.RequestNavigate(
-                            RegionNames.MainContentRegion,
-                            LoginViewUri);
+                        this.RegionManager.RequestNavigate( RegionNames.MainContentRegion, LoginViewUri);
                     }
                 };
         }
