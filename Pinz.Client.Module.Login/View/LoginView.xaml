@@ -30,8 +30,6 @@
 
         <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/pinz/pinz_64x64.png" Margin="10" Stretch="None"/>
 
-        <!--ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"  x:Name="ErrorList" ItemsSource="{Binding Errors.Errors}" /-->
-
         <Label Grid.Row="2" Grid.Column="1" Content="{x:Static p:Resources.LoginView_UserName}" Margin="2"/>
         <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding UserName, UpdateSourceTrigger=LostFocus}"  Margin="2" 
                  Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
@@ -39,7 +37,7 @@
         <PasswordBox Grid.Row="3" Grid.Column="2"  extensions:PasswordBoxAssistant.BindPassword="true"  extensions:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Margin="2" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
-        <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="0,5,0,0">
+        <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DodgerBlue" BorderThickness="0,13,0,0" Margin="0,5,0,0">
             <Button Content="{x:Static p:Resources.LoginView_LoginButton}" IsDefault="True"
                 ToolTip="{x:Static p:Resources.LoginView_LoginButton_Tooltip}" Command="{Binding Path=LoginCommand}" 
                 VerticalAlignment="Center" Margin="0,5,0,0" HorizontalAlignment="Center" />
