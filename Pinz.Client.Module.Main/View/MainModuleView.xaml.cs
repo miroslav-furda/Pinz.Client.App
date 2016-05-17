@@ -1,6 +1,7 @@
 ﻿using Com.Pinz.Client.Commons;
 using Com.Pinz.Client.Module.Main.Model;
 using Com.Pinz.Client.RemoteServiceConsumer.Callback;
+using Common.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
@@ -25,6 +26,8 @@ namespace Com.Pinz.Client.Module.Main.View
     /// </summary>
     public partial class MainModuleView : UserControl
     {
+        private static readonly ILog Log = LogManager.GetLogger<MainModuleView>();
+
         private const string LoginModuleName = "LoginModule";
         private static Uri LoginViewUri = new Uri("/LoginView", UriKind.Relative);
 
@@ -57,6 +60,7 @@ namespace Com.Pinz.Client.Module.Main.View
                     // loaded and then navigate to the view we want to display
                     // initially.
                     //     
+                    Log.DebugFormat("LoadModuleCompleted {0}", e.ModuleInfo.ModuleName);
                     if (e.ModuleInfo.ModuleName == LoginModuleName)
                     {
                         this.RegionManager.RequestNavigate( RegionNames.MainContentRegion, LoginViewUri);

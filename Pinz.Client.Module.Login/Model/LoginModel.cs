@@ -5,6 +5,7 @@ using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Common.Logging;
 using Ninject;
 using Prism.Commands;
+using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -72,7 +73,8 @@ namespace Com.Pinz.Client.Module.Login.Model
                 {
                     await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
                     Log.Debug("login succesfull, navigate to PinzProjectsTabView");
-                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("/PinzProjectsTabView", UriKind.Relative), (r) =>
+
+                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
                     {
                         Log.DebugFormat("navigation result : {0}, exception:{1}", r.Result, (r.Error == null ? "null" : r.Error.ToString()));
                         if (false == r.Result)
