@@ -5,11 +5,14 @@ using System.Collections.ObjectModel;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.Model;
 using System.Collections.Generic;
+using Common.Logging;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class PinzProjectsTabModel : INavigationAware
     {
+        private static readonly ILog Log = LogManager.GetLogger<PinzProjectsTabModel>();
+
         public ObservableCollection<Project> Projects { get; private set; }
         private ITaskRemoteService taskService;
 
@@ -22,6 +25,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            Log.Debug("OnNavigatedTo called ...");
             List<Project> projects = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllProjectsForCurrentUser());
             Projects.Clear();
             projects.ForEach(Projects.Add);

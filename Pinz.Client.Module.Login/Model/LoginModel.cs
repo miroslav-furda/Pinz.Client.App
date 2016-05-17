@@ -74,13 +74,14 @@ namespace Com.Pinz.Client.Module.Login.Model
                     Log.Debug("login succesfull, navigate to PinzProjectsTabView");
                     regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("/PinzProjectsTabView", UriKind.Relative), (r) =>
                     {
-                        if( false == r.Result)
+                        Log.DebugFormat("navigation result : {0}, exception:{1}", r.Result, (r.Error == null ? "null" : r.Error.ToString()));
+                        if (false == r.Result)
                         {
                             Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
                         }
                     });
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Log.ErrorFormat("Error logging in with user {0}", ex, UserName);
                     ErrorMessage = Properties.Resources.BadLogin;
