@@ -2,6 +2,7 @@
 using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Model;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
+using Common.Logging;
 using Ninject;
 using Prism.Commands;
 using Prism.Regions;
@@ -12,6 +13,8 @@ namespace Com.Pinz.Client.Module.Login.Model
 {
     public class LoginModel : BindableValidationBase
     {
+        private static readonly ILog Log = LogManager.GetLogger<LoginModel>();
+
         private string _userName;
         [Required]
         [EmailAddress]
@@ -68,14 +71,19 @@ namespace Com.Pinz.Client.Module.Login.Model
                 try
                 {
                     await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
-                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("/PinzProjectsTabView", UriKind.Relative));
+                    Log.Debug("login succesfull, navigate to PinzProjectsTabView");
+                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("/PinzProjectsTabView", UriKind.Relative), (r) =>
+                    {
+                        if( false == r.Result)
+                        {
+                            Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
+                        }
+                    });
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Log.ErrorFormat("Error logging in with user {0}", ex, UserName);
                     ErrorMessage = Properties.Resources.BadLogin;
-                }
-                finally
-                {
                 }
             }
         }
