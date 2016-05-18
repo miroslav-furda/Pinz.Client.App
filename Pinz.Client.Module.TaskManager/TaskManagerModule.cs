@@ -17,7 +17,7 @@ namespace Com.Pinz.Client.Module.TaskManager
 
         public void Initialize()
         {
-            regionViewRegistry.RegisterViewWithRegion(RegionNames.MainContentRegion, typeof(Views.PinzProjectsTabView));
+           // regionViewRegistry.RegisterViewWithRegion(RegionNames.MainContentRegion, typeof(Views.PinzProjectsTabView));
             regionViewRegistry.RegisterViewWithRegion("CategoryListRegion", typeof(Views.CategoryListView));
             regionViewRegistry.RegisterViewWithRegion("CategoryShowEditRegion", typeof(Views.CategoryShowEditView));
             regionViewRegistry.RegisterViewWithRegion("TaskListRegion", typeof(Views.TaskListView));

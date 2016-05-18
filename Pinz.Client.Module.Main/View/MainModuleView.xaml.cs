@@ -43,7 +43,7 @@ namespace Com.Pinz.Client.Module.Main.View
             DataContext = model;
         }
 
-
+        /*
         public void OnImportsSatisfied()
         {
             this.ModuleManager.LoadModuleCompleted +=
@@ -67,5 +67,6 @@ namespace Com.Pinz.Client.Module.Main.View
                     }
                 };
         }
+        */
     }
 }
