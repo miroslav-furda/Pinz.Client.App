@@ -3,6 +3,7 @@ using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Model;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Common.Logging;
+using Microsoft.Practices.ServiceLocation;
 using Ninject;
 using Prism.Commands;
 using Prism.Modularity;
@@ -73,6 +74,17 @@ namespace Com.Pinz.Client.Module.Login.Model
                 {
                     await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
                     Log.Debug("login succesfull, navigate to PinzProjectsTabView");
+
+                    Log.DebugFormat("Initialize Shell. IsLocationProviderSet : {0}", ServiceLocator.IsLocationProviderSet);
+                    try
+                    {
+                        object view = ServiceLocator.Current.GetInstance<object>("PinzProjectsTabView");
+                        Log.DebugFormat("instance of {0}", view);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Failed to load view", ex);
+                    }
 
                     regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
                     {
