@@ -19,6 +19,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         [Inject]
         public PinzProjectsTabModel(ITaskRemoteService taskService, ApplicationGlobalModel globalModel)
         {
+            Log.Debug("Constructor");
             this.taskService = taskService;
             Projects = new ObservableCollection<Project>();
         }
@@ -33,6 +34,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
+            Log.Debug("IsNavigationTarget executed ... returning true");
             return true;
         }
 

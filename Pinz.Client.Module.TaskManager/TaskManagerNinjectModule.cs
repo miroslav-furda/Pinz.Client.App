@@ -1,4 +1,5 @@
-﻿using Com.Pinz.Client.Module.TaskManager.Views;
+﻿using Com.Pinz.Client.Module.TaskManager.Models;
+using Com.Pinz.Client.Module.TaskManager.Views;
 using Common.Logging;
 using Ninject.Modules;
 
@@ -13,6 +14,7 @@ namespace Com.Pinz.Client.Module.TaskManager
             Log.Info("Loading TaskManagerNinjectModule ...");
 
             Kernel.Bind<object>().To<PinzProjectsTabView>().Named("PinzProjectsTabView");
+            Kernel.Bind<PinzProjectsTabModel>().ToSelf();
         }
     }
 }
