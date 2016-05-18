@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdministrationModule.cs" />
+    <Compile Include="AdministrationNinjectModule.cs" />
     <Compile Include="DesignModel\ProjectAdministrationDesignModel.cs" />
     <Compile Include="DesignModel\UserSelfAdministrationDesignModel.cs" />
     <Compile Include="Model\CompanyAdministrationModel.cs" />
