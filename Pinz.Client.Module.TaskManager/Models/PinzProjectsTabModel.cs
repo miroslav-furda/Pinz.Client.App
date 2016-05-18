@@ -28,8 +28,11 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             Log.Debug("OnNavigatedTo called ...");
             List<Project> projects = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllProjectsForCurrentUser());
+            Log.DebugFormat("OnNavigatedTo projects loaded from remote. Count: {0}", projects.Count);
             Projects.Clear();
+            Log.Debug("OnNavigatedTo Projects cleared");
             projects.ForEach(Projects.Add);
+            Log.DebugFormat("OnNavigatedTo called Projects populated. Count: {0}", Projects.Count);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
