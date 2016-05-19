@@ -72,7 +72,8 @@ namespace Com.Pinz.Client.Module.Login.Model
             {
                 try
                 {
-                    await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
+                    //await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
+                    loginUser(UserName, Password);
                     Log.Debug("login succesfull, navigate to PinzProjectsTabView");
 
                     Log.DebugFormat("Initialize Shell. IsLocationProviderSet : {0}", ServiceLocator.IsLocationProviderSet);
