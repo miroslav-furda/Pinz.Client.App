@@ -3,13 +3,12 @@ using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Model;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Common.Logging;
-using Microsoft.Practices.ServiceLocation;
 using Ninject;
 using Prism.Commands;
-using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {
@@ -54,6 +53,8 @@ namespace Com.Pinz.Client.Module.Login.Model
         private UserNameClientCredentials userCredentials;
         private IAuthorisationRemoteService authorisationService;
 
+        private TaskScheduler scheduler;
+
         [Inject]
         public LoginModel(ApplicationGlobalModel applicationGlobalModel, UserNameClientCredentials userCredentials,
             IAuthorisationRemoteService authorisationService, IRegionManager regionManager)
@@ -64,6 +65,8 @@ namespace Com.Pinz.Client.Module.Login.Model
             this.authorisationService = authorisationService;
 
             LoginCommand = new DelegateCommand(login);
+
+            scheduler = TaskScheduler.FromCurrentSynchronizationContext();
         }
 
         private async void login()
@@ -72,29 +75,16 @@ namespace Com.Pinz.Client.Module.Login.Model
             {
                 try
                 {
-                    //await System.Threading.Tasks.Task.Run(() => loginUser(UserName, Password));
-                    loginUser(UserName, Password);
-                    Log.Debug("login succesfull, navigate to PinzProjectsTabView");
-
-                    Log.DebugFormat("Initialize Shell. IsLocationProviderSet : {0}", ServiceLocator.IsLocationProviderSet);
-                    try
+                    ErrorMessage = null;
+                    await Task.Run(() => loginUser(UserName, Password)).ContinueWith(c =>
                     {
-                        object view = ServiceLocator.Current.GetInstance<object>("PinzProjectsTabView");
-                        Log.DebugFormat("instance of {0}", view);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error("Failed to load view", ex);
-                    }
-
-                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
-                    {
-                        Log.DebugFormat("navigation result : {0}, exception:{1}", r.Result, (r.Error == null ? "null" : r.Error.ToString()));
-                        if (false == r.Result)
+                        Log.Debug("login succesfull, navigate to PinzProjectsTabView");
+                        regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
                         {
-                            Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
-                        }
-                    });
+                            if (false == r.Result)
+                                Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
+                        });
+                    }, scheduler);
                 }
                 catch (Exception ex)
                 {
@@ -103,7 +93,6 @@ namespace Com.Pinz.Client.Module.Login.Model
                 }
             }
         }
-
         public void loginUser(string email, string password)
         {
             userCredentials.UserName = email;

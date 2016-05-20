@@ -1,10 +1,5 @@
 ﻿using Com.Pinz.Client.Module.Administration.View;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Com.Pinz.Client.Module.Administration
 {

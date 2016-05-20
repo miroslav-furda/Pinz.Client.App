@@ -18,8 +18,6 @@ namespace Com.Pinz.Client.Module.Administration
 
         public void Initialize()
         {
-            //regionViewRegistry.RegisterViewWithRegion(RegionNames.MainContentRegion, typeof(View.AdministrationMainView));
-
             regionViewRegistry.RegisterViewWithRegion(USER_SELF_ADMINISTRATION_REGION, typeof(View.UserSelfAdministrationView));
             regionViewRegistry.RegisterViewWithRegion(USER_SELF_ADMINISTRATION_REGION, typeof(View.ProjectAdministrationView));
             regionViewRegistry.RegisterViewWithRegion(USER_SELF_ADMINISTRATION_REGION, typeof(View.CompanyAdministrationView));

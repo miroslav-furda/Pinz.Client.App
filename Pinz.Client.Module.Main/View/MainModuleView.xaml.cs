@@ -41,32 +41,27 @@ namespace Com.Pinz.Client.Module.Main.View
             this.RegionManager = RegionManager;
             InitializeComponent();
             DataContext = model;
-        }
 
-        /*
-        public void OnImportsSatisfied()
-        {
             this.ModuleManager.LoadModuleCompleted +=
-                (s, e) =>
-                {
-                    // todo: 01 - Navigation on when modules are loaded.
-                    // When using region navigation, be sure to use it consistently
-                    // to ensure you get proper journal behavior.  If we mixed
-                    // usage of adding views directly to regions, such as through
-                    // RegionManager.AddToRegion, and then use RegionManager.RequestNavigate,
-                    // we may not be able to navigate back correctly.
-                    // 
-                    // Here, we wait until the module we want to start with is
-                    // loaded and then navigate to the view we want to display
-                    // initially.
-                    //     
-                    Log.DebugFormat("LoadModuleCompleted {0}", e.ModuleInfo.ModuleName);
-                    if (e.ModuleInfo.ModuleName == LoginModuleName)
-                    {
-                        this.RegionManager.RequestNavigate( RegionNames.MainContentRegion, LoginViewUri);
-                    }
-                };
+              (s, e) =>
+              {
+                   // todo: 01 - Navigation on when modules are loaded.
+                   // When using region navigation, be sure to use it consistently
+                   // to ensure you get proper journal behavior.  If we mixed
+                   // usage of adding views directly to regions, such as through
+                   // RegionManager.AddToRegion, and then use RegionManager.RequestNavigate,
+                   // we may not be able to navigate back correctly.
+                   // 
+                   // Here, we wait until the module we want to start with is
+                   // loaded and then navigate to the view we want to display
+                   // initially.
+                   //     
+                   Log.DebugFormat("LoadModuleCompleted {0}", e.ModuleInfo.ModuleName);
+                  if (e.ModuleInfo.ModuleName == LoginModuleName)
+                  {
+                      this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, LoginViewUri);
+                  }
+              };
         }
-        */
     }
 }

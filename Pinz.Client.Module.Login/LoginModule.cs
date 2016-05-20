@@ -17,7 +17,6 @@ namespace Com.Pinz.Client.Module.Login
 
         public void Initialize()
         {
-            regionViewRegistry.RegisterViewWithRegion(RegionNames.MainContentRegion, typeof(View.LoginView));
         }
     }
 }

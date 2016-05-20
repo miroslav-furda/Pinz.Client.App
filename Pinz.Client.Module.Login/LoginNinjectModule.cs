@@ -6,6 +6,7 @@ namespace Com.Pinz.Client.Module.Login
     {
         public override void Load()
         {
+            Kernel.Bind<object>().To<View.LoginView>().Named("LoginView");
         }
     }
 }

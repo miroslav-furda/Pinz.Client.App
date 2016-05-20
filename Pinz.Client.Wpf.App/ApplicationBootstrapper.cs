@@ -44,6 +44,7 @@ namespace Com.Pinz.Client.Wpf.App
             base.ConfigureKernel();
 
             Kernel.Load(new MainNinjectModule());
+            Kernel.Load(new AdministrationNinjectModule());
             Kernel.Load(new TaskManagerNinjectModule());
             Kernel.Load(new ServiceConsumerNinjectModule());
             Kernel.Load(new LoginNinjectModule());

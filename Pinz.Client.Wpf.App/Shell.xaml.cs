@@ -12,7 +12,7 @@ namespace Com.Pinz.Client.Wpf.App
     /// </summary>
     public partial class Shell : Window
     {
-        private static Uri AdministrationViewUri = new Uri("/AdministrationMainView", UriKind.Relative);
+        private static Uri AdministrationViewUri = new Uri("AdministrationMainView", UriKind.Relative);
         private IRegionManager RegionManager;
 
         [Inject]
