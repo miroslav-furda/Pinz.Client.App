@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\IsolatedStorageSettings.cs" />
     <Compile Include="LoginModule.cs" />
     <Compile Include="LoginNinjectModule.cs" />
     <Compile Include="Model\LoginModel.cs" />
