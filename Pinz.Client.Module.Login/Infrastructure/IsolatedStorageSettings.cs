@@ -33,24 +33,30 @@ namespace Com.Pinz.Client.Module.Login.Infrastructure
         /// <summary>
         /// Load data from storage or create new one.
         /// </summary>
-        private void Load()
+        private Dictionary<string, object> Settings
         {
-            using (var store = Store)
+            get
             {
-                if (store.FileExists(FileName))
+                if (settings != null) return settings;
+
+                using (var store = Store)
                 {
-                    using (var stream = store.OpenFile(FileName, FileMode.Open, FileAccess.Read))
+                    if (store.FileExists(FileName))
                     {
-                        if (stream.Length == 0)
-                            settings = new Dictionary<string, object>();
-                        else
-                            settings = (Dictionary<string, object>) formatter.Deserialize(stream);
+                        using (var stream = store.OpenFile(FileName, FileMode.Open, FileAccess.Read))
+                        {
+                            if (stream.Length == 0)
+                                settings = new Dictionary<string, object>();
+                            else
+                                settings = (Dictionary<string, object>) formatter.Deserialize(stream);
+                        }
+                    }
+                    else
+                    {
+                        settings = new Dictionary<string, object>();
                     }
                 }
-                else
-                {
-                    settings = new Dictionary<string, object>();
-                }
+                return settings;
             }
         }
 
@@ -69,14 +75,13 @@ namespace Com.Pinz.Client.Module.Login.Infrastructure
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public T GetValue<T>(string key)
+        public T GetValue<T>(string key, T defaultValue = default(T))
         {
-            if (settings == null)
-                Load();
-            if (settings.ContainsKey(key))
+            if (Settings.ContainsKey(key))
                 return (T) settings[key];
-            return default(T);
+            return defaultValue;
         }
 
         /// <summary>
@@ -87,9 +92,7 @@ namespace Com.Pinz.Client.Module.Login.Infrastructure
         /// <param name="value"></param>
         public void SetValue<T>(string key, T value)
         {
-            if (settings == null)
-                Load();
-            settings[key] = value;
+            Settings[key] = value;
         }
     }
 }

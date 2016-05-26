@@ -42,6 +42,7 @@ namespace Com.Pinz.Client.Module.Login.Model
         }
 
         public DelegateCommand LoginCommand { get; private set; }
+        public DelegateCommand LoadedCommand { get; private set; }
 
         private string _errorMessage;
         public string ErrorMessage
@@ -72,14 +73,15 @@ namespace Com.Pinz.Client.Module.Login.Model
             this.userCredentials = userCredentials;
             this.authorisationService = authorisationService;
 
-            LoginCommand = new DelegateCommand(login);
-
-            LoadPreviousSettings();
-
+            LoginCommand = new DelegateCommand(Login);
+            LoadedCommand = new DelegateCommand(Loaded);
+            
             scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            LoadPreviousSettings();                
         }
 
-        private async void login()
+        private async void Login()
         {
             if (!ValidateModel())
             {
@@ -104,6 +106,15 @@ namespace Com.Pinz.Client.Module.Login.Model
                 }
             }
         }
+
+        private void Loaded()
+        {           
+            if (AutoLogin && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
+            {
+                Login();
+            }
+        }
+
         public void loginUser(string email, string password)
         {
             userCredentials.UserName = email;
@@ -116,9 +127,9 @@ namespace Com.Pinz.Client.Module.Login.Model
 
         private void LoadPreviousSettings()
         {
-            AutoLogin = settings.GetValue<bool>("AutoLogin");
+            AutoLogin = settings.GetValue("AutoLogin", true);
             UserName = settings.GetValue("UserName");
-            Password = settings.GetValue("Password");
+            Password = settings.GetValue("Password");            
         }
 
         private void SaveSettings()

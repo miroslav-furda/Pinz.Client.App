@@ -7,9 +7,15 @@
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
              xmlns:extensions="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
              xmlns:p="clr-namespace:Com.Pinz.Client.Module.Login.Properties"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
     </UserControl.Resources>
     <Grid Margin="0,20,0,0">
@@ -20,6 +26,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -38,10 +45,12 @@
                      Margin="2" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
         <Border Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="0,5,0,0">
-            <Button Content="{x:Static p:Resources.LoginView_LoginButton}" IsDefault="True"
-                ToolTip="{x:Static p:Resources.LoginView_LoginButton_Tooltip}" Command="{Binding Path=LoginCommand}" 
-                VerticalAlignment="Center" Margin="0,5,0,0" HorizontalAlignment="Center" />
+            <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=AutoLogin, Mode=TwoWay}" Content="{x:Static p:Resources.LoginView_AutoLogin}" FontSize="10" Margin="2"></CheckBox>
         </Border>
-        <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Content="{Binding ErrorMessage}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+
+        <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Content="{x:Static p:Resources.LoginView_LoginButton}" IsDefault="True"
+                ToolTip="{x:Static p:Resources.LoginView_LoginButton_Tooltip}" Command="{Binding Path=LoginCommand}" 
+                VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,10,0,0" HorizontalAlignment="Center" Padding="20,5" />
+        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Content="{Binding ErrorMessage}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>
