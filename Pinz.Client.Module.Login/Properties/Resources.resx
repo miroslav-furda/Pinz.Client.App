@@ -120,6 +120,9 @@
   <data name="BadLogin" xml:space="preserve">
     <value>Bad username or password</value>
   </data>
+  <data name="LoginView_AutoLogin" xml:space="preserve">
+    <value>Auto log in</value>
+  </data>
   <data name="LoginView_LoginButton" xml:space="preserve">
     <value>Login</value>
   </data>

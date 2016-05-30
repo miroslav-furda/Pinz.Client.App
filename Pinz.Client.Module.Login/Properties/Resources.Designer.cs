@@ -70,6 +70,15 @@ namespace Com.Pinz.Client.Module.Login.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto log in.
+        /// </summary>
+        public static string LoginView_AutoLogin {
+            get {
+                return ResourceManager.GetString("LoginView_AutoLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string LoginView_LoginButton {
