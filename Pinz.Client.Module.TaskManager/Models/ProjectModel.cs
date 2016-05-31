@@ -1,0 +1,29 @@
+﻿using System.Collections.ObjectModel;
+using Com.Pinz.Client.DomainModel;
+
+namespace Com.Pinz.Client.Module.TaskManager.Models
+{
+    public class ProjectModel : Project
+    {
+        private ObservableCollection<UserModel> projectUsers;
+
+        public ProjectModel()
+        {
+            ProjectUsers = new ObservableCollection<UserModel>();
+        }
+
+        public ProjectModel(Project project) : this()
+        {
+            CompanyId = project.CompanyId;
+            Description = project.Description;
+            Name = project.Name;
+            ProjectId = project.ProjectId;
+        }
+
+        public ObservableCollection<UserModel> ProjectUsers
+        {
+            get { return projectUsers; }
+            set { SetProperty(ref projectUsers, value); }
+        }
+    }
+}

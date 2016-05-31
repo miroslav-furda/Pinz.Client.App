@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using System.Collections.Generic;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 {
@@ -27,7 +28,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         [TestMethod]
         public void InitializationSetsValues()
         {
-            model.Category = new DomainModel.Category() { Name = "Test" };
+            model.Category = new CategoryModel { Name = "Test" };
             Assert.AreEqual(model.Tasks.Count, 2);
             taskService.Verify(m => m.ReadAllTasksByCategory(It.IsAny<DomainModel.Category>()));
         }
@@ -35,7 +36,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         [TestMethod]
         public void TasksNullOnNullCategory()
         {
-            model.Category = new DomainModel.Category() { Name = "Test" };
+            model.Category = new CategoryModel{ Name = "Test" };
 
             Assert.AreEqual(model.Tasks.Count, 2);
 

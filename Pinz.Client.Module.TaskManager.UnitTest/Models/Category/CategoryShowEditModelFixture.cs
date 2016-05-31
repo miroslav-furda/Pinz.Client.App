@@ -24,7 +24,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
             eventAgregator.Setup(x => x.GetEvent<TaskEditStartedEvent>()).Returns(taskEditStartEvent.Object);
 
             _model = new CategoryShowEditModel(_taskService.Object, eventAgregator.Object);
-            _model.Category = new DomainModel.Category() { Name = "Category1" };
+            _model.Category = new CategoryModel{ Name = "Category1" };
         }
 
         [TestMethod]

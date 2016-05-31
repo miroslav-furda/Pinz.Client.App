@@ -43,7 +43,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
                 changedPropertyName = e.PropertyName;
             };
 
-            model.Task = new DomainModel.Task() { TaskName = "Test" };
+            model.Task = new TaskModel{ TaskName = "Test" };
             Assert.AreEqual("Task", changedPropertyName);
             Assert.IsFalse(model.EditMode);
         }
