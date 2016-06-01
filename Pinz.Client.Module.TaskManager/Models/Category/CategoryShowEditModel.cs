@@ -1,5 +1,6 @@
 ﻿using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
@@ -10,7 +11,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class CategoryShowEditModel : BindableBase
     {
-        public Category Category { get; set; }
+        public CategoryModel Category { get; set; }
 
         private bool _isEditorEnabled = false;
         public bool IsEditorEnabled

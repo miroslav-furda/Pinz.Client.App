@@ -7,6 +7,8 @@ using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
+using Com.Pinz.Client.Module.TaskManager.Models.Task;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -14,8 +16,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
     {
         public DelegateCommand CreateTask { get; private set; }
 
-        private ObservableCollection<Task> _tasks;
-        public ObservableCollection<Task> Tasks
+        private ObservableCollection<TaskModel> _tasks;
+        public ObservableCollection<TaskModel> Tasks
         {
             get
             {
@@ -28,16 +30,16 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
 
-        private Category _category;
-        public Category Category
+        private CategoryModel category;
+        public CategoryModel Category
         {
             get
             {
-                return _category;
+                return category;
             }
             set
             {
-                SetProperty(ref this._category, value);
+                SetProperty(ref this.category, value);
                 LoadTasks();
             }
         }
@@ -48,14 +50,14 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public TaskListModel(ITaskRemoteService service)
         {
             this.service = service;
-            Tasks = new ObservableCollection<Task>();
+            Tasks = new ObservableCollection<TaskModel>();
             CreateTask = new DelegateCommand(OnCreateTask);
         }
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
-            Task sourceItem = dropInfo.Data as Task;
-            Task targetItem = dropInfo.TargetItem as Task;
+            TaskModel sourceItem = dropInfo.Data as TaskModel;
+            TaskModel targetItem = dropInfo.TargetItem as TaskModel;
 
 
             if (sourceItem != null && ((targetItem != null && sourceItem.CategoryId != targetItem.CategoryId) || targetItem == null))
@@ -74,8 +76,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         async void IDropTarget.Drop(IDropInfo dropInfo)
         {
-            Task sourceItem = dropInfo.Data as Task;
-            Task targetItem = dropInfo.TargetItem as Task;
+            TaskModel sourceItem = dropInfo.Data as TaskModel;
+            TaskModel targetItem = dropInfo.TargetItem as TaskModel;
 
             await System.Threading.Tasks.Task.Run(() => service.MoveTaskToCategory(sourceItem, Category));
         }
@@ -87,11 +89,18 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async void LoadTasks()
         {
-            Tasks.Clear();
             if (Category != null)
             {
-                List<Task> tasks = await System.Threading.Tasks.Task.Run(() => service.ReadAllTasksByCategory(Category));
-                tasks.ForEach(Tasks.Add);
+                Tasks.Clear();
+                var tasks = await System.Threading.Tasks.Task.Run(() => service.ReadAllTasksByCategory(Category));
+                foreach (var task in tasks)
+                {
+                    Tasks.Add(new TaskModel(task, category));
+                }
+            }
+            else
+            {
+                Tasks.Clear();
             }
         }
     }

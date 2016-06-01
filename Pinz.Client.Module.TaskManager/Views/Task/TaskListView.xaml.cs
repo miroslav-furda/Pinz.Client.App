@@ -2,6 +2,7 @@
 using Com.Pinz.Client.Module.TaskManager.Models;
 using Prism.Regions;
 using System.Windows.Controls;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
 
 namespace Com.Pinz.Client.Module.TaskManager.Views
 {
@@ -18,7 +19,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Views
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e) =>
             {
                 if (RegionContext.GetObservableContext(this).Value != null)
-                    model.Category = RegionContext.GetObservableContext(this).Value as Category;
+                    model.Category = RegionContext.GetObservableContext(this).Value as CategoryModel;
             };
         }
     }

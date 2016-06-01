@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.Model;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Logging;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
@@ -13,7 +14,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
     {
         private static readonly ILog Log = LogManager.GetLogger<PinzProjectsTabModel>();
 
-        public ObservableCollection<Project> Projects { get; private set; }
+        public ObservableCollection<ProjectModel> Projects { get; private set; }
         private ITaskRemoteService taskService;
 
         [Inject]
@@ -21,17 +22,20 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             Log.Debug("Constructor");
             this.taskService = taskService;
-            Projects = new ObservableCollection<Project>();
+            Projects = new ObservableCollection<ProjectModel>();
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             Log.Debug("OnNavigatedTo called ...");
-            List<Project> projects = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllProjectsForCurrentUser());
+            var projects = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllProjectsForCurrentUser());
             Log.DebugFormat("OnNavigatedTo projects loaded from remote. Count: {0}", projects.Count);
             Projects.Clear();
-            Log.Debug("OnNavigatedTo Projects cleared");
-            projects.ForEach(Projects.Add);
+            Log.Debug("OnNavigatedTo Projects cleared");            
+            foreach (var project in projects)
+            {
+                Projects.Add(new ProjectModel(project));
+            }            
             Log.DebugFormat("OnNavigatedTo called Projects populated. Count: {0}", Projects.Count);
         }
 

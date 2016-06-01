@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Collections.ObjectModel;
+using AutoMapper;
 using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
@@ -12,29 +14,43 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskEditModel : BindableBase
     {
-        private Task _task;
-        public Task Task
+        private TaskModel task;
+        public TaskModel Task
         {
             get
             {
-                return _task;
+                return task;
             }
             set
             {
-                SetProperty(ref this._task, value);
+                if (SetProperty(ref this.task, value))
+                    Users = Task.Category.Project.ProjectUsers;
             }
         }
 
-        private bool _editMode;
+        private bool editMode;
         public bool EditMode
         {
             get
             {
-                return _editMode;
+                return editMode;
             }
             set
             {
-                SetProperty(ref this._editMode, value);
+                SetProperty(ref this.editMode, value);
+            }
+        }
+
+        private ObservableCollection<UserModel> users;
+        public ObservableCollection<UserModel> Users
+        {
+            get
+            {
+                return users;
+            }
+            set
+            {
+                SetProperty(ref this.users, value);
             }
         }
 
@@ -44,18 +60,19 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public InteractionRequest<IConfirmation> DeleteConfirmation { get; private set; }
 
         private IEventAggregator eventAggregator;
-        private ITaskRemoteService service;
-        private Task originalTask;
+        private ITaskRemoteService service;        
+        private TaskModel originalTask;
         private IMapper mapper;
 
         [Inject]
-        public TaskEditModel(ITaskRemoteService service, IEventAggregator eventAggregator,[Named("WpfClientMapper")] IMapper mapper)
+        public TaskEditModel(ITaskRemoteService service, IEventAggregator eventAggregator, [Named("WpfClientMapper")] IMapper mapper)
         {
-            this.service = service;
+            this.service = service;            
             this.eventAggregator = eventAggregator;
             this.mapper = mapper;
             this.EditMode = false;
             this.originalTask = null;
+            this.users = new ObservableCollection<UserModel>();
 
             TaskEditStartedEvent taskEditStartEvent = eventAggregator.GetEvent<TaskEditStartedEvent>();
             taskEditStartEvent.Subscribe(StartEdit, ThreadOption.UIThread, false, t => t == Task);
@@ -106,10 +123,10 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
         }
 
-        private void StartEdit(Task obj)
+        private void StartEdit(TaskModel obj)
         {
-            originalTask = mapper.Map<Task>(Task);
+            originalTask = mapper.Map<TaskModel>(Task);
             EditMode = true;
-        }
+        }       
     }
 }

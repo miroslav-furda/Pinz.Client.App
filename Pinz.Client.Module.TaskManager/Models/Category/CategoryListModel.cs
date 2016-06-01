@@ -5,27 +5,28 @@ using Com.Pinz.Client.DomainModel;
 using Prism.Commands;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using System.Collections.Generic;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class CategoryListModel : BindableBase
     {
-        private Project _project;
-        public Project Project
+        private ProjectModel project;
+        public ProjectModel Project
         {
             get
             {
-                return _project;
+                return project;
             }
             set
             {
-                SetProperty(ref this._project, value);
-                LoadCategories();
+                if (SetProperty(ref this.project, value))
+                    LoadCategories();
             }
         }
 
-        private ObservableCollection<Category> _categories;
-        public ObservableCollection<Category> Categories
+        private ObservableCollection<CategoryModel> _categories;
+        public ObservableCollection<CategoryModel> Categories
         {
             get
             {
@@ -40,12 +41,14 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public DelegateCommand CreateCategory { get; private set; }
 
         private ITaskRemoteService taskService;
+        private IAdministrationRemoteService adminService;
 
         [Inject]
-        public CategoryListModel(ITaskRemoteService taskService)
+        public CategoryListModel(ITaskRemoteService taskService, IAdministrationRemoteService adminService)
         {
             this.taskService = taskService;
-            Categories = new ObservableCollection<Category>();
+            this.adminService = adminService;
+            Categories = new ObservableCollection<CategoryModel>();
             CreateCategory = new DelegateCommand(OnCreateCategory);
         }
 
@@ -59,8 +62,18 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             Categories.Clear();
             if (Project != null)
             {
-                List<Category> categories = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllCategoriesByProject(Project));
-                categories.ForEach(Categories.Add);
+                var categories = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllCategoriesByProject(Project));
+                foreach (var category in categories)
+                {
+                    Categories.Add(new CategoryModel(category, Project));
+                }                
+
+                var users = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersByProject(Project));
+                Project.ProjectUsers.Clear();
+                foreach (var user in users)
+                {
+                    Project.ProjectUsers.Add(new UserModel(user));
+                }
             }
         }
     }
