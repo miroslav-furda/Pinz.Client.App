@@ -1,8 +1,12 @@
+using System.Collections.ObjectModel;
+using Com.Pinz.Client.Module.TaskManager.Models.Task;
+
 namespace Com.Pinz.Client.Module.TaskManager.Models.Category
 {
     public class CategoryModel : DomainModel.Category
     {
         private ProjectModel projectModel;
+        private ObservableCollection<TaskModel> tasks;
 
         public CategoryModel()
         {
@@ -20,6 +24,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
         {
             get { return projectModel; }
             set { SetProperty(ref projectModel, value); }
+        }
+
+        public ObservableCollection<TaskModel> Tasks
+        {
+            get { return tasks; }
+            set { SetProperty(ref tasks, value); }
         }
     }
 }

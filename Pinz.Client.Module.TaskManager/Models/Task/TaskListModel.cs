@@ -1,102 +1,95 @@
-﻿using Com.Pinz.Client.DomainModel;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
+using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using GongSolutions.Wpf.DragDrop;
 using Ninject;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using Com.Pinz.Client.Module.TaskManager.Models.Category;
-using Com.Pinz.Client.Module.TaskManager.Models.Task;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskListModel : BindableBase, IDropTarget
     {
-        public DelegateCommand CreateTask { get; private set; }
-
-        private ObservableCollection<TaskModel> _tasks;
-        public ObservableCollection<TaskModel> Tasks
-        {
-            get
-            {
-                return _tasks;
-            }
-            set
-            {
-                SetProperty(ref this._tasks, value);
-            }
-        }
+        private ObservableCollection<TaskModel> tasks;
 
 
         private CategoryModel category;
-        public CategoryModel Category
-        {
-            get
-            {
-                return category;
-            }
-            set
-            {
-                SetProperty(ref this.category, value);
-                LoadTasks();
-            }
-        }
 
-        private ITaskRemoteService service;
+        private readonly ITaskRemoteService service;
 
         [Inject]
         public TaskListModel(ITaskRemoteService service)
         {
             this.service = service;
-            Tasks = new ObservableCollection<TaskModel>();
+            this.tasks = new ObservableCollection<TaskModel>();
             CreateTask = new DelegateCommand(OnCreateTask);
+        }
+
+        public DelegateCommand CreateTask { get; private set; }
+
+        public ObservableCollection<TaskModel> Tasks
+        {
+            get { return tasks; }
+            set { SetProperty(ref tasks, value); }
+        }
+
+        public CategoryModel Category
+        {
+            get { return category; }
+            set
+            {
+                SetProperty(ref category, value);
+                LoadTasks();
+            }
         }
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
-            TaskModel sourceItem = dropInfo.Data as TaskModel;
-            TaskModel targetItem = dropInfo.TargetItem as TaskModel;
+            var sourceItem = dropInfo.Data as TaskModel;
+            var targetItem = dropInfo.TargetItem as TaskModel;
 
 
             if (sourceItem != null && ((targetItem != null && sourceItem.CategoryId != targetItem.CategoryId) || targetItem == null))
             {
-                System.Diagnostics.Debug.WriteLine("DragOver called with source:{0} and target:{1}", sourceItem, targetItem);
+                Debug.WriteLine("DragOver called with source:{0} and target:{1}", sourceItem, targetItem);
                 //dropInfo.DestinationText = sourceItem.TaskName;
                 dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
                 dropInfo.Effects = DragDropEffects.Move;
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("DragOver None");
+                Debug.WriteLine("DragOver None");
                 dropInfo.Effects = DragDropEffects.None;
             }
         }
 
         async void IDropTarget.Drop(IDropInfo dropInfo)
         {
-            TaskModel sourceItem = dropInfo.Data as TaskModel;
-            TaskModel targetItem = dropInfo.TargetItem as TaskModel;
+            var sourceItem = dropInfo.Data as TaskModel;
+            var targetItem = dropInfo.TargetItem as TaskModel;
 
             await System.Threading.Tasks.Task.Run(() => service.MoveTaskToCategory(sourceItem, Category));
         }
 
         private async void OnCreateTask()
         {
-            await System.Threading.Tasks.Task.Run(() => service.CreateTaskInCategory(this.Category));
+            await System.Threading.Tasks.Task.Run(() => service.CreateTaskInCategory(Category));
         }
 
         private async void LoadTasks()
         {
             if (Category != null)
-            {
-                Tasks.Clear();
+            {                
+                Tasks.Clear();                
                 var tasks = await System.Threading.Tasks.Task.Run(() => service.ReadAllTasksByCategory(Category));
                 foreach (var task in tasks)
                 {
                     Tasks.Add(new TaskModel(task, category));
                 }
+                Category.Tasks = Tasks;
             }
             else
             {
