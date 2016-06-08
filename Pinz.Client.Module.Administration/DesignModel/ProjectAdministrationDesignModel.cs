@@ -11,7 +11,7 @@ namespace Com.Pinz.Client.Module.Administration.DesignModel
         public List<Project> Projects { get; private set; }
         public Project SelectedProject { get; set; }
         public ObservableCollection<User> AllCompanyUsers { get; private set; }
-        public ObservableCollection<User> ProjectUsers { get; private set; }
+        public ObservableCollection<ProjectUser> ProjectUsers { get; private set; }
 
         public bool IsProjectSelected { get; private set; }
 
@@ -43,11 +43,11 @@ namespace Com.Pinz.Client.Module.Administration.DesignModel
                 new User() {EMail = "user8@pinzonline.com", FirstName="John8", FamilyName="Smith8", IsCompanyAdmin= false }
             };
 
-            ProjectUsers = new ObservableCollection<User>()
+            ProjectUsers = new ObservableCollection<ProjectUser>()
             {
-                new User() {EMail = "userX@pinzonline.com", FirstName="John1", FamilyName="Smith1", IsCompanyAdmin= false },
-                new User() {EMail = "userY@pinzonline.com", FirstName="John2", FamilyName="Smith2", IsCompanyAdmin= true },
-                new User() {EMail = "userZ@pinzonline.com", FirstName="John3", FamilyName="Smith3", IsCompanyAdmin= false }
+                new ProjectUser() {EMail = "userX@pinzonline.com", FirstName="John1", FamilyName="Smith1", IsCompanyAdmin= false, IsProjectAdmin = true},
+                new ProjectUser() {EMail = "userA@pinzonline.com", FirstName="John2", FamilyName="Smith2", IsCompanyAdmin= true },
+                new ProjectUser() {EMail = "userS@pinzonline.com", FirstName="John3", FamilyName="Smith3", IsCompanyAdmin= true, IsProjectAdmin = true}
             };
 
             IsProjectSelected = true;

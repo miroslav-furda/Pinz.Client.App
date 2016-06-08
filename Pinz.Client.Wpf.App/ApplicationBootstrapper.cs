@@ -64,6 +64,7 @@ namespace Com.Pinz.Client.Wpf.App
                 cfg.CreateMap<TaskModel, TaskModel>();
                 cfg.CreateMap<Task, TaskModel>();
                 cfg.CreateMap<User, User>();
+                cfg.CreateMap<User, ProjectUser>();
             });
 
             return config.CreateMapper();

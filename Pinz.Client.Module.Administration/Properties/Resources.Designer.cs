@@ -169,6 +169,24 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set as admin.
+        /// </summary>
+        public static string Project_SetAsAdmin {
+            get {
+                return ResourceManager.GetString("Project_SetAsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grand the selected user the project administration rights.
+        /// </summary>
+        public static string Project_SetAsAdmin_Tooltip {
+            get {
+                return ResourceManager.GetString("Project_SetAsAdmin_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EMail.
         /// </summary>
         public static string User_EMail {
