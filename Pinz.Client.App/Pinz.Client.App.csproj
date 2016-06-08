@@ -38,16 +38,16 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Pinz.Client.Base, Version=0.5.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.5.5.0\lib\net452\Pinz.Client.Base.dll</HintPath>
+    <Reference Include="Pinz.Client.Base, Version=0.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.7.1.0\lib\net452\Pinz.Client.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.Client.Commons, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.5.5.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
+      <HintPath>..\packages\Pinz.Client.Base.0.7.1.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.Client.RemoteServiceConsumer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.5.5.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
+      <HintPath>..\packages\Pinz.Client.Base.0.7.1.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <Image x:Key="RightImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/double-arrowhead-right.png" Width="20" Height="20"/>
         <Image x:Key="LeftImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/double-arrowhead-left.png" Width="20" Height="20"/>
+        <BitmapImage x:Key="AdminImage" UriSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/administrator.png"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
 
@@ -87,7 +88,14 @@
                             VerticalAlignment="Top" Margin="5" HorizontalAlignment="Center"/>
                 </Grid>
 
-                <Label Grid.Row="0" Grid.Column="2" Content="{x:Static p:Resources.Project_ProjectUsers}"/>
+                <Grid Grid.Row="0" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Project_ProjectUsers}"/>
+                    <Button Grid.Row="0" Grid.Column="1"  Content="{x:Static p:Resources.Project_SetAsAdmin}" ToolTip="{x:Static p:Resources.Project_SetAsAdmin_Tooltip}" IsEnabled="{Binding ProjectSetAsAdminEnabled, Mode=TwoWay}" Command="{Binding ProjectSetAsAdminCommand}" Margin="5"/>
+                </Grid> 
                 <ListBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding ProjectUsers}" SelectedItem="{Binding ProjectSelectedUser}" Margin="2">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -107,8 +115,14 @@
                                         </MultiBinding>
                                     </TextBlock.ToolTip>
                                 </TextBlock>
+                                <Image Name="AdminItemImage" Grid.Row="0" Grid.Column="1" Width="10" Height="10"></Image>
                                 <!--CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsCompanyAdmin}" Command="{Binding CompanyAdminCheckCommand}"/-->
                             </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsProjectAdmin}" Value="True">
+                                    <Setter TargetName="AdminItemImage" Property="Source" Value="{StaticResource AdminImage}"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -125,7 +139,6 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Project_InviteUserEmail}" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewUserEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"  Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}" />
                     <Button Grid.Row="0" Grid.Column="2"  Content="{x:Static p:Resources.Project_InviteUser}" Command="{Binding InviteUserCommand}" Margin="5"/>
-
                 </Grid>
 
             </Grid>

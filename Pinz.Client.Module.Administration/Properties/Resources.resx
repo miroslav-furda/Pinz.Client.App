@@ -153,6 +153,12 @@
   <data name="Project_ProjectUsers" xml:space="preserve">
     <value>Project users</value>
   </data>
+  <data name="Project_SetAsAdmin" xml:space="preserve">
+    <value>Set as admin</value>
+  </data>
+  <data name="Project_SetAsAdmin_Tooltip" xml:space="preserve">
+    <value>Grand the selected user the project administration rights</value>
+  </data>
   <data name="User_EMail" xml:space="preserve">
     <value>EMail</value>
   </data>
