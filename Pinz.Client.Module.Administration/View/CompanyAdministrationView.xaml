@@ -4,9 +4,49 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Administration.View"
+             xmlns:converter="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
+             xmlns:extensions="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+    <UserControl.Resources>
+        <Image x:Key="EditImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
+        <Image x:Key="OkImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
+        <Image x:Key="CancelImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
+        <converter:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <Grid Margin="0,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Visibility="{Binding IsEditorEnabled, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Company.Name}" VerticalAlignment="Center"/>
+            <Button Grid.Row="0" Grid.Column="1" Content="{StaticResource EditImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding StartEditCompany, Mode=OneWay}"/>
+        </Grid>
+        <!--Edit Category Name-->
+        <Grid Grid.Row="0" Grid.Column="0"  Visibility="{Binding IsEditorEnabled, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Company.Name}" VerticalAlignment="Center" extensions:FocusExtension.IsFocused="{Binding IsEditorEnabled}"/>
+            <Button Grid.Row="0" Grid.Column="1" Content="{StaticResource OkImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding UpdateCategory, Mode=OneWay}"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="{StaticResource CancelImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding CancelEditCategory, Mode=OneWay}"/>
+        </Grid>
     </Grid>
 </UserControl>
