@@ -214,6 +214,24 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The user with email: {0} is already registered in the company.
+        /// </summary>
+        public static string User_Invitation_Exists_Content {
+            get {
+                return ResourceManager.GetString("User_Invitation_Exists_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User invitation.
+        /// </summary>
+        public static string User_Invitation_Exists_Title {
+            get {
+                return ResourceManager.GetString("User_Invitation_Exists_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string User_NewPassword {

@@ -168,6 +168,12 @@
   <data name="User_FirstName" xml:space="preserve">
     <value>First name</value>
   </data>
+  <data name="User_Invitation_Exists_Content" xml:space="preserve">
+    <value>The user with email: {0} is already registered in the company</value>
+  </data>
+  <data name="User_Invitation_Exists_Title" xml:space="preserve">
+    <value>User invitation</value>
+  </data>
   <data name="User_NewPassword" xml:space="preserve">
     <value>New password</value>
   </data>

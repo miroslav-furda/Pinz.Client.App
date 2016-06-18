@@ -11,6 +11,7 @@ using AutoMapper;
 using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.Model;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
@@ -133,6 +134,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         private IAdministrationRemoteService adminService;
         private ApplicationGlobalModel globalModel;
         private IMapper mapper;
+        public InteractionRequest<INotification> ChangeNotification { get; private set; }
 
         [Inject]
         public ProjectAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel, [Named("WpfClientMapper")] IMapper mapper)
@@ -159,6 +161,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
             InviteUserCommand = new DelegateCommand(InviteUser, CanExecuteInviteUser);
             CompanyAdminCheckCommand = new DelegateCommand(CompanyAdminCheck);
             ProjectSetAsAdminCommand = new DelegateCommand(SetAsAdmin);
+
+            ChangeNotification = new InteractionRequest<INotification>();
         }
 
         private void CompanyAdminCheck()
@@ -187,8 +191,19 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (!HasErrors)
             {
-                User newUser = await System.Threading.Tasks.Task.Run(() => adminService.InviteNewUser(NewUserEmail, SelectedProject, globalModel.CurrentUser));
-                ProjectUsers.Add(mapper.Map<ProjectUser>(newUser));
+                if (ProjectUsers.Any(nav => nav.EMail == NewUserEmail) || AllCompanyUsers.Any(nav => nav.EMail == NewUserEmail))
+                {
+                    ChangeNotification.Raise(new Notification
+                    {
+                        Title = Properties.Resources.User_Invitation_Exists_Title,
+                        Content = string.Format(Properties.Resources.User_Invitation_Exists_Content, NewUserEmail)
+                    });
+                }
+                else
+                {
+                    User newUser = await System.Threading.Tasks.Task.Run(() => adminService.InviteNewUser(NewUserEmail, SelectedProject, globalModel.CurrentUser));
+                    ProjectUsers.Add(mapper.Map<ProjectUser>(newUser));
+                }
             }
         }
 
