@@ -15,6 +15,6 @@
     </UserControl.Resources>
  
     <Grid>
-        <TabControl  Name="UserSelfAdministration" prism:RegionManager.RegionName="UserSelfAdministrationRegion" Margin="5" ItemContainerStyle="{StaticResource HeaderStyle}"/>    
+        <TabControl  Name="UserSelfAdministration" prism:RegionManager.RegionName="UserSelfAdministrationRegion" Margin="5" ItemContainerStyle="{StaticResource HeaderStyle}" VerticalContentAlignment="Top"/>    
     </Grid>
 </UserControl>

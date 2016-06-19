@@ -129,6 +129,9 @@
   <data name="ChangePaswword_Button" xml:space="preserve">
     <value>Change password</value>
   </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
   <data name="PasswordChange_Failed" xml:space="preserve">
     <value>Failed to change password</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="PasswordChange_Title" xml:space="preserve">
     <value>Password change</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
   </data>
   <data name="Project_AdminProjects" xml:space="preserve">
     <value>Projects</value>
@@ -158,6 +164,9 @@
   </data>
   <data name="Project_SetAsAdmin_Tooltip" xml:space="preserve">
     <value>Grand the selected user the project administration rights</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
   </data>
   <data name="User_EMail" xml:space="preserve">
     <value>EMail</value>
@@ -182,5 +191,35 @@
   </data>
   <data name="User_OldPassword" xml:space="preserve">
     <value>Old password</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CompanyAdmin" xml:space="preserve">
+    <value>Company admin</value>
+  </data>
+  <data name="CreateNewProject" xml:space="preserve">
+    <value>Create new project</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
   </data>
 </root>
