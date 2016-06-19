@@ -221,7 +221,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         private async void OnSaveProject()
         {
             if (SelectedProject.ProjectId == Guid.Empty)
-                await Task.Run(() => adminService.CreateProject(selectedProject));
+                SelectedProject = await Task.Run(() => adminService.CreateProject(selectedProject));
             else
                 await Task.Run(() => adminService.UpdateProject(selectedProject));
             if (!Projects.Contains(SelectedProject))
