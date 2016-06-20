@@ -59,8 +59,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
             set
             {
                 _projectSelectedUser = value;
-                ProjectSetAsAdminEnabled = !value.IsProjectAdmin;
                 RemoveUserFromProjectCommand.RaiseCanExecuteChanged();
+                ProjectSetAsAdminCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -76,19 +76,6 @@ namespace Com.Pinz.Client.Module.Administration.Model
             {
                 SetProperty(ref this._newUserEmail, value);
                 InviteUserCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        private bool _projectSetAsAdminEnabled;
-        public bool ProjectSetAsAdminEnabled
-        {
-            get
-            {
-                return _projectSetAsAdminEnabled;
-            }
-            set
-            {
-                SetProperty(ref this._projectSetAsAdminEnabled, value);
             }
         }
 
@@ -156,7 +143,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
             RemoveUserFromProjectCommand = new DelegateCommand(RemoveUserFromProject, CanExecuteRemoveUserFromProject);
             InviteUserCommand = new DelegateCommand(InviteUser, CanExecuteInviteUser);
             CompanyAdminCheckCommand = new DelegateCommand(CompanyAdminCheck);
-            ProjectSetAsAdminCommand = new DelegateCommand(SetAsAdmin);
+            ProjectSetAsAdminCommand = new DelegateCommand(SetAsAdmin, CanSetAsAdmin);
 
             ChangeNotification = new InteractionRequest<INotification>();
 
@@ -182,6 +169,11 @@ namespace Com.Pinz.Client.Module.Administration.Model
         private bool CanExecuteAddUserToProject()
         {
             return AllCompanySelectedUser != null;
+        }
+
+        private bool CanSetAsAdmin()
+        {
+            return ProjectSelectedUser != null && !ProjectSelectedUser.IsProjectAdmin;
         }
         #endregion
 
@@ -227,7 +219,6 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async void SelectProjectRefs()
         {
-            IsProjectSelected = true;
             ProjectUsers.Clear();
             List<ProjectUser> projectUserList = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllProjectUsersInProject(SelectedProject));
             projectUserList.ForEach(ProjectUsers.Add);
@@ -239,10 +230,12 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 if (projectUserList.All(pu => pu.UserId != u.UserId))
                     AllCompanyUsers.Add(u);
             });
+
+            IsProjectSelected = true;
         }
 
         public async void LoadProjects()
-        {            
+        {
             Projects = await System.Threading.Tasks.Task.Run(() => adminService.ReadAdminProjectsForUser(globalModel.CurrentUser));
         }
     }

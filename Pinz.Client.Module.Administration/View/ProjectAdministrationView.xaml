@@ -49,8 +49,8 @@
             </ComboBox>
         </Grid>
 
-        <Border Grid.Column="0" Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="2,5" 
-                Visibility="{Binding IsProjectSelected, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}">
+        <Border Grid.Column="0" Grid.Row="1" BorderBrush="DodgerBlue" BorderThickness="0,3,0,0" Margin="2,5" >
+            <!--Visibility="{Binding IsProjectSelected, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}">-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -69,10 +69,14 @@
                         <DataTemplate>
                             <TextBlock Text="{Binding EMail}">
                                 <TextBlock.ToolTip>
-                                    <MultiBinding StringFormat=" {0} {1}">
-                                        <Binding Path="FirstName"/>
-                                        <Binding Path="FamilyName"/>
-                                    </MultiBinding>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="FirstName"/>
+                                                <Binding Path="FamilyName"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </TextBlock.ToolTip>
                             </TextBlock>
                         </DataTemplate>
@@ -99,7 +103,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Project_ProjectUsers}"/>
-                    <Button Grid.Row="0" Grid.Column="1"  Content="{x:Static p:Resources.Project_SetAsAdmin}" ToolTip="{x:Static p:Resources.Project_SetAsAdmin_Tooltip}" IsEnabled="{Binding ProjectSetAsAdminEnabled, Mode=TwoWay}" Command="{Binding ProjectSetAsAdminCommand}" Margin="5"/>
+                    <Button Grid.Row="0" Grid.Column="1"  Content="{x:Static p:Resources.Project_SetAsAdmin}" ToolTip="{x:Static p:Resources.Project_SetAsAdmin_Tooltip}" Command="{Binding ProjectSetAsAdminCommand}" Margin="5"/>
                 </Grid>
                 <ListBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding ProjectUsers}" SelectedItem="{Binding ProjectSelectedUser}" Margin="2">
                     <ListBox.ItemTemplate>
@@ -112,14 +116,18 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding EMail}">
+                                <TextBlock Text="{Binding EMail}">
                                     <TextBlock.ToolTip>
-                                        <MultiBinding StringFormat=" {0} {1}">
-                                            <Binding Path="FirstName"/>
-                                            <Binding Path="FamilyName"/>
-                                        </MultiBinding>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="FirstName"/>
+                                                    <Binding Path="FamilyName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                     </TextBlock.ToolTip>
-                                </TextBlock>
+                            </TextBlock>
                                 <Image Name="AdminItemImage" Grid.Row="0" Grid.Column="1" Width="10" Height="10"></Image>
                                 <!--CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsCompanyAdmin}" Command="{Binding CompanyAdminCheckCommand}"/-->
                             </Grid>
@@ -142,8 +150,8 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Project_InviteUserEmail}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewUserEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                    <Button Grid.Row="0" Grid.Column="2"  Content="{x:Static p:Resources.Project_InviteUser}" Command="{Binding InviteUserCommand}" Margin="5"/>
+                    <TextBox x:Name="TbInvite" Grid.Row="0" Grid.Column="1" Text="{Binding NewUserEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" IsEnabled="{Binding IsProjectSelected}" />
+                    <Button Grid.Row="0" Grid.Column="2" Content="{x:Static p:Resources.Project_InviteUser}" Command="{Binding InviteUserCommand}" Margin="5" Padding="5"></Button>
                 </Grid>
             </Grid>
         </Border>

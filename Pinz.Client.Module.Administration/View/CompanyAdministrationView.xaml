@@ -144,17 +144,17 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.User_EMail}" Margin="2"></Label>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedUser.EMail}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"/>
-                        <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding SelectedUser.EMail}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding SelectedUser.EMail, Mode=TwoWay}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"/>
 
                         <Label Grid.Row="1" Grid.Column="0" Content="{x:Static p:Resources.User_FirstName}" Margin="2"></Label>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedUser.FirstName}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding SelectedUser.FirstName}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding SelectedUser.FirstName, Mode=TwoWay}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"/>
 
                         <Label Grid.Row="2" Grid.Column="0" Content="{x:Static p:Resources.User_FamilyName}" Margin="2"></Label>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedUser.FamilyName}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding SelectedUser.FamilyName}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding SelectedUser.FamilyName, Mode=TwoWay}" VerticalAlignment="Center" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"/>
 
-                        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="{x:Static p:Resources.CompanyAdmin}" IsEnabled="{Binding IsUserEditorVisible}" Margin="7,5,5,5">
+                        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="{x:Static p:Resources.CompanyAdmin}" IsEnabled="{Binding IsUserEditorVisible}" Margin="7,5,5,5" IsChecked="{Binding SelectedUser.IsCompanyAdmin, Mode=TwoWay}">
                         </CheckBox>
 
                         <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">

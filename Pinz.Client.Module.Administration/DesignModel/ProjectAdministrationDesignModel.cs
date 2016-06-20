@@ -59,6 +59,8 @@ namespace Com.Pinz.Client.Module.Administration.DesignModel
 
         public string NewUserEmail { get; set; }
 
+        public bool IsInviteEnabled { get; set; }
+
         public bool ProjectSetAsAdminEnabled { get; set; }
 
         public User AllCompanySelectedUser { get; set; }
