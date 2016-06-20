@@ -24,10 +24,6 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             get
             {
-                if (_projects == null)
-                {
-                    LoadProjects();
-                }
                 return _projects;
 
             }
@@ -163,11 +159,13 @@ namespace Com.Pinz.Client.Module.Administration.Model
             ProjectSetAsAdminCommand = new DelegateCommand(SetAsAdmin);
 
             ChangeNotification = new InteractionRequest<INotification>();
+
+            LoadProjects();
         }
 
-        private void CompanyAdminCheck()
+        private async void CompanyAdminCheck()
         {
-            //adminService.SetProjectAdminFlag(ProjectSelectedUser.UserId, SelectedProject.ProjectId, ProjectSelectedUser.Is);
+            await System.Threading.Tasks.Task.Run(() => adminService.SetProjectAdminFlag(ProjectSelectedUser.UserId, SelectedProject.ProjectId, ProjectSelectedUser.IsProjectAdmin));
         }
 
         #region CanExecute
@@ -238,13 +236,13 @@ namespace Com.Pinz.Client.Module.Administration.Model
             List<User> users = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersForCompany(globalModel.CurrentUser.CompanyId));
             users.ForEach(u =>
             {
-                if (!projectUserList.Any(pu => pu.UserId == u.UserId))
+                if (projectUserList.All(pu => pu.UserId != u.UserId))
                     AllCompanyUsers.Add(u);
             });
         }
 
         public async void LoadProjects()
-        {
+        {            
             Projects = await System.Threading.Tasks.Task.Run(() => adminService.ReadAdminProjectsForUser(globalModel.CurrentUser));
         }
     }

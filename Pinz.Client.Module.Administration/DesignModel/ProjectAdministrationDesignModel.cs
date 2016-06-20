@@ -2,6 +2,8 @@
 using Com.Pinz.Client.DomainModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Com.Pinz.Client.Module.Administration.DesignModel
 {
@@ -52,6 +54,22 @@ namespace Com.Pinz.Client.Module.Administration.DesignModel
 
             IsProjectSelected = true;
         }
+
+        public InteractionRequest<INotification> ChangeNotification { get; private set; }
+
+        public string NewUserEmail { get; set; }
+
+        public bool ProjectSetAsAdminEnabled { get; set; }
+
+        public User AllCompanySelectedUser { get; set; }
+
+        public ProjectUser ProjectSelectedUser { get; set; }
+
+        public DelegateCommand InviteUserCommand { get; private set; }
+        public DelegateCommand AddUserToProjectCommand { get; private set; }
+        public DelegateCommand RemoveUserFromProjectCommand { get; private set; }
+        public DelegateCommand CompanyAdminCheckCommand { get; private set; }
+        public DelegateCommand ProjectSetAsAdminCommand { get; private set; }
 
     }
 }

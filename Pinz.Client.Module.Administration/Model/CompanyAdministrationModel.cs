@@ -15,6 +15,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
     public class CompanyAdministrationModel : BindableValidationBase
     {
         private readonly IAdministrationRemoteService adminService;
+        private readonly IPinzAdminRemoteService pinzAdminService;
         private readonly ApplicationGlobalModel globalModel;
 
         private Company company;
@@ -34,7 +35,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         private User selectedUser;
 
         [Inject]
-        public CompanyAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel)
+        public CompanyAdministrationModel(IAdministrationRemoteService adminService, IPinzAdminRemoteService pinzAdminService, ApplicationGlobalModel globalModel)
         {
             this.globalModel = globalModel;
             TabModel = new TabModel
@@ -44,6 +45,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 IsModified = false
             };
             this.adminService = adminService;
+            this.pinzAdminService = pinzAdminService;
 
             StartEditCompany = new DelegateCommand(OnStartEditCompany);
             CancelEditCompany = new DelegateCommand(OnCancelEditCompany);
@@ -184,8 +186,9 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsCompanyEditorVisible = true;
         }
 
-        private void OnUpdateCompany()
+        private async void OnUpdateCompany()
         {
+            await Task.Run(() => pinzAdminService.UpdateCompany(Company));
             IsCompanyEditorVisible = false;
         }
 
@@ -271,7 +274,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async void OnUpdateUser()
         {
-            await Task.Run(() => adminService.UpdateUser(SelectedUser));
+            await Task.Run(() => adminService.UpdateUser(SelectedUser));            
             IsUserEditorVisible = false;
         }
 
