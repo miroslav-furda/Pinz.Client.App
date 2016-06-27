@@ -52,7 +52,8 @@
                 </RibbonGroup>
                 <!-- Employee And Payroll group-->
                 <RibbonGroup x:Name="Admin" Header="Administration">
-                    <RibbonButton LargeImageSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/admin.png" Label="Admin" KeyTip="X" x:Name="AdminButton" Click="AdminButton_Click"/>
+                    <RibbonToggleButton LargeImageSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/admin.png" 
+                                  Label="Admin" KeyTip="X" x:Name="AdminButton" Click="AdminButton_Click"/>
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>

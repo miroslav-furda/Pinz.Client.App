@@ -4,6 +4,7 @@ using Ninject;
 using Prism.Regions;
 using System;
 using System.Windows;
+using System.Windows.Controls.Ribbon;
 
 namespace Com.Pinz.Client.Wpf.App
 {
@@ -13,6 +14,7 @@ namespace Com.Pinz.Client.Wpf.App
     public partial class Shell : Window
     {
         private static Uri AdministrationViewUri = new Uri("AdministrationMainView", UriKind.Relative);
+        private static Uri PinzProjectsTabViewUri = new Uri("PinzProjectsTabView", UriKind.Relative);
         private IRegionManager RegionManager;
 
         [Inject]
@@ -26,7 +28,11 @@ namespace Com.Pinz.Client.Wpf.App
 
         private void AdminButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, AdministrationViewUri);
+            RibbonToggleButton button = sender as RibbonToggleButton;
+            if (button.IsChecked == true)
+                this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, AdministrationViewUri);
+            else
+                this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, PinzProjectsTabViewUri);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Com.Pinz.Client.Module.TaskManager
         {
             Log.Info("Loading TaskManagerNinjectModule ...");
 
-            Kernel.Bind<object>().To<PinzProjectsTabView>().Named("PinzProjectsTabView");
-            Kernel.Bind<PinzProjectsTabModel>().ToSelf();
+            Kernel.Bind<object>().To<PinzProjectsTabView>().InSingletonScope().Named("PinzProjectsTabView");
+            Kernel.Bind<PinzProjectsTabModel>().ToSelf().InSingletonScope();
         }
     }
 }
