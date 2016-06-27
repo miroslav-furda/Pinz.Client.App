@@ -58,17 +58,20 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Pinz.Client.Base, Version=0.5.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.5.5.0\lib\net452\Pinz.Client.Base.dll</HintPath>
+    <Reference Include="Pinz.Client.Base, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.7.2\lib\net452\Pinz.Client.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.Client.Commons, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.5.5.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
+      <HintPath>..\packages\Pinz.Client.Base.0.7.2\lib\net452\Pinz.Client.Commons.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.Client.RemoteServiceConsumer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.5.5.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
+      <HintPath>..\packages\Pinz.Client.Base.0.7.2\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Pinz.DomainModel">
+      <HintPath>..\packages\Pinz.DomainModel.0.3.0.0\lib\net452\Pinz.DomainModel.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
@@ -98,6 +101,7 @@
   <ItemGroup>
     <Compile Include="AdministrationModule.cs" />
     <Compile Include="AdministrationNinjectModule.cs" />
+    <Compile Include="DesignModel\CompanyAdministrationDesignModel.cs" />
     <Compile Include="DesignModel\ProjectAdministrationDesignModel.cs" />
     <Compile Include="DesignModel\UserSelfAdministrationDesignModel.cs" />
     <Compile Include="Model\CompanyAdministrationModel.cs" />

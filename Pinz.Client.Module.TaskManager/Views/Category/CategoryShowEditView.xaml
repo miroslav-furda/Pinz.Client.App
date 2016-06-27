@@ -18,6 +18,7 @@
         <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/add.png" Width="10" Height="10"/>
         <Image x:Key="OkImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
         <Image x:Key="CancelImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
+        <Image x:Key="DeleteImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
 
@@ -48,6 +49,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -55,6 +57,7 @@
             <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name}" VerticalAlignment="Center" ext:FocusExtension.IsFocused="{Binding IsEditorEnabled}"/>
             <Button Grid.Row="0" Grid.Column="1" Content="{StaticResource OkImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding UpdateCategory, Mode=OneWay}"/>
             <Button Grid.Row="0" Grid.Column="2" Content="{StaticResource CancelImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding CancelEditCategory, Mode=OneWay}"/>
+            <Button Grid.Row="0" Grid.Column="3" Content="{StaticResource DeleteImage}"  Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding IsDeleteEnabled, Mode=TwoWay}" Command="{Binding DeleteCategory, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </UserControl>

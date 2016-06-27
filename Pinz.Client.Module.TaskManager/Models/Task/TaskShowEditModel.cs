@@ -1,5 +1,6 @@
 ﻿using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
+using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.DomainModel;
 using Ninject;
@@ -11,8 +12,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskShowEditModel : BindableBase
     {
-        private Task _task;
-        public Task Task
+        private TaskModel _task;
+        public TaskModel Task
         {
             get
             {
@@ -43,8 +44,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public DelegateCommand<bool?> CompleteCommand { get; private set; }
         public DelegateCommand EditCommand { get; private set; }
 
-        private ITaskRemoteService service;
-        private IEventAggregator eventAggregator;
+        private readonly ITaskRemoteService service;
+        private readonly IEventAggregator eventAggregator;
 
 
         [Inject]
@@ -68,7 +69,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             return !EditMode;
         }
 
-        private void StopEdit(Task obj)
+        private void StopEdit(TaskModel obj)
         {
             EditMode = false;
             EditCommand.RaiseCanExecuteChanged();

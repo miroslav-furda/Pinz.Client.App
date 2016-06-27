@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.TaskManager.Views"
+             xmlns:combo="clr-namespace:Com.Pinz.Client.Module.TaskManager.Components.AutoCompleteCombo"
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
              xmlns:Model="clr-namespace:Com.Pinz.DomainModel;assembly=Pinz.DomainModel"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -76,6 +77,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Separator Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" />
 
@@ -92,12 +94,12 @@
             <Separator Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" />
 
             <Label Grid.Column="0" Grid.Row="4"  Content="{x:Static p:Resources.OwnerLabel}" Style="{StaticResource FormLabel}" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Task.Owner}" Style="{StaticResource FormField}"/>
+            <combo:AutoCompleteComboBox Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Path=Users}" SelectedValue="{Binding Path=Task.UserId}" Style="{StaticResource FormField}"/>
             <Label Grid.Column="2" Grid.Row="4"  Content="{x:Static p:Resources.StatusLabel}" Style="{StaticResource FormLabel}" />
-            <ComboBox Grid.Column="3" Grid.Row="4" SelectedValue="{Binding Task.Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusEnumValues}}"  Style="{StaticResource FormField}">
+            <ComboBox Grid.Column="3" Grid.Row="4" SelectedValue="{Binding Task.Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusEnumValues}}" Style="{StaticResource FormField}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock d:Text="{Binding}"  Text="{Binding Converter={StaticResource Enum2LocString}, ConverterParameter={x:Static p:Resources.ResourceManager}}"/>
+                        <TextBlock Text="{Binding Converter={StaticResource Enum2LocString}, ConverterParameter={x:Static p:Resources.ResourceManager}}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

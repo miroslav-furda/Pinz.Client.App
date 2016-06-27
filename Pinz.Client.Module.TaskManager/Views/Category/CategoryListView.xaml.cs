@@ -20,7 +20,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Views
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e) =>
             {
                 if (RegionContext.GetObservableContext(this).Value != null)
-                    model.Project = RegionContext.GetObservableContext(this).Value as Project;
+                    model.Project = RegionContext.GetObservableContext(this).Value as ProjectModel;
             };
         }
     }

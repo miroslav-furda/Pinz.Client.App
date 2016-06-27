@@ -1,53 +1,40 @@
 ﻿using System.Collections.ObjectModel;
-using Ninject;
-using Prism.Mvvm;
-using Com.Pinz.Client.DomainModel;
-using Prism.Commands;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
-using System.Collections.Generic;
+using Ninject;
+using Prism.Commands;
+using Prism.Mvvm;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class CategoryListModel : BindableBase
-    {
-        private Project _project;
-        public Project Project
-        {
-            get
-            {
-                return _project;
-            }
-            set
-            {
-                SetProperty(ref this._project, value);
-                LoadCategories();
-            }
-        }
+    {        
+        private readonly IAdministrationRemoteService adminService;
+        private ProjectModel project;
 
-        private ObservableCollection<Category> _categories;
-        public ObservableCollection<Category> Categories
-        {
-            get
-            {
-                return _categories;
-            }
-            set
-            {
-                SetProperty(ref this._categories, value);
-            }
-        }
-
-        public DelegateCommand CreateCategory { get; private set; }
-
-        private ITaskRemoteService taskService;
+        private readonly ITaskRemoteService taskService;
 
         [Inject]
-        public CategoryListModel(ITaskRemoteService taskService)
+        public CategoryListModel(ITaskRemoteService taskService, IAdministrationRemoteService adminService)
         {
             this.taskService = taskService;
-            Categories = new ObservableCollection<Category>();
+            this.adminService = adminService;            
             CreateCategory = new DelegateCommand(OnCreateCategory);
         }
+
+        public ProjectModel Project
+        {
+            get { return project; }
+            set
+            {
+                if (SetProperty(ref project, value))
+                    LoadCategories();
+            }
+        }
+
+        public ObservableCollection<CategoryModel> Categories => project?.Categories;
+
+        public DelegateCommand CreateCategory { get; private set; }
 
         private void OnCreateCategory()
         {
@@ -55,12 +42,22 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
         private async void LoadCategories()
-        {
-            Categories.Clear();
+        {                        
             if (Project != null)
             {
-                List<Category> categories = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllCategoriesByProject(Project));
-                categories.ForEach(Categories.Add);
+                Project.Categories = new ObservableCollection<CategoryModel>();
+                var categories = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllCategoriesByProject(Project));
+                foreach (var category in categories)
+                {
+                    Categories.Add(new CategoryModel(category, Project));
+                }
+
+                var users = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersByProject(Project));
+                Project.ProjectUsers.Clear();
+                foreach (var user in users)
+                {
+                    Project.ProjectUsers.Add(new UserModel(user));
+                }
             }
         }
     }

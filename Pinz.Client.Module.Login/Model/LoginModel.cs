@@ -9,13 +9,14 @@ using Prism.Regions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Com.Pinz.Client.Module.Login.Infrastructure;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {
     public class LoginModel : BindableValidationBase
     {
-        private static readonly ILog Log = LogManager.GetLogger<LoginModel>();
-
+        private static readonly ILog Log = LogManager.GetLogger<LoginModel>();        
+        private readonly IsolatedStorageSettings settings = new IsolatedStorageSettings();
         private string _userName;
         [Required]
         [EmailAddress]
@@ -33,7 +34,15 @@ namespace Com.Pinz.Client.Module.Login.Model
             set { SetProperty(ref _password, value); }
         }
 
+        private bool _autoLogin;
+        public bool AutoLogin
+        {
+            get { return _autoLogin; }
+            set { SetProperty(ref _autoLogin, value); }
+        }
+
         public DelegateCommand LoginCommand { get; private set; }
+        public DelegateCommand LoadedCommand { get; private set; }
 
         private string _errorMessage;
         public string ErrorMessage
@@ -64,12 +73,15 @@ namespace Com.Pinz.Client.Module.Login.Model
             this.userCredentials = userCredentials;
             this.authorisationService = authorisationService;
 
-            LoginCommand = new DelegateCommand(login);
-
+            LoginCommand = new DelegateCommand(Login);
+            LoadedCommand = new DelegateCommand(Loaded);
+            
             scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            LoadPreviousSettings();                
         }
 
-        private async void login()
+        private async void Login()
         {
             if (!ValidateModel())
             {
@@ -79,6 +91,7 @@ namespace Com.Pinz.Client.Module.Login.Model
                     await Task.Run(() => loginUser(UserName, Password)).ContinueWith(c =>
                     {
                         Log.Debug("login succesfull, navigate to PinzProjectsTabView");
+                        SaveSettings();
                         regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
                         {
                             if (false == r.Result)
@@ -93,6 +106,15 @@ namespace Com.Pinz.Client.Module.Login.Model
                 }
             }
         }
+
+        private void Loaded()
+        {           
+            if (AutoLogin && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
+            {
+                Login();
+            }
+        }
+
         public void loginUser(string email, string password)
         {
             userCredentials.UserName = email;
@@ -101,6 +123,21 @@ namespace Com.Pinz.Client.Module.Login.Model
 
             applicationGlobalModel.CurrentUser = authorisationService.ReadUserByEmail(email);
             applicationGlobalModel.IsUserLoggedIn = true;
+        }
+
+        private void LoadPreviousSettings()
+        {
+            AutoLogin = settings.GetValue("AutoLogin", true);
+            UserName = settings.GetValue("UserName");
+            Password = settings.GetValue("Password");            
+        }
+
+        private void SaveSettings()
+        {
+            settings.SetValue("AutoLogin", AutoLogin);
+            settings.SetValue("UserName", UserName);
+            settings.SetValue("Password", Password);
+            settings.Save();
         }
     }
 }
