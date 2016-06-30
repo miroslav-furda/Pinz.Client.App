@@ -4,18 +4,18 @@ using Com.Pinz.Client.Model;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Common.Logging;
 using Ninject;
-using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Com.Pinz.Client.Module.Login.Infrastructure;
+using System.Windows.Input;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {
     public class LoginModel : BindableValidationBase
     {
-        private static readonly ILog Log = LogManager.GetLogger<LoginModel>();        
+        private static readonly ILog Log = LogManager.GetLogger<LoginModel>();
         private readonly IsolatedStorageSettings settings = new IsolatedStorageSettings();
         private string _userName;
         [Required]
@@ -41,8 +41,8 @@ namespace Com.Pinz.Client.Module.Login.Model
             set { SetProperty(ref _autoLogin, value); }
         }
 
-        public DelegateCommand LoginCommand { get; private set; }
-        public DelegateCommand LoadedCommand { get; private set; }
+        public ICommand LoginCommand { get; private set; }
+        public ICommand LoadedCommand { get; private set; }
 
         private string _errorMessage;
         public string ErrorMessage
@@ -73,31 +73,37 @@ namespace Com.Pinz.Client.Module.Login.Model
             this.userCredentials = userCredentials;
             this.authorisationService = authorisationService;
 
-            LoginCommand = new DelegateCommand(Login);
-            LoadedCommand = new DelegateCommand(Loaded);
-            
+            LoginCommand = new AwaitableDelegateCommand(Login);
+            LoadedCommand = new AwaitableDelegateCommand(Loaded);
+
             scheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            LoadPreviousSettings();                
+            LoadPreviousSettings();
         }
 
-        private async void Login()
+        private async Task Login()
         {
             if (!ValidateModel())
             {
                 try
                 {
                     ErrorMessage = null;
-                    await Task.Run(() => loginUser(UserName, Password)).ContinueWith(c =>
+                    userCredentials.UserName = UserName;
+                    userCredentials.Password = Password;
+                    userCredentials.UpdateCredentialsForAllFactories();
+
+                    Task<DomainModel.User> readTask = authorisationService.ReadUserByEmailAsync(UserName);
+                    applicationGlobalModel.CurrentUser = await readTask;
+
+                    applicationGlobalModel.IsUserLoggedIn = true;
+                    Log.Debug("login succesfull, navigate to PinzProjectsTabView");
+                    SaveSettings();
+                    regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
                     {
-                        Log.Debug("login succesfull, navigate to PinzProjectsTabView");
-                        SaveSettings();
-                        regionManager.RequestNavigate(RegionNames.MainContentRegion, new Uri("PinzProjectsTabView", UriKind.Relative), (r) =>
-                        {
-                            if (false == r.Result)
-                                Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
-                        });
-                    }, scheduler);
+                        if (false == r.Result)
+                            Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
+                    });
+                    //}, scheduler);
                 }
                 catch (Exception ex)
                 {
@@ -107,29 +113,19 @@ namespace Com.Pinz.Client.Module.Login.Model
             }
         }
 
-        private void Loaded()
-        {           
+        private async Task Loaded()
+        {
             if (AutoLogin && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
             {
-                Login();
+                await Login();
             }
-        }
-
-        public void loginUser(string email, string password)
-        {
-            userCredentials.UserName = email;
-            userCredentials.Password = password;
-            userCredentials.UpdateCredentialsForAllFactories();
-
-            applicationGlobalModel.CurrentUser = authorisationService.ReadUserByEmail(email);
-            applicationGlobalModel.IsUserLoggedIn = true;
         }
 
         private void LoadPreviousSettings()
         {
             AutoLogin = settings.GetValue("AutoLogin", true);
             UserName = settings.GetValue("UserName");
-            Password = settings.GetValue("Password");            
+            Password = settings.GetValue("Password");
         }
 
         private void SaveSettings()
