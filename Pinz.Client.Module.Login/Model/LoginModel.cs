@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Com.Pinz.Client.Module.Login.Infrastructure;
 using System.Windows.Input;
+using System.ServiceModel.Security;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {
@@ -103,9 +104,8 @@ namespace Com.Pinz.Client.Module.Login.Model
                         if (false == r.Result)
                             Log.ErrorFormat("Error navigating to PinzProjectsTabView, URI:{0}", r.Error, r.Context.Uri);
                     });
-                    //}, scheduler);
                 }
-                catch (Exception ex)
+                catch (MessageSecurityException ex)
                 {
                     Log.ErrorFormat("Error logging in with user {0}", ex, UserName);
                     ErrorMessage = Properties.Resources.BadLogin;

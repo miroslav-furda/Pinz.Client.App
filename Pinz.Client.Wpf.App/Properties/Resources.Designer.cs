@@ -59,5 +59,41 @@ namespace Com.Pinz.Client.Wpf.App.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error_MessageBox_Title {
+            get {
+                return ResourceManager.GetString("Error_MessageBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your request is taking too much time, do you have an internet connection? Please try again..
+        /// </summary>
+        internal static string Error_Timeout_Content {
+            get {
+                return ResourceManager.GetString("Error_Timeout_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unhandled exception just occurred:.
+        /// </summary>
+        internal static string Error_Undefined_Content {
+            get {
+                return ResourceManager.GetString("Error_Undefined_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Warning_MessageBox_Title {
+            get {
+                return ResourceManager.GetString("Warning_MessageBox_Title", resourceCulture);
+            }
+        }
     }
 }
