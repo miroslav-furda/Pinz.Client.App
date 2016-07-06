@@ -49,17 +49,17 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
             StartEditCompany = new DelegateCommand(OnStartEditCompany);
             CancelEditCompany = new DelegateCommand(OnCancelEditCompany);
-            UpdateCompany = new DelegateCommand(OnUpdateCompany);
+            UpdateCompany = new AwaitableDelegateCommand(OnUpdateCompany);
 
             NewProject = new DelegateCommand(OnNewProject);
             StartEditProject = new DelegateCommand(OnEditProject);
-            DeleteProject = new DelegateCommand(OnDeleteProject);
-            UpdateProject = new DelegateCommand(OnSaveProject);
+            DeleteProject = new AwaitableDelegateCommand(OnDeleteProject);
+            UpdateProject = new AwaitableDelegateCommand(OnSaveProject);
             CancelEditProject = new DelegateCommand(OnCancelEditProject);
 
             StartEditUser = new DelegateCommand(OnEditUser);
-            DeleteUser = new DelegateCommand(OnDeleteUser);
-            UpdateUser = new DelegateCommand(OnUpdateUser);
+            DeleteUser = new AwaitableDelegateCommand(OnDeleteUser);
+            UpdateUser = new AwaitableDelegateCommand(OnUpdateUser);
             CancelEditUser = new DelegateCommand(OnCancelEditUser);
 
             Projects = new ObservableCollection<Project>();
@@ -73,18 +73,18 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         public DelegateCommand StartEditCompany { get; private set; }
         public DelegateCommand CancelEditCompany { get; private set; }
-        public DelegateCommand UpdateCompany { get; private set; }
+        public AwaitableDelegateCommand UpdateCompany { get; private set; }
 
         public DelegateCommand NewProject { get; private set; }
         public DelegateCommand StartEditProject { get; private set; }
         public DelegateCommand CancelEditProject { get; private set; }
-        public DelegateCommand UpdateProject { get; private set; }
-        public DelegateCommand DeleteProject { get; private set; }
+        public AwaitableDelegateCommand UpdateProject { get; private set; }
+        public AwaitableDelegateCommand DeleteProject { get; private set; }
 
         public DelegateCommand StartEditUser { get; private set; }
         public DelegateCommand CancelEditUser { get; private set; }
-        public DelegateCommand UpdateUser { get; private set; }
-        public DelegateCommand DeleteUser { get; private set; }
+        public AwaitableDelegateCommand UpdateUser { get; private set; }
+        public AwaitableDelegateCommand DeleteUser { get; private set; }
 
         public bool IsCompanyEditorVisible
         {
@@ -165,15 +165,15 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<User> Users { get; set; }
 
-        private async void LoadCompany()
+        private async Task LoadCompany()
         {
-            Company = await Task.Run(() => adminService.ReadCompanyById(globalModel.CurrentUser.CompanyId));
+            Company = await adminService.ReadCompanyByIdAsync(globalModel.CurrentUser.CompanyId);
 
-            var projects = await Task.Run(() => adminService.ReadProjectsForCompany(Company));
+            var projects = await adminService.ReadProjectsForCompanyAsync(Company);
             Projects.Clear();
             Projects.AddRange(projects);
 
-            var users = await Task.Run(() => adminService.ReadAllUsersForCompany(Company.CompanyId));
+            var users = await adminService.ReadAllUsersForCompanyAsync(Company.CompanyId);
             Users.Clear();
             Users.AddRange(users);
         }
@@ -186,9 +186,9 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsCompanyEditorVisible = true;
         }
 
-        private async void OnUpdateCompany()
+        private async Task OnUpdateCompany()
         {
-            await Task.Run(() => pinzAdminService.UpdateCompany(Company));
+            await pinzAdminService.UpdateCompanyAsync(Company);
             IsCompanyEditorVisible = false;
         }
 
@@ -221,21 +221,21 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsProjectEditorVisible = true;
         }
 
-        private async void OnSaveProject()
+        private async Task OnSaveProject()
         {
             if (SelectedProject.ProjectId == Guid.Empty)
-                SelectedProject = await Task.Run(() => adminService.CreateProject(selectedProject));
+                SelectedProject = await adminService.CreateProjectAsync(selectedProject);
             else
-                await Task.Run(() => adminService.UpdateProject(selectedProject));
+                await adminService.UpdateProjectAsync(selectedProject);
             if (!Projects.Contains(SelectedProject))
                 Projects.Add(SelectedProject);
             IsProjectEditorVisible = false;
         }
 
-        private async void OnDeleteProject()
+        private async Task OnDeleteProject()
         {
             if (SelectedProject.ProjectId != Guid.Empty)
-                await Task.Run(() => adminService.DeleteProject(SelectedProject));
+                await adminService.DeleteProjectAsync(SelectedProject);
             Projects.Remove(SelectedProject);
             SelectedProject = null;
             IsProjectEditorVisible = false;
@@ -272,15 +272,15 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsUserEditorVisible = true;
         }
 
-        private async void OnUpdateUser()
+        private async Task OnUpdateUser()
         {
-            await Task.Run(() => adminService.UpdateUser(SelectedUser));            
+            await adminService.UpdateUserAsync(SelectedUser);            
             IsUserEditorVisible = false;
         }
 
-        private async void OnDeleteUser()
+        private async Task OnDeleteUser()
         {
-            await Task.Run(() => adminService.DeleteUser(SelectedUser));
+            await adminService.DeleteUserAsync(SelectedUser);
             Users.Remove(SelectedUser);
             SelectedUser = null;
             IsUserEditorVisible = false;

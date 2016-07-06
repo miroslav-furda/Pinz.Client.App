@@ -1,4 +1,5 @@
-﻿using Com.Pinz.Client.DomainModel;
+﻿using Com.Pinz.Client.Commons.Prism;
+using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
 using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
@@ -40,8 +41,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
 
-        public DelegateCommand StartCommand { get; private set; }
-        public DelegateCommand<bool?> CompleteCommand { get; private set; }
+        public AwaitableDelegateCommand StartCommand { get; private set; }
+        public AwaitableDelegateCommand<bool?> CompleteCommand { get; private set; }
         public DelegateCommand EditCommand { get; private set; }
 
         private readonly ITaskRemoteService service;
@@ -55,8 +56,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             this.eventAggregator = eventAggregator;
             EditMode = false;
 
-            this.StartCommand = new DelegateCommand(OnStart, CanStart);
-            this.CompleteCommand = new DelegateCommand<bool?>(this.OnComplete);
+            this.StartCommand = new AwaitableDelegateCommand(OnStart, CanStart);
+            this.CompleteCommand = new AwaitableDelegateCommand<bool?>(this.OnComplete);
             this.EditCommand = new DelegateCommand(OnEdit, CanEdit);
 
             TaskEditFinishedEvent taskEditFinishedEvent = eventAggregator.GetEvent<TaskEditFinishedEvent>();
@@ -82,23 +83,23 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             EditCommand.RaiseCanExecuteChanged();
         }
 
-        private async void OnComplete(bool? selected)
+        private async System.Threading.Tasks.Task OnComplete(bool? selected)
         {
             if (selected == true)
             {
-                await System.Threading.Tasks.Task.Run(() => service.ChangeTaskStatus(Task, TaskStatus.TaskComplete));
+                await service.ChangeTaskStatusAsync(Task, TaskStatus.TaskComplete);
             }
             else if (selected == false)
             {
-                await System.Threading.Tasks.Task.Run(() => service.ChangeTaskStatus(Task, TaskStatus.TaskNotStarted));
+                await service.ChangeTaskStatusAsync(Task, TaskStatus.TaskNotStarted);
             }
             CompleteCommand.RaiseCanExecuteChanged();
             StartCommand.RaiseCanExecuteChanged();
         }
 
-        private async void OnStart()
+        private async System.Threading.Tasks.Task OnStart()
         {
-            await System.Threading.Tasks.Task.Run(() => service.ChangeTaskStatus(Task, TaskStatus.TaskInProgress));
+            await service.ChangeTaskStatusAsync(Task, TaskStatus.TaskInProgress);
             StartCommand.RaiseCanExecuteChanged();
         }
 

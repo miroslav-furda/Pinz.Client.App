@@ -4,6 +4,7 @@ using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
 using Prism.Mvvm;
+using Com.Pinz.Client.Commons.Prism;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -19,7 +20,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             this.taskService = taskService;
             this.adminService = adminService;            
-            CreateCategory = new DelegateCommand(OnCreateCategory);
+            CreateCategory = new AwaitableDelegateCommand(OnCreateCategory);
         }
 
         public ProjectModel Project
@@ -34,25 +35,25 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         public ObservableCollection<CategoryModel> Categories => project?.Categories;
 
-        public DelegateCommand CreateCategory { get; private set; }
+        public AwaitableDelegateCommand CreateCategory { get; private set; }
 
-        private void OnCreateCategory()
+        private async System.Threading.Tasks.Task OnCreateCategory()
         {
-            taskService.CreateCategoryInProject(Project);
+            await taskService.CreateCategoryInProjectAsync(Project);
         }
 
-        private async void LoadCategories()
+        private async System.Threading.Tasks.Task LoadCategories()
         {                        
             if (Project != null)
             {
                 Project.Categories = new ObservableCollection<CategoryModel>();
-                var categories = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllCategoriesByProject(Project));
+                var categories = await taskService.ReadAllCategoriesByProjectAsync(Project);
                 foreach (var category in categories)
                 {
                     Categories.Add(new CategoryModel(category, Project));
                 }
 
-                var users = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersByProject(Project));
+                var users = await adminService.ReadAllUsersByProjectAsync(Project);
                 Project.ProjectUsers.Clear();
                 foreach (var user in users)
                 {

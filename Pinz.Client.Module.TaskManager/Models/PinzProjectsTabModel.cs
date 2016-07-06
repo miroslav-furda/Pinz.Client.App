@@ -28,7 +28,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             Log.Debug("OnNavigatedTo called ...");
-            var projects = await System.Threading.Tasks.Task.Run(() => taskService.ReadAllProjectsForCurrentUser());
+            var projects = await taskService.ReadAllProjectsForCurrentUserAsync();
             Log.DebugFormat("OnNavigatedTo projects loaded from remote. Count: {0}", projects.Count);
             Projects.Clear();
             Log.Debug("OnNavigatedTo Projects cleared");            

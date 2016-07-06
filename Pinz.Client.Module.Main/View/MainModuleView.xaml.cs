@@ -29,7 +29,7 @@ namespace Com.Pinz.Client.Module.Main.View
         private static readonly ILog Log = LogManager.GetLogger<MainModuleView>();
 
         private const string LoginModuleName = "LoginModule";
-        private static Uri LoginViewUri = new Uri("/LoginView", UriKind.Relative);
+        private static Uri LoginViewUri = new Uri("LoginView", UriKind.Relative);
 
         private IModuleManager ModuleManager;
         private IRegionManager RegionManager;
@@ -59,7 +59,11 @@ namespace Com.Pinz.Client.Module.Main.View
                    Log.DebugFormat("LoadModuleCompleted {0}", e.ModuleInfo.ModuleName);
                   if (e.ModuleInfo.ModuleName == LoginModuleName)
                   {
-                      this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, LoginViewUri);
+                      this.RegionManager.RequestNavigate(RegionNames.MainContentRegion, LoginViewUri, (r) =>
+                      {
+                          if (false == r.Result)
+                              Log.ErrorFormat("Error navigating to LoginView, URI:{0}", r.Error, r.Context.Uri);
+                      });
                   }
               };
         }

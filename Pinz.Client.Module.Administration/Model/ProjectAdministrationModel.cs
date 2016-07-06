@@ -79,11 +79,11 @@ namespace Com.Pinz.Client.Module.Administration.Model
             }
         }
 
-        public DelegateCommand InviteUserCommand { get; private set; }
-        public DelegateCommand AddUserToProjectCommand { get; private set; }
-        public DelegateCommand RemoveUserFromProjectCommand { get; private set; }
-        public DelegateCommand CompanyAdminCheckCommand { get; private set; }
-        public DelegateCommand ProjectSetAsAdminCommand { get; private set; }
+        public AwaitableDelegateCommand InviteUserCommand { get; private set; }
+        public AwaitableDelegateCommand AddUserToProjectCommand { get; private set; }
+        public AwaitableDelegateCommand RemoveUserFromProjectCommand { get; private set; }
+        public AwaitableDelegateCommand CompanyAdminCheckCommand { get; private set; }
+        public AwaitableDelegateCommand ProjectSetAsAdminCommand { get; private set; }
 
         private bool _isProjectSelected;
         public bool IsProjectSelected
@@ -139,20 +139,20 @@ namespace Com.Pinz.Client.Module.Administration.Model
             AllCompanyUsers = new ObservableCollection<User>();
             ProjectUsers = new ObservableCollection<ProjectUser>();
 
-            AddUserToProjectCommand = new DelegateCommand(AddUserToProject, CanExecuteAddUserToProject);
-            RemoveUserFromProjectCommand = new DelegateCommand(RemoveUserFromProject, CanExecuteRemoveUserFromProject);
-            InviteUserCommand = new DelegateCommand(InviteUser, CanExecuteInviteUser);
-            CompanyAdminCheckCommand = new DelegateCommand(CompanyAdminCheck);
-            ProjectSetAsAdminCommand = new DelegateCommand(SetAsAdmin, CanSetAsAdmin);
+            AddUserToProjectCommand = new AwaitableDelegateCommand(AddUserToProject, CanExecuteAddUserToProject);
+            RemoveUserFromProjectCommand = new AwaitableDelegateCommand(RemoveUserFromProject, CanExecuteRemoveUserFromProject);
+            InviteUserCommand = new AwaitableDelegateCommand(InviteUser, CanExecuteInviteUser);
+            CompanyAdminCheckCommand = new AwaitableDelegateCommand(CompanyAdminCheck);
+            ProjectSetAsAdminCommand = new AwaitableDelegateCommand(SetAsAdmin, CanSetAsAdmin);
 
             ChangeNotification = new InteractionRequest<INotification>();
 
             LoadProjects();
         }
 
-        private async void CompanyAdminCheck()
+        private async System.Threading.Tasks.Task CompanyAdminCheck()
         {
-            await System.Threading.Tasks.Task.Run(() => adminService.SetProjectAdminFlag(ProjectSelectedUser.UserId, SelectedProject.ProjectId, ProjectSelectedUser.IsProjectAdmin));
+            await adminService.SetProjectAdminFlagAsync(ProjectSelectedUser.UserId, SelectedProject.ProjectId, ProjectSelectedUser.IsProjectAdmin);
         }
 
         #region CanExecute
@@ -177,7 +177,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         }
         #endregion
 
-        private async void InviteUser()
+        private async System.Threading.Tasks.Task InviteUser()
         {
             if (!HasErrors)
             {
@@ -191,40 +191,40 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 }
                 else
                 {
-                    User newUser = await System.Threading.Tasks.Task.Run(() => adminService.InviteNewUser(NewUserEmail, SelectedProject, globalModel.CurrentUser));
+                    User newUser = await adminService.InviteNewUserAsync(NewUserEmail, SelectedProject, globalModel.CurrentUser);
                     ProjectUsers.Add(mapper.Map<ProjectUser>(newUser));
                 }
             }
         }
 
-        private async void RemoveUserFromProject()
+        private async System.Threading.Tasks.Task RemoveUserFromProject()
         {
-            await System.Threading.Tasks.Task.Run(() => adminService.RemoveUserFromProject(ProjectSelectedUser, SelectedProject));
+            await adminService.RemoveUserFromProjectAsync(ProjectSelectedUser, SelectedProject);
             AllCompanyUsers.Add(ProjectSelectedUser);
             ProjectUsers.Remove(ProjectSelectedUser);
         }
 
-        private async void AddUserToProject()
+        private async System.Threading.Tasks.Task AddUserToProject()
         {
-            await System.Threading.Tasks.Task.Run(() => adminService.AddUserToProject(AllCompanySelectedUser, SelectedProject, false));
+            await adminService.AddUserToProjectAsync(AllCompanySelectedUser, SelectedProject, false);
             ProjectUsers.Add(mapper.Map<ProjectUser>(AllCompanySelectedUser));
             AllCompanyUsers.Remove(AllCompanySelectedUser);
         }
 
-        private async void SetAsAdmin()
+        private async System.Threading.Tasks.Task SetAsAdmin()
         {
             ProjectSelectedUser.IsProjectAdmin = !ProjectSelectedUser.IsProjectAdmin;
-            await System.Threading.Tasks.Task.Run(() => adminService.SetProjectAdminFlag(ProjectSelectedUser.UserId, SelectedProject.ProjectId, ProjectSelectedUser.IsProjectAdmin));
+            await adminService.SetProjectAdminFlagAsync(ProjectSelectedUser.UserId, SelectedProject.ProjectId, ProjectSelectedUser.IsProjectAdmin);
         }
 
-        private async void SelectProjectRefs()
+        private async System.Threading.Tasks.Task SelectProjectRefs()
         {
             ProjectUsers.Clear();
-            List<ProjectUser> projectUserList = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllProjectUsersInProject(SelectedProject));
+            List<ProjectUser> projectUserList = await adminService.ReadAllProjectUsersInProjectAsync(SelectedProject);
             projectUserList.ForEach(ProjectUsers.Add);
 
             AllCompanyUsers.Clear();
-            List<User> users = await System.Threading.Tasks.Task.Run(() => adminService.ReadAllUsersForCompany(globalModel.CurrentUser.CompanyId));
+            List<User> users = await adminService.ReadAllUsersForCompanyAsync(globalModel.CurrentUser.CompanyId);
             users.ForEach(u =>
             {
                 if (projectUserList.All(pu => pu.UserId != u.UserId))
@@ -234,9 +234,9 @@ namespace Com.Pinz.Client.Module.Administration.Model
             IsProjectSelected = true;
         }
 
-        public async void LoadProjects()
+        public async System.Threading.Tasks.Task LoadProjects()
         {
-            Projects = await System.Threading.Tasks.Task.Run(() => adminService.ReadAdminProjectsForUser(globalModel.CurrentUser));
+            Projects = await adminService.ReadAdminProjectsForUserAsync(globalModel.CurrentUser);
         }
     }
 }

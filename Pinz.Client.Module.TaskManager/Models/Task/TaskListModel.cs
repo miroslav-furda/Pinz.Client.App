@@ -8,14 +8,14 @@ using GongSolutions.Wpf.DragDrop;
 using Ninject;
 using Prism.Commands;
 using Prism.Mvvm;
+using Com.Pinz.Client.Commons.Prism;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskListModel : BindableBase, IDropTarget
     {
         private ObservableCollection<TaskModel> tasks;
-
-
+        
         private CategoryModel category;
 
         private readonly ITaskRemoteService service;
@@ -25,10 +25,10 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             this.service = service;
             this.tasks = new ObservableCollection<TaskModel>();
-            CreateTask = new DelegateCommand(OnCreateTask);
+            CreateTask = new AwaitableDelegateCommand(OnCreateTask);
         }
 
-        public DelegateCommand CreateTask { get; private set; }
+        public AwaitableDelegateCommand CreateTask { get; private set; }
 
         public ObservableCollection<TaskModel> Tasks
         {
@@ -71,20 +71,20 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             var sourceItem = dropInfo.Data as TaskModel;
             var targetItem = dropInfo.TargetItem as TaskModel;
 
-            await System.Threading.Tasks.Task.Run(() => service.MoveTaskToCategory(sourceItem, Category));
+            await service.MoveTaskToCategoryAsync(sourceItem, Category);
         }
 
-        private async void OnCreateTask()
+        private async System.Threading.Tasks.Task OnCreateTask()
         {
-            await System.Threading.Tasks.Task.Run(() => service.CreateTaskInCategory(Category));
+            await service.CreateTaskInCategoryAsync(Category);
         }
 
-        private async void LoadTasks()
+        private async System.Threading.Tasks.Task LoadTasks()
         {
             if (Category != null)
             {                
                 Tasks.Clear();                
-                var tasks = await System.Threading.Tasks.Task.Run(() => service.ReadAllTasksByCategory(Category));
+                var tasks = await service.ReadAllTasksByCategoryAsync(Category);
                 foreach (var task in tasks)
                 {
                     Tasks.Add(new TaskModel(task, category));

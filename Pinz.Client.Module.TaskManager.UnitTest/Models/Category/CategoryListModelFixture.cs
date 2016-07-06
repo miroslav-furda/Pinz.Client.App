@@ -1,8 +1,8 @@
 ﻿using System;
 using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using System.Collections.Generic;
+using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.DomainModel;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Category
@@ -29,10 +29,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
             };
                 
             taskService = new Mock<ITaskRemoteService>();
-            taskService.Setup(x => x.ReadAllCategoriesByProject(It.IsAny<DomainModel.Project>())).Returns(categories);
+            taskService.Setup(x => x.ReadAllCategoriesByProjectAsync(It.IsAny<DomainModel.Project>())).Returns(
+                System.Threading.Tasks.Task.FromResult(categories));
 
             adminService = new Mock<IAdministrationRemoteService>();
-            adminService.Setup(x => x.ReadAllUsersByProject(It.IsAny<DomainModel.Project>())).Returns(users);
+            adminService.Setup(x => x.ReadAllUsersByProjectAsync(It.IsAny<DomainModel.Project>())).Returns(
+                System.Threading.Tasks.Task.FromResult(users));
 
             model = new CategoryListModel(taskService.Object, adminService.Object);
         }
@@ -43,17 +45,17 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
             model.Project = new ProjectModel { Name = "project" };
 
             Assert.AreEqual(model.Categories.Count, 2);
-            taskService.Verify(m => m.ReadAllCategoriesByProject(model.Project));
+            taskService.Verify(m => m.ReadAllCategoriesByProjectAsync(model.Project));
         }
 
         [TestMethod]
-        public void CallServiceOnCreateCategory()
+        public async System.Threading.Tasks.Task CallServiceOnCreateCategory()
         {
             model.Project = new ProjectModel { Name = "project" };
 
-            model.CreateCategory.Execute();
+            await model.CreateCategory.ExecuteAsync(this);
 
-            taskService.Verify(m => m.CreateCategoryInProject(model.Project));
+            taskService.Verify(m => m.CreateCategoryInProjectAsync(model.Project));
         }
     }
 }

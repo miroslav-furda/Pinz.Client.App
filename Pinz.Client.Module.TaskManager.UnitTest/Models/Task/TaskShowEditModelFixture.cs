@@ -57,9 +57,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         {
             model.Task = new TaskModel { TaskName = "Test" };
 
-            model.StartCommand.Execute();
+            model.StartCommand.ExecuteAsync(this);
 
-            taskService.Verify(m => m.ChangeTaskStatus(model.Task, TaskStatus.TaskInProgress));
+            taskService.Verify(m => m.ChangeTaskStatusAsync(model.Task, TaskStatus.TaskInProgress));
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 
             model.CompleteCommand.Execute(true);
 
-            taskService.Verify(m => m.ChangeTaskStatus(model.Task, TaskStatus.TaskComplete));
+            taskService.Verify(m => m.ChangeTaskStatusAsync(model.Task, TaskStatus.TaskComplete));
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 
             model.CompleteCommand.Execute(false);
 
-            taskService.Verify(m => m.ChangeTaskStatus(model.Task, TaskStatus.TaskNotStarted));
+            taskService.Verify(m => m.ChangeTaskStatusAsync(model.Task, TaskStatus.TaskNotStarted));
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         {
             model.CompleteCommand.Execute(null);
 
-            taskService.Verify(m => m.ChangeTaskStatus(It.IsAny<DomainModel.Task>(), It.IsAny<TaskStatus>()), Times.Never);
+            taskService.Verify(m => m.ChangeTaskStatusAsync(It.IsAny<DomainModel.Task>(), It.IsAny<TaskStatus>()), Times.Never);
         }
     }
 }

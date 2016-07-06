@@ -40,8 +40,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
             _model.StartEditCategory.Execute();
             _model.Category.Name = "New category name";
 
-            _model.UpdateCategory.Execute();
-            _taskService.Verify(m => m.UpdateCategory(_model.Category));
+            _model.UpdateCategory.ExecuteAsync(this);
+            _taskService.Verify(m => m.UpdateCategoryAsync(_model.Category));
         }
 
         [TestMethod]

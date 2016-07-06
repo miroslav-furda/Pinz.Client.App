@@ -9,6 +9,7 @@ using Ninject;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Com.Pinz.Client.Commons.Prism;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -32,8 +33,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
             StartEditCategory = new DelegateCommand(OnStartEditCategory);
             CancelEditCategory = new DelegateCommand(OnCancelEditCategory);
-            UpdateCategory = new DelegateCommand(OnUpdateCategory);
-            DeleteCategory = new DelegateCommand(OnDeleteCategory);
+            UpdateCategory = new AwaitableDelegateCommand(OnUpdateCategory);
+            DeleteCategory = new AwaitableDelegateCommand(OnDeleteCategory);
 
             var categoryEditStartedEvent = eventAggregator.GetEvent<CategoryEditStartedEvent>();
             categoryEditStartedEvent.Subscribe(CategoryEditStartedEventHandler, ThreadOption.UIThread, false, c => c != Category);
@@ -69,8 +70,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         public DelegateCommand StartEditCategory { get; private set; }
         public DelegateCommand CancelEditCategory { get; private set; }
-        public DelegateCommand UpdateCategory { get; private set; }
-        public DelegateCommand DeleteCategory { get; private set; }
+        public AwaitableDelegateCommand UpdateCategory { get; private set; }
+        public AwaitableDelegateCommand DeleteCategory { get; private set; }
 
         private void Tasks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -95,9 +96,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 OnCancelEditCategory();
         }
 
-        private async void OnUpdateCategory()
+        private async System.Threading.Tasks.Task OnUpdateCategory()
         {
-            await System.Threading.Tasks.Task.Run(() => service.UpdateCategory(Category));
+            await service.UpdateCategoryAsync(Category);
             IsEditorEnabled = false;
         }
 
@@ -107,12 +108,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             IsEditorEnabled = false;
         }
 
-        private void OnDeleteCategory()
+        private async System.Threading.Tasks.Task OnDeleteCategory()
         {
             if (IsDeleteEnabled)
             {
                 IsEditorEnabled = false;
-                service.DeleteCategory(Category);
+                await service.DeleteCategoryAsync(Category);
                 var project = Category.Project;
                 project.Categories.Remove(Category);                
             }
