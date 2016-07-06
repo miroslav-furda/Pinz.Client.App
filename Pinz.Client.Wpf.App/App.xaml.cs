@@ -23,16 +23,16 @@ namespace Com.Pinz.Client.Wpf.App
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Log.ErrorFormat("An unhandled exception just occurred:{0}", e.Exception, e.Exception.Message);
-            applicationInsightHelper.TrackNonFatalExceptions(e.Exception);
-
             if (e.Exception is TimeoutException)
             {
-                MessageBox.Show(Wpf.App.Properties.Resources.Error_Timeout_Content + e.Exception.Message,
+                MessageBox.Show(Wpf.App.Properties.Resources.Error_Timeout_Content,
                     Wpf.App.Properties.Resources.Warning_MessageBox_Title, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
+                Log.ErrorFormat("An unhandled exception just occurred:{0}", e.Exception, e.Exception.Message);
+                applicationInsightHelper.TrackNonFatalExceptions(e.Exception);
+
                 MessageBox.Show(Wpf.App.Properties.Resources.Error_Undefined_Content + e.Exception.Message,
                     Wpf.App.Properties.Resources.Error_MessageBox_Title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
