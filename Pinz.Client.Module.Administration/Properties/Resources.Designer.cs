@@ -358,6 +358,15 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password strength.
+        /// </summary>
+        public static string User_NewPasswordStrength {
+            get {
+                return ResourceManager.GetString("User_NewPasswordStrength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old password.
         /// </summary>
         public static string User_OldPassword {

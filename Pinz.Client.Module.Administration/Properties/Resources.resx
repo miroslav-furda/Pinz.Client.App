@@ -222,4 +222,7 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="User_NewPasswordStrength" xml:space="preserve">
+    <value>Password strength</value>
+  </data>
 </root>

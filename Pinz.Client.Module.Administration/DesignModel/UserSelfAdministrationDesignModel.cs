@@ -12,7 +12,7 @@ namespace Com.Pinz.Client.Module.Administration.DesignModel
         public UserSelfAdministrationDesignModel()
         {
             IsUserInEditMode = false;
-            IsPasswordInEditMode = false;
+            IsPasswordInEditMode = true;
 
             CurrentUser = new User()
             {

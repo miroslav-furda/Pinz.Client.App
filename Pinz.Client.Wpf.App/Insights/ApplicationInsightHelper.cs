@@ -57,8 +57,8 @@ namespace Com.Pinz.Client.Wpf.App.Insights
             _osName = GetWindowsFriendlyName();
             _version = $"v.{ Assembly.GetEntryAssembly().GetName().Version}";
             _application = $"{ Assembly.GetEntryAssembly().GetName().Name}        {_version}";
-            _manufacturer = ""; // (from x in new ManagementObjectSearcher("SELECT Manufacturer FROM Win32ComputerSystem").Get().OfType() select x.GetPropertyValue("Manufacturer")).FirstOrDefault()?.ToString() ?? "Unknown";
-            _model = ""; // (from x in new ManagementObjectSearcher("SELECT Model FROM Win32ComputerSystem").Get().OfType() select x.GetPropertyValue("Model")).FirstOrDefault()?.ToString() ?? "Unknown";
+            _manufacturer = "Unknown"; // (from x in new ManagementObjectSearcher("SELECT Manufacturer FROM Win32ComputerSystem").Get().OfType<ManagementBaseObject>() select x.GetPropertyValue("Manufacturer")).FirstOrDefault()?.ToString() ?? "Unknown";
+            _model = "Unknown"; // (from x in new ManagementObjectSearcher("SELECT Model FROM Win32ComputerSystem").Get().OfType<ManagementBaseObject>() select x.GetPropertyValue("Model")).FirstOrDefault()?.ToString() ?? "Unknown";
         }
 
         private string GetWindowsFriendlyName()
