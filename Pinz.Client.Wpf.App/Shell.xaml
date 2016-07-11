@@ -14,46 +14,21 @@
         </Grid.RowDefinitions>
 
         <Ribbon x:Name="RibbonWin"  SelectedIndex="0">
-            <!-- Help Pane, located at the right-hand side -->
-            <!--Ribbon.HelpPaneContent>
-                <RibbonButton SmallImageSource="Images\help.png" />
-            </Ribbon.HelpPaneContent-->
-            <!-- Quick Access Toolbar - located at the upper-left corner -->
-            <!--Ribbon.QuickAccessToolBar>
-                <RibbonQuickAccessToolBar>
-                    <RibbonButton x:Name ="Save" SmallImageSource="Images\save.png" />
-                    <RibbonSplitButton x:Name ="Undo" SmallImageSource="Images\undo.png">
-                        <RibbonSplitMenuItem Header="Undo 1" />
-                        <RibbonSplitMenuItem Header="Undo 2" />
-                        <RibbonSplitMenuItem Header="Undo 3" />
-                    </RibbonSplitButton>
-                    <RibbonSplitButton x:Name="Redo" SmallImageSource="Images\redo.png" >
-                        <RibbonSplitMenuItem Header="Redo 1" />
-                        <RibbonSplitMenuItem Header="Redo 2" />
-                    </RibbonSplitButton>
-                </RibbonQuickAccessToolBar>
-            </Ribbon.QuickAccessToolBar-->
-            <!-- Application Menu, located at the left-hand side (down arrow) -->
-            <!--Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu KeyTip="F">
-                    <RibbonApplicationMenuItem Header="Options" ImageSource="Images\options.png" />
-                    <RibbonApplicationMenuItem Header="Exit" ImageSource="Images\quit.png" />
-                </RibbonApplicationMenu>
-            </Ribbon.ApplicationMenu-->
-            <!-- Ribbon Tab #1: Home -->
-            <RibbonTab Header="Home" KeyTip="H" IsEnabled="{Binding IsUserLoggedIn}" >
+
+            <RibbonTab Header="Home" KeyTip="H" IsEnabled="{Binding GlobalModel.IsUserLoggedIn}" >
                 <!-- Home  group-->
                 <RibbonGroup x:Name="ClipboardGroup" Header="Filter">
-                    <RibbonCheckBox Label="Show finished" KeyTip="F" x:Name="FinishedFiler"/>
-                    <RibbonCheckBox Label="Due today" KeyTip="F" x:Name="DueTodayFiler"/>
+                    <RibbonCheckBox Label="Show finished" KeyTip="F" x:Name="FinishedFiler" IsChecked="{Binding Filter.Complete}"/>
+                    <RibbonCheckBox Label="Due today" KeyTip="F" x:Name="DueTodayFiler" IsChecked="{Binding Filter.DueToday}"/>
                     <RibbonCheckBox Label="My tasks" KeyTip="F" x:Name="MyTasksFiler"/>
-                    <RibbonCheckBox Label="Not started" KeyTip="F" x:Name="NotStartedFiler"/>
-                    <RibbonCheckBox Label="In progress" KeyTip="F" x:Name="InProgressFiler"/>
+                    <RibbonCheckBox Label="Not started" KeyTip="F" x:Name="NotStartedFiler" IsChecked="{Binding Filter.NotStarted}"/>
+                    <RibbonCheckBox Label="In progress" KeyTip="F" x:Name="InProgressFiler" IsChecked="{Binding Filter.InProgress}"/>
                 </RibbonGroup>
                 <!-- Employee And Payroll group-->
                 <RibbonGroup x:Name="Admin" Header="Administration">
                     <RibbonToggleButton LargeImageSource="pack://application:,,,/Pinz.Client.Commons;Component/Resources/admin.png" 
-                                  Label="Admin" KeyTip="X" x:Name="AdminButton" Click="AdminButton_Click"/>
+                                  Label="Admin" KeyTip="X" x:Name="AdminButton" Command="{Binding  AdminButtonClick}"
+                                        CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
