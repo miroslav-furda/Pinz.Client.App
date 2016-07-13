@@ -6,7 +6,7 @@
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:local="clr-namespace:Com.Pinz.Client.Wpf.App"
         mc:Ignorable="d"
-        Title="Pinz" Height="700" Width="525" Icon="pack://application:,,,/Pinz.Client.Commons;Component/Resources/pinz/pin_16x16.png">
+        Title="Pinz" Height="700" Width="600" Icon="pack://application:,,,/Pinz.Client.Commons;Component/Resources/pinz/pin_16x16.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,6 +33,8 @@
             </RibbonTab>
         </Ribbon>
 
-        <ContentControl Grid.Row="1" Name="PinzMainRegion" prism:RegionManager.RegionName="PinzMainRegion"/>
+        <ScrollViewer Grid.Row="1" >
+            <ContentControl Name="PinzMainRegion" prism:RegionManager.RegionName="PinzMainRegion"/>
+        </ScrollViewer>
     </Grid>
 </Window>
