@@ -60,7 +60,8 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Column="0" Grid.Row="0"  Content="{x:Static p:Resources.BodyLabel}" Style="{StaticResource FormLabel}" />
-        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Task.Body}" MaxWidth="{Binding ActualWidth, ElementName=fieldsGrid, Mode=OneWay}" Style="{StaticResource FormBodyField}"/>
+        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Task.Body}" MaxWidth="{Binding ActualWidth, ElementName=fieldsGrid, Mode=OneWay}" Style="{StaticResource FormBodyField}"
+                 Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
         <Grid x:Name="fieldsGrid" Grid.Row="2" Grid.IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>
@@ -87,16 +88,19 @@
             <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Task.StartDate, StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>
 
             <Label Grid.Column="0" Grid.Row="2"  Content="{x:Static p:Resources.DueDateLabel}" Style="{StaticResource FormLabel}" />
-            <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding Task.DueDate, StringFormat=\{0:d\} }" Style="{StaticResource FormField}"/>
+            <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding Task.DueDate, StringFormat=\{0:d\} }" Style="{StaticResource FormField}"
+                        Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
             <Label Grid.Column="2" Grid.Row="2"  Content="{x:Static p:Resources.DateCompletedLabel}" Style="{StaticResource FormLabel}" />
             <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding Task.DateCompleted, StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>
 
             <Separator Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" />
 
             <Label Grid.Column="0" Grid.Row="4"  Content="{x:Static p:Resources.OwnerLabel}" Style="{StaticResource FormLabel}" />
-            <combo:AutoCompleteComboBox Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Path=Users}" SelectedValue="{Binding Path=Task.UserId}" Style="{StaticResource FormField}"/>
+            <combo:AutoCompleteComboBox Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Path=Users}" SelectedValue="{Binding Path=Task.UserId}" Style="{StaticResource FormField}"
+                                        Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
             <Label Grid.Column="2" Grid.Row="4"  Content="{x:Static p:Resources.StatusLabel}" Style="{StaticResource FormLabel}" />
-            <ComboBox Grid.Column="3" Grid.Row="4" SelectedValue="{Binding Task.Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusEnumValues}}" Style="{StaticResource FormField}">
+            <ComboBox Grid.Column="3" Grid.Row="4" SelectedValue="{Binding Task.Status, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource StatusEnumValues}}" Style="{StaticResource FormField}"
+                      Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Converter={StaticResource Enum2LocString}, ConverterParameter={x:Static p:Resources.ResourceManager}}"/>
@@ -105,9 +109,10 @@
             </ComboBox>
 
             <Label Grid.Column="0" Grid.Row="5"  Content="{x:Static p:Resources.PriorityLabel}" Style="{StaticResource FormLabel}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Task.Priority}" Style="{StaticResource FormField}"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Task.Priority}" Style="{StaticResource FormField}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
             <Label Grid.Column="2" Grid.Row="5"  Content="{x:Static p:Resources.ActualWorkLabel}" Style="{StaticResource FormLabel}" />
-            <Slider Grid.Column="3" Grid.Row="5" Value="{Binding Task.ActualWork}" Style="{StaticResource FormField}"/>
+            <Slider Grid.Column="3" Grid.Row="5" Value="{Binding Task.ActualWork}" Maximum="100" TickPlacement="BottomRight" TickFrequency="25" IsSnapToTickEnabled="True"
+                    Style="{StaticResource FormField}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4">

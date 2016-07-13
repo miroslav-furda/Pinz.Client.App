@@ -97,7 +97,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async System.Threading.Tasks.Task OnUpdateCategory()
         {
-            if (!Category.ValidateModel())
+            if (Category.ValidateModel())
             {
                 await _service.UpdateCategoryAsync(Category);
                 IsEditorEnabled = false;

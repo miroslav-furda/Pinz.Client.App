@@ -84,7 +84,7 @@ namespace Com.Pinz.Client.Module.Login.Model
 
         private async Task Login()
         {
-            if (!ValidateModel())
+            if (ValidateModel())
             {
                 try
                 {

@@ -15,43 +15,43 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskEditModel : BindableBase
     {
-        private TaskModel task;
+        private TaskModel _task;
         public TaskModel Task
         {
             get
             {
-                return task;
+                return _task;
             }
             set
             {
-                if (SetProperty(ref this.task, value))
+                if (SetProperty(ref this._task, value))
                     Users = Task.Category.Project.ProjectUsers;
             }
         }
 
-        private bool editMode;
+        private bool _editMode;
         public bool EditMode
         {
             get
             {
-                return editMode;
+                return _editMode;
             }
             set
             {
-                SetProperty(ref this.editMode, value);
+                SetProperty(ref this._editMode, value);
             }
         }
 
-        private ObservableCollection<UserModel> users;
+        private ObservableCollection<UserModel> _users;
         public ObservableCollection<UserModel> Users
         {
             get
             {
-                return users;
+                return _users;
             }
             set
             {
-                SetProperty(ref this.users, value);
+                SetProperty(ref this._users, value);
             }
         }
 
@@ -60,20 +60,20 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public DelegateCommand DeleteCommand { get; private set; }
         public InteractionRequest<IConfirmation> DeleteConfirmation { get; private set; }
 
-        private IEventAggregator eventAggregator;
-        private ITaskRemoteService service;        
-        private TaskModel originalTask;
-        private IMapper mapper;
+        private IEventAggregator _eventAggregator;
+        private ITaskRemoteService _service;        
+        private TaskModel _originalTask;
+        private IMapper _mapper;
 
         [Inject]
         public TaskEditModel(ITaskRemoteService service, IEventAggregator eventAggregator, [Named("WpfClientMapper")] IMapper mapper)
         {
-            this.service = service;            
-            this.eventAggregator = eventAggregator;
-            this.mapper = mapper;
+            this._service = service;            
+            this._eventAggregator = eventAggregator;
+            this._mapper = mapper;
             this.EditMode = false;
-            this.originalTask = null;
-            this.users = new ObservableCollection<UserModel>();
+            this._originalTask = null;
+            this._users = new ObservableCollection<UserModel>();
 
             TaskEditStartedEvent taskEditStartEvent = eventAggregator.GetEvent<TaskEditStartedEvent>();
             taskEditStartEvent.Subscribe(StartEdit, ThreadOption.UIThread, false, t => t == Task);
@@ -98,8 +98,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 if (dialog.Confirmed)
                 {
                     EditMode = false;
-                    eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
-                    await service.DeleteTaskAsync(this.Task);
+                    _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+                    await _service.DeleteTaskAsync(this.Task);
                 }
             });
         }
@@ -112,21 +112,24 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private void OnCancelExecute()
         {
-            mapper.Map(originalTask, Task);
+            _mapper.Map(_originalTask, Task);
             EditMode = false;
-            eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+            _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
         }
 
         private async System.Threading.Tasks.Task OnOkExecute()
         {
-            await service.UpdateTaskAsync(this.Task);
-            EditMode = false;
-            eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+            if (Task.ValidateModel())
+            {
+                await _service.UpdateTaskAsync(Task);
+                EditMode = false;
+                _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+            }
         }
 
         private void StartEdit(TaskModel obj)
         {
-            originalTask = mapper.Map<TaskModel>(Task);
+            _originalTask = _mapper.Map<TaskModel>(Task);
             EditMode = true;
         }       
     }
