@@ -35,6 +35,18 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
         }
 
         [TestMethod]
+        public void ValidateCategoryOnUpdate()
+        {
+            _model.StartEditCategory.Execute();
+            _model.Category.Name = "";
+
+            _model.UpdateCategory.ExecuteAsync(this);
+
+            Assert.IsTrue(_model.IsEditorEnabled);
+            _taskService.Verify(m => m.UpdateCategoryAsync(_model.Category),Times.Never);
+        }
+
+        [TestMethod]
         public void UpdateOnServiceCalledOnEditOK()
         {
             _model.StartEditCategory.Execute();

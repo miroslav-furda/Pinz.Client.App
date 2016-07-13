@@ -15,20 +15,48 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class CategoryShowEditModel : BindableBase
     {
+        private CategoryModel _category;
+        public CategoryModel Category
+        {
+            get { return _category; }
+            set
+            {
+                if (SetProperty(ref _category, value))
+                {
+                    _category.PropertyChanged += Category_PropertyChanged;
+                    IsDeleteEnabled = Category.Tasks?.All(nav => nav.Status == TaskStatus.TaskComplete) ?? true;
+                }
+            }
+        }
+
         private bool _isEditorEnabled;
-        private CategoryModel category;
-        private readonly IEventAggregator eventAggregator;
+        public bool IsEditorEnabled
+        {
+            get { return _isEditorEnabled; }
+            set { SetProperty(ref _isEditorEnabled, value); }
+        }
 
-        private bool isDeleteEnabled;
-        private string originalCategoryName;
+        private bool _isDeleteEnabled;
+        public bool IsDeleteEnabled
+        {
+            get { return _isDeleteEnabled; }
+            set { SetProperty(ref _isDeleteEnabled, value); }
+        }
 
-        private readonly ITaskRemoteService service;
+        public DelegateCommand StartEditCategory { get; private set; }
+        public DelegateCommand CancelEditCategory { get; private set; }
+        public AwaitableDelegateCommand UpdateCategory { get; private set; }
+        public AwaitableDelegateCommand DeleteCategory { get; private set; }
+
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ITaskRemoteService _service;
+        private string _originalCategoryName;
 
         [Inject]
         public CategoryShowEditModel(ITaskRemoteService service, IEventAggregator eventAggregator)
         {
-            this.eventAggregator = eventAggregator;
-            this.service = service;
+            this._eventAggregator = eventAggregator;
+            this._service = service;
             IsEditorEnabled = false;
 
             StartEditCategory = new DelegateCommand(OnStartEditCategory);
@@ -43,35 +71,6 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             taskEditStartedEvent.Subscribe(CategoryEditStartedEventHandler);
         }
 
-        public CategoryModel Category
-        {
-            get { return category; }
-            set
-            {
-                if (SetProperty(ref category, value))
-                {
-                    category.PropertyChanged += Category_PropertyChanged;                    
-                    IsDeleteEnabled = Category.Tasks?.All(nav => nav.Status == TaskStatus.TaskComplete) ?? true;
-                }
-            }
-        }
-
-        public bool IsEditorEnabled
-        {
-            get { return _isEditorEnabled; }
-            set { SetProperty(ref _isEditorEnabled, value); }
-        }
-
-        public bool IsDeleteEnabled
-        {
-            get { return isDeleteEnabled; }
-            set { SetProperty(ref isDeleteEnabled, value); }
-        }
-
-        public DelegateCommand StartEditCategory { get; private set; }
-        public DelegateCommand CancelEditCategory { get; private set; }
-        public AwaitableDelegateCommand UpdateCategory { get; private set; }
-        public AwaitableDelegateCommand DeleteCategory { get; private set; }
 
         private void Tasks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -84,7 +83,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             {
                 if (Category.Tasks != null)
                 {
-                    category.Tasks.CollectionChanged += Tasks_CollectionChanged;
+                    _category.Tasks.CollectionChanged += Tasks_CollectionChanged;
                     IsDeleteEnabled = Category.Tasks.All(nav => nav.Status == TaskStatus.TaskComplete);
                 }                                
             }
@@ -98,13 +97,16 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async System.Threading.Tasks.Task OnUpdateCategory()
         {
-            await service.UpdateCategoryAsync(Category);
-            IsEditorEnabled = false;
+            if (!Category.ValidateModel())
+            {
+                await _service.UpdateCategoryAsync(Category);
+                IsEditorEnabled = false;
+            }
         }
 
         private void OnCancelEditCategory()
         {
-            Category.Name = originalCategoryName;
+            Category.Name = _originalCategoryName;
             IsEditorEnabled = false;
         }
 
@@ -113,7 +115,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             if (IsDeleteEnabled)
             {
                 IsEditorEnabled = false;
-                await service.DeleteCategoryAsync(Category);
+                await _service.DeleteCategoryAsync(Category);
                 var project = Category.Project;
                 project.Categories.Remove(Category);                
             }
@@ -121,9 +123,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private void OnStartEditCategory()
         {
-            eventAggregator.GetEvent<CategoryEditStartedEvent>().Publish(Category);
+            _eventAggregator.GetEvent<CategoryEditStartedEvent>().Publish(Category);
 
-            originalCategoryName = Category.Name;
+            _originalCategoryName = Category.Name;
             IsEditorEnabled = true;
         }
     }

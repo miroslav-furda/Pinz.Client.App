@@ -54,7 +54,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name}" VerticalAlignment="Center" ext:FocusExtension.IsFocused="{Binding IsEditorEnabled}"/>
+            <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" MinWidth="100" 
+                     ext:FocusExtension.IsFocused="{Binding IsEditorEnabled}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
             <Button Grid.Row="0" Grid.Column="1" Content="{StaticResource OkImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding UpdateCategory, Mode=OneWay}"/>
             <Button Grid.Row="0" Grid.Column="2" Content="{StaticResource CancelImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding CancelEditCategory, Mode=OneWay}"/>
             <Button Grid.Row="0" Grid.Column="3" Content="{StaticResource DeleteImage}"  Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding IsDeleteEnabled, Mode=TwoWay}" Command="{Binding DeleteCategory, Mode=OneWay}"/>
