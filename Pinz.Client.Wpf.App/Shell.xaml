@@ -20,7 +20,7 @@
                 <RibbonGroup x:Name="ClipboardGroup" Header="Filter">
                     <RibbonCheckBox Label="Show finished" KeyTip="F" x:Name="FinishedFiler" IsChecked="{Binding Filter.Complete}"/>
                     <RibbonCheckBox Label="Due today" KeyTip="F" x:Name="DueTodayFiler" IsChecked="{Binding Filter.DueToday}"/>
-                    <RibbonCheckBox Label="My tasks" KeyTip="F" x:Name="MyTasksFiler"/>
+                    <RibbonCheckBox Label="My tasks" KeyTip="F" x:Name="MyTasksFiler"  IsChecked="{Binding Filter.MyTasks}"/>
                     <RibbonCheckBox Label="Not started" KeyTip="F" x:Name="NotStartedFiler" IsChecked="{Binding Filter.NotStarted}"/>
                     <RibbonCheckBox Label="In progress" KeyTip="F" x:Name="InProgressFiler" IsChecked="{Binding Filter.InProgress}"/>
                 </RibbonGroup>

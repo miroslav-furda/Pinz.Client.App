@@ -12,6 +12,7 @@ using Com.Pinz.Client.Commons.Model;
 using Com.Pinz.DomainModel;
 using System.Collections.Generic;
 using Com.Pinz.Client.Module.TaskManager.Models.Task;
+using Com.Pinz.Client.Model;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -37,18 +38,21 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
-        private readonly ITaskRemoteService service;
-        private readonly TaskFilter taskFilter;
-        private List<DomainModel.Task> allTasksFromServer;
+        private readonly ITaskRemoteService _service;
+        private readonly TaskFilter _taskFilter;
+        private List<DomainModel.Task> _allTasksFromServer;
+        private DomainModel.User _currentUser;
+
 
         [Inject]
-        public TaskListModel(ITaskRemoteService service, TaskFilter filter)
+        public TaskListModel(ITaskRemoteService service, TaskFilter filter, ApplicationGlobalModel applicationGlobalModel)
         {
-            this.service = service;
-            this.taskFilter = filter;
+            this._service = service;
+            this._taskFilter = filter;
             this.Tasks = new ObservableCollection<TaskModel>();
             CreateTask = new AwaitableDelegateCommand(OnCreateTask);
-            this.taskFilter.PropertyChanged += Filter_PropertyChanged;
+            this._taskFilter.PropertyChanged += Filter_PropertyChanged;
+            _currentUser = applicationGlobalModel.CurrentUser;
         }
 
 
@@ -56,31 +60,43 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private void Filter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            updateTaskObservableCollection();
+            if (_allTasksFromServer != null)
+                updateTaskObservableCollection();
         }
 
         private bool filterTasks(DomainModel.Task taskitem)
         {
             bool retval = true;
 
-            if (!taskFilter.Complete)
+            if (!_taskFilter.Complete)
             {
-                retval = taskitem.IsComplete.Equals(false);
+                retval = taskitem.Status != TaskStatus.TaskComplete;
             }
 
-            if (retval && taskFilter.DueToday)
+            if (retval && _taskFilter.DueToday)
             {
                 System.DateTime today = System.DateTime.Today;
                 retval = taskitem.DueDate.Equals(today);
             }
 
-            if (retval && taskFilter.InProgress)
+            if (retval && _taskFilter.InProgress && _taskFilter.NotStarted)
             {
-                retval = taskitem.Status.Equals(TaskStatus.TaskInProgress);
-                if (taskFilter.NotStarted)
-                {
-                    retval = taskitem.Status.Equals(TaskStatus.TaskNotStarted);
-                }
+                retval = taskitem.Status == TaskStatus.TaskInProgress ||
+                   taskitem.Status  == TaskStatus.TaskNotStarted;
+            }
+            else if (retval && _taskFilter.InProgress)
+            {
+                retval = taskitem.Status == TaskStatus.TaskInProgress;
+            }
+            else if (retval && _taskFilter.NotStarted)
+            {
+                retval = taskitem.Status == TaskStatus.TaskNotStarted;
+            }
+
+            if (retval && _taskFilter.MyTasks)
+            {
+                retval = taskitem.UserId == _currentUser.UserId;
+
             }
             return retval;
         }
@@ -114,21 +130,21 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             var sourceItem = dropInfo.Data as TaskModel;
             var targetItem = dropInfo.TargetItem as TaskModel;
 
-            await service.MoveTaskToCategoryAsync(sourceItem, Category);
+            await _service.MoveTaskToCategoryAsync(sourceItem, Category);
         }
 
         #endregion
 
         private async System.Threading.Tasks.Task OnCreateTask()
         {
-            await service.CreateTaskInCategoryAsync(Category);
+            await _service.CreateTaskInCategoryAsync(Category);
         }
 
         private async System.Threading.Tasks.Task LoadTasks()
         {
             if (Category != null)
             {
-                allTasksFromServer = await service.ReadAllTasksByCategoryAsync(Category);
+                _allTasksFromServer = await _service.ReadAllTasksByCategoryAsync(Category);
                 updateTaskObservableCollection();
                 Category.Tasks = Tasks;
             }
@@ -141,7 +157,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         private void updateTaskObservableCollection()
         {
             Tasks.Clear();
-            foreach (var task in allTasksFromServer)
+            foreach (var task in _allTasksFromServer)
             {
                 if (filterTasks(task))
                     Tasks.Add(new TaskModel(task, _category));

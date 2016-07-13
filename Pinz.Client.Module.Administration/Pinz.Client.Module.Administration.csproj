@@ -38,8 +38,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
@@ -58,16 +58,16 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Pinz.Client.Base, Version=0.8.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.8.0.2\lib\net452\Pinz.Client.Base.dll</HintPath>
+    <Reference Include="Pinz.Client.Base, Version=0.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pinz.Client.Base.0.8.2.0\lib\net452\Pinz.Client.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.Client.Commons, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.8.0.2\lib\net452\Pinz.Client.Commons.dll</HintPath>
+      <HintPath>..\packages\Pinz.Client.Base.0.8.2.0\lib\net452\Pinz.Client.Commons.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.Client.RemoteServiceConsumer, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Pinz.Client.Base.0.8.0.2\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
+      <HintPath>..\packages\Pinz.Client.Base.0.8.2.0\lib\net452\Pinz.Client.RemoteServiceConsumer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Pinz.DomainModel">

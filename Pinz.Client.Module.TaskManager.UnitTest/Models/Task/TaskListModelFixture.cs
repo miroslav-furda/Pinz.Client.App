@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using System.Collections.Generic;
 using Com.Pinz.Client.Module.TaskManager.Models.Category;
+using Com.Pinz.Client.Commons.Model;
+using Com.Pinz.Client.Model;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 {
@@ -10,6 +12,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
     public class TaskListModelFixture
     {
         private TaskListModel model;
+        private TaskFilter taskFilter;
         private Mock<ITaskRemoteService> taskService;
 
         [TestInitialize]
@@ -22,8 +25,10 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
             taskService = new Mock<ITaskRemoteService>();
             taskService.Setup(x => x.ReadAllTasksByCategoryAsync(It.IsAny<DomainModel.Category>())).Returns(
                 System.Threading.Tasks.Task.FromResult(tasks));
+            taskFilter = new TaskFilter();
+            Mock<ApplicationGlobalModel> applicationGlobalModel = new Mock<ApplicationGlobalModel>();
 
-            model = new TaskListModel(taskService.Object);
+            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel.Object);
         }
 
         [TestMethod]
