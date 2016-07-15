@@ -241,6 +241,33 @@ namespace Com.Pinz.Client.Module.TaskManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string TaskPriority_High {
+            get {
+                return ResourceManager.GetString("TaskPriority_High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string TaskPriority_Low {
+            get {
+                return ResourceManager.GetString("TaskPriority_Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal.
+        /// </summary>
+        public static string TaskPriority_Normal {
+            get {
+                return ResourceManager.GetString("TaskPriority_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed.
         /// </summary>
         public static string TaskStatus_TaskComplete {

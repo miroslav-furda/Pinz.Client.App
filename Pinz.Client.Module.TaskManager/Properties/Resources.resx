@@ -177,6 +177,15 @@
   <data name="StatusLabel" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="TaskPriority_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="TaskPriority_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="TaskPriority_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
   <data name="TaskStatus_TaskComplete" xml:space="preserve">
     <value>Completed</value>
   </data>

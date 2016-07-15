@@ -34,6 +34,11 @@
                 <x:Type TypeName="Model:TaskStatus"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider x:Key="PriorityEnumValues" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Model:TaskPriority"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
         <Style x:Key="FormLabel">
             <Setter Property="Control.VerticalAlignment" Value="Center"/>
         </Style>
@@ -109,7 +114,14 @@
             </ComboBox>
 
             <Label Grid.Column="0" Grid.Row="5"  Content="{x:Static p:Resources.PriorityLabel}" Style="{StaticResource FormLabel}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Task.Priority}" Style="{StaticResource FormField}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
+            <ComboBox Grid.Column="1" Grid.Row="5" SelectedValue="{Binding Task.Priority, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource PriorityEnumValues}}" Style="{StaticResource FormField}"
+                      Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource Enum2LocString}, ConverterParameter={x:Static p:Resources.ResourceManager}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Label Grid.Column="2" Grid.Row="5"  Content="{x:Static p:Resources.ActualWorkLabel}" Style="{StaticResource FormLabel}" />
             <Slider Grid.Column="3" Grid.Row="5" Value="{Binding Task.ActualWork}" Maximum="100" TickPlacement="BottomRight" TickFrequency="25" IsSnapToTickEnabled="True"
                     Style="{StaticResource FormField}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
