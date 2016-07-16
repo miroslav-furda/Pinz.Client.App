@@ -153,7 +153,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             var newTask = await _service.CreateTaskInCategoryAsync(Category);
             _allTasksFromServer.Add(newTask);
-            Tasks.Add(new TaskModel(newTask, _category));
+            Tasks.Add(new TaskModel(newTask, Category));
         }
 
         private async System.Threading.Tasks.Task LoadTasks()
@@ -176,7 +176,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             foreach (var task in _allTasksFromServer)
             {
                 if (filterTasks(task))
-                    Tasks.Add(new TaskModel(task, _category));
+                    Tasks.Add(new TaskModel(task, Category));
             }
         }
     }

@@ -3,11 +3,11 @@ using System.ComponentModel;
 
 namespace Com.Pinz.Client.Module.TaskManager.Components.AutoCompleteCombo
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModelll : INotifyPropertyChanged
     {
         private string selectedItem;
 
-        public ViewModel()
+        public ViewModelll()
         {
             Items = new List<string>();
         }

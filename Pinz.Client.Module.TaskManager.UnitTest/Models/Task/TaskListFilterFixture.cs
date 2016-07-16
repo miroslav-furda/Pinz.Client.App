@@ -10,6 +10,8 @@ using System;
 using System.Linq;
 using Com.Pinz.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Models.Category;
+using Prism.Events;
+using Com.Pinz.Client.Module.TaskManager.Events;
 
 namespace Pinz.Client.Module.TaskManager.UnitTest.Models.Task
 {
@@ -47,7 +49,11 @@ namespace Pinz.Client.Module.TaskManager.UnitTest.Models.Task
                 CurrentUser = currentUser
             };
 
-            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel);
+            var eventAgregator = new Mock<IEventAggregator>();
+            var taskDeltedEvent = new Mock<TaskDeletedEvent>();
+            eventAgregator.Setup(x => x.GetEvent<TaskDeletedEvent>()).Returns(taskDeltedEvent.Object);
+
+            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel, eventAgregator.Object);
         }
 
         [TestMethod]

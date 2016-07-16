@@ -10,6 +10,7 @@ using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
+using System.Linq;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -55,20 +56,33 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
+        private UserModel _selectedUser;
+        public UserModel SelectedUser
+        {
+            get
+            {
+                return _selectedUser;
+            }
+            set
+            {
+                SetProperty(ref this._selectedUser, value);
+            }
+        }
+
         public AwaitableDelegateCommand OkCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
         public DelegateCommand DeleteCommand { get; private set; }
         public InteractionRequest<IConfirmation> DeleteConfirmation { get; private set; }
 
         private IEventAggregator _eventAggregator;
-        private ITaskRemoteService _service;        
+        private ITaskRemoteService _service;
         private TaskModel _originalTask;
         private IMapper _mapper;
 
         [Inject]
         public TaskEditModel(ITaskRemoteService service, IEventAggregator eventAggregator, [Named("WpfClientMapper")] IMapper mapper)
         {
-            this._service = service;            
+            this._service = service;
             this._eventAggregator = eventAggregator;
             this._mapper = mapper;
             this.EditMode = false;
@@ -122,6 +136,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             if (Task.ValidateModel())
             {
+                Task.UserId = SelectedUser.UserId;
                 await _service.UpdateTaskAsync(Task);
                 EditMode = false;
                 _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
@@ -131,7 +146,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         private void StartEdit(TaskModel obj)
         {
             _originalTask = _mapper.Map<TaskModel>(Task);
+            SelectedUser = Users.Single(u => u.UserId == Task.UserId);
             EditMode = true;
-        }       
+        }
     }
 }

@@ -16,7 +16,14 @@
             <ColumnDefinition />
             <ColumnDefinition Width="18" />
         </Grid.ColumnDefinitions>
-        <local:LivePreviewComboBox x:Name="Cbx" PreviewKeyDown="cbx_PreviewKeyDown" SelectionChanged="cbx_SelectionChanged" Grid.Column="0" Grid.ColumnSpan="2" DisplayMemberPath="Name" SelectedValuePath="Id" ItemsPanel="{StaticResource Vsp}" Focusable="{Binding IsDropDownOpen, RelativeSource={RelativeSource Self}}" MaxDropDownHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" />
+        <local:LivePreviewComboBox x:Name="Cbx" 
+                                   PreviewKeyDown="cbx_PreviewKeyDown" SelectionChanged="cbx_SelectionChanged" 
+                                   Grid.Column="0" Grid.ColumnSpan="2" 
+                                   DisplayMemberPath="Name" SelectedValuePath="Id" 
+                                   ItemsPanel="{StaticResource Vsp}" 
+                                   Focusable="{Binding IsDropDownOpen, RelativeSource={RelativeSource Self}}" MaxDropDownHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" 
+                                   ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" 
+                                   SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" />
         <TextBox Name="Tbx" Grid.Column="0" BorderThickness="2,2,0,2" Text="{Binding SelectedText, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoCompleteComboBox}}}" PreviewKeyDown="tbx_PreviewKeyDown" TextChanged="tbx_TextChanged" />
     </Grid>
 </UserControl>

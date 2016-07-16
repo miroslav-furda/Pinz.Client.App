@@ -109,6 +109,7 @@
     <Compile Include="Components\AutoCompleteCombo\ComboboxProperties.cs" />
     <Compile Include="Components\AutoCompleteCombo\LivePreviewComboBox.cs" />
     <Compile Include="Components\AutoCompleteCombo\ViewModel.cs" />
+    <Compile Include="Components\AutoFilterComboBox\AutoFilteredComboBox.cs" />
     <Compile Include="Events\CategoryEditStartedEvent.cs" />
     <Compile Include="Events\TaskDeletedEvent.cs" />
     <Compile Include="Events\TaskEditFinishedEvent.cs" />

@@ -5,6 +5,11 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
     public class TaskModel : DomainModel.Task
     {
         private CategoryModel _category;
+        public CategoryModel Category
+        {
+            get { return _category; }
+            set { SetProperty(ref _category, value); }
+        }
 
         public TaskModel()
         {
@@ -28,10 +33,5 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
             _category = category;
         }
 
-        public CategoryModel Category
-        {
-            get { return _category; }
-            set { SetProperty(ref _category, value); }
-        }
     }
 }

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Com.Pinz.Client.Module.TaskManager.Models.Category;
 using Com.Pinz.Client.Commons.Model;
 using Com.Pinz.Client.Model;
+using Com.Pinz.Client.Module.TaskManager.Events;
+using Prism.Events;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 {
@@ -28,7 +30,11 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
             taskFilter = new TaskFilter();
             Mock<ApplicationGlobalModel> applicationGlobalModel = new Mock<ApplicationGlobalModel>();
 
-            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel.Object);
+            var eventAgregator = new Mock<IEventAggregator>();
+            var taskDeltedEvent = new Mock<TaskDeletedEvent>();
+            eventAgregator.Setup(x => x.GetEvent<TaskDeletedEvent>()).Returns(taskDeltedEvent.Object);
+
+            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel.Object, eventAgregator.Object);
         }
 
         [TestMethod]
