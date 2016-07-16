@@ -39,7 +39,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
                 changedPropertyName = e.PropertyName;
             };
 
-            model.Task = new TaskModel { TaskName = "Test" };
+            model.Task = new DomainModel.Task { TaskName = "Test" };
             Assert.AreEqual("Task", changedPropertyName);
             Assert.IsFalse(model.EditMode);
         }
@@ -55,7 +55,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         [TestMethod]
         public void OnStartCallsService()
         {
-            model.Task = new TaskModel { TaskName = "Test" };
+            model.Task = new DomainModel.Task { TaskName = "Test" };
 
             model.StartCommand.ExecuteAsync(this);
 
@@ -65,7 +65,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         [TestMethod]
         public void OnComplete_True_Calls_CompleteTask()
         {
-            model.Task = new TaskModel { TaskName = "Test" };
+            model.Task = new DomainModel.Task { TaskName = "Test" };
 
             model.CompleteCommand.Execute(true);
 
@@ -75,7 +75,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         [TestMethod]
         public void OnComplete_False_Calls_ReopenTask()
         {
-            model.Task = new TaskModel { TaskName = "Test" };
+            model.Task = new DomainModel.Task { TaskName = "Test" };
 
             model.CompleteCommand.Execute(false);
 

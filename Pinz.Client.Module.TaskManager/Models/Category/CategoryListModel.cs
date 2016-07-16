@@ -57,7 +57,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 Project.ProjectUsers.Clear();
                 foreach (var user in users)
                 {
-                    Project.ProjectUsers.Add(new UserModel(user));
+                    Project.ProjectUsers.Add(user);
                 }
             }
         }

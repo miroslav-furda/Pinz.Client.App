@@ -12,7 +12,6 @@ using Ninject.Activation;
 using Prism.Modularity;
 using Prism.Ninject;
 using System.Windows;
-using Com.Pinz.Client.Module.TaskManager.Models.Task;
 
 namespace Com.Pinz.Client.Wpf.App
 {
@@ -61,8 +60,8 @@ namespace Com.Pinz.Client.Wpf.App
             MapperConfiguration config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Task, Task>();
-                cfg.CreateMap<TaskModel, TaskModel>();
-                cfg.CreateMap<Task, TaskModel>();
+                cfg.CreateMap<Task, Task>();
+                cfg.CreateMap<Task, Task>();
                 cfg.CreateMap<User, User>();
                 cfg.CreateMap<User, ProjectUser>();
             });

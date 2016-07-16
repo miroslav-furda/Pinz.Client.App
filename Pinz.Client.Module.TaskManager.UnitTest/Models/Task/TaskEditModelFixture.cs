@@ -6,6 +6,7 @@ using AutoMapper;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using System;
 using System.Collections.ObjectModel;
+using Com.Pinz.Client.DomainModel;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 {
@@ -15,7 +16,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
         private TaskEditModel model;
         private Mock<ITaskRemoteService> taskService;
         private Mock<TaskEditStartedEvent> taskEditStartEvent;
-        private TaskModel _task;
+        private DomainModel.Task _task;
 
         [TestInitialize]
         public void SetUpFixture()
@@ -32,7 +33,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 
             model = new TaskEditModel(taskService.Object, eventAgregator.Object, mapper.Object);
 
-            _task = new TaskModel
+            _task = new DomainModel.Task
             {
                 TaskId = Guid.NewGuid(),
                 TaskName = "Test",
@@ -43,7 +44,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
                 {
                     Project = new ProjectModel()
                     {
-                        ProjectUsers = new ObservableCollection<UserModel>()
+                        ProjectUsers = new ObservableCollection<User>()
                     }
                 }
             };

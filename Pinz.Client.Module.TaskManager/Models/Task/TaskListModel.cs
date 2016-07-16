@@ -10,11 +10,11 @@ using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Commons.Model;
 using Com.Pinz.DomainModel;
 using System.Collections.Generic;
-using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.Model;
 using Prism.Events;
 using Com.Pinz.Client.Module.TaskManager.Events;
 using System.Linq;
+using Com.Pinz.Client.DomainModel;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -22,8 +22,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
     {
         public AwaitableDelegateCommand CreateTask { get; private set; }
 
-        private ObservableCollection<TaskModel> _tasks;
-        public ObservableCollection<TaskModel> Tasks
+        private ObservableCollection<Task> _tasks;
+        public ObservableCollection<Task> Tasks
         {
             get { return _tasks; }
             set { SetProperty(ref _tasks, value); }
@@ -53,7 +53,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             this._service = service;
             this._taskFilter = filter;
             this._eventAggregator = eventAggregator;
-            this.Tasks = new ObservableCollection<TaskModel>();
+            this.Tasks = new ObservableCollection<Task>();
             CreateTask = new AwaitableDelegateCommand(OnCreateTask);
             this._taskFilter.PropertyChanged += Filter_PropertyChanged;
             _currentUser = applicationGlobalModel.CurrentUser;
@@ -62,7 +62,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             taskDeletedEvent.Subscribe(OnDeleteTask, ThreadOption.UIThread, false, t => Category != null && t.CategoryId == Category.CategoryId);
         }
 
-        private void OnDeleteTask(TaskModel taskToDelete)
+        private void OnDeleteTask(Task taskToDelete)
         {
             Tasks.Remove(taskToDelete);
             var allTaskToDelete = _allTasksFromServer.Where(t => t.TaskId == taskToDelete.TaskId).First();
@@ -121,8 +121,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
-            var sourceItem = dropInfo.Data as TaskModel;
-            var targetItem = dropInfo.TargetItem as TaskModel;
+            var sourceItem = dropInfo.Data as Task;
+            var targetItem = dropInfo.TargetItem as Task;
 
 
             if (sourceItem != null && ((targetItem != null && sourceItem.CategoryId != targetItem.CategoryId) || targetItem == null))
@@ -141,8 +141,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         async void IDropTarget.Drop(IDropInfo dropInfo)
         {
-            var sourceItem = dropInfo.Data as TaskModel;
-            var targetItem = dropInfo.TargetItem as TaskModel;
+            var sourceItem = dropInfo.Data as Task;
+            var targetItem = dropInfo.TargetItem as Task;
 
             await _service.MoveTaskToCategoryAsync(sourceItem, Category);
         }
@@ -153,7 +153,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             var newTask = await _service.CreateTaskInCategoryAsync(Category);
             _allTasksFromServer.Add(newTask);
-            Tasks.Add(new TaskModel(newTask, Category));
+            Tasks.Add(newTask);
         }
 
         private async System.Threading.Tasks.Task LoadTasks()
@@ -176,7 +176,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             foreach (var task in _allTasksFromServer)
             {
                 if (filterTasks(task))
-                    Tasks.Add(new TaskModel(task, Category));
+                    Tasks.Add(task);
             }
         }
     }

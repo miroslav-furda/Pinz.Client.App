@@ -2,7 +2,6 @@
 using AutoMapper;
 using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
-using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
@@ -11,13 +10,14 @@ using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
 using System.Linq;
+using Com.Pinz.Client.Module.TaskManager.Models.Category;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskEditModel : BindableBase
     {
-        private TaskModel _task;
-        public TaskModel Task
+        private Task _task;
+        public Task Task
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             set
             {
                 if (SetProperty(ref this._task, value))
-                    Users = Task.Category.Project.ProjectUsers;
+                    Users = ((CategoryModel)Task.Category).Project.ProjectUsers;
             }
         }
 
@@ -43,8 +43,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
-        private ObservableCollection<UserModel> _users;
-        public ObservableCollection<UserModel> Users
+        private ObservableCollection<User> _users;
+        public ObservableCollection<User> Users
         {
             get
             {
@@ -56,8 +56,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
-        private UserModel _selectedUser;
-        public UserModel SelectedUser
+        private User _selectedUser;
+        public User SelectedUser
         {
             get
             {
@@ -76,7 +76,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private IEventAggregator _eventAggregator;
         private ITaskRemoteService _service;
-        private TaskModel _originalTask;
+        private Task _originalTask;
         private IMapper _mapper;
 
         [Inject]
@@ -87,7 +87,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             this._mapper = mapper;
             this.EditMode = false;
             this._originalTask = null;
-            this._users = new ObservableCollection<UserModel>();
+            this._users = new ObservableCollection<User>();
 
             TaskEditStartedEvent taskEditStartEvent = eventAggregator.GetEvent<TaskEditStartedEvent>();
             taskEditStartEvent.Subscribe(StartEdit, ThreadOption.UIThread, false, t => t == Task);
@@ -143,9 +143,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
-        private void StartEdit(TaskModel obj)
+        private void StartEdit(Task obj)
         {
-            _originalTask = _mapper.Map<TaskModel>(Task);
+            _originalTask = _mapper.Map<Task>(Task);
             SelectedUser = Users.Single(u => u.UserId == Task.UserId);
             EditMode = true;
         }

@@ -1,7 +1,6 @@
 ﻿using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
-using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.DomainModel;
 using Ninject;
@@ -13,8 +12,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class TaskShowEditModel : BindableBase
     {
-        private TaskModel _task;
-        public TaskModel Task
+        private Task _task;
+        public Task Task
         {
             get
             {
@@ -70,7 +69,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             return !EditMode;
         }
 
-        private void StopEdit(TaskModel obj)
+        private void StopEdit(Task obj)
         {
             EditMode = false;
             EditCommand.RaiseCanExecuteChanged();

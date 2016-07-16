@@ -7,11 +7,11 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
     public class ProjectModel : Project
     {
         private ObservableCollection<CategoryModel> categories;
-        private ObservableCollection<UserModel> projectUsers;
+        private ObservableCollection<User> projectUsers;
 
         public ProjectModel()
         {
-            ProjectUsers = new ObservableCollection<UserModel>();
+            ProjectUsers = new ObservableCollection<User>();
         }
 
         public ProjectModel(Project project) : this()
@@ -22,7 +22,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             ProjectId = project.ProjectId;
         }
 
-        public ObservableCollection<UserModel> ProjectUsers
+        public ObservableCollection<User> ProjectUsers
         {
             get { return projectUsers; }
             set { SetProperty(ref projectUsers, value); }
