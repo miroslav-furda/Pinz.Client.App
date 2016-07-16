@@ -10,36 +10,36 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class CategoryListModel : BindableBase
     {        
-        private readonly IAdministrationRemoteService adminService;
-        private ProjectModel project;
-
-        private readonly ITaskRemoteService taskService;
-
-        [Inject]
-        public CategoryListModel(ITaskRemoteService taskService, IAdministrationRemoteService adminService)
-        {
-            this.taskService = taskService;
-            this.adminService = adminService;            
-            CreateCategory = new AwaitableDelegateCommand(OnCreateCategory);
-        }
-
+        private ProjectModel _project;
         public ProjectModel Project
         {
-            get { return project; }
+            get { return _project; }
             set
             {
-                if (SetProperty(ref project, value))
+                if (SetProperty(ref _project, value))
                     LoadCategories();
             }
         }
 
-        public ObservableCollection<CategoryModel> Categories => project?.Categories;
+        public ObservableCollection<CategoryModel> Categories => _project?.Categories;
 
         public AwaitableDelegateCommand CreateCategory { get; private set; }
 
+        private readonly ITaskRemoteService _taskService;
+        private readonly IAdministrationRemoteService _adminService;
+
+        [Inject]
+        public CategoryListModel(ITaskRemoteService taskService, IAdministrationRemoteService adminService)
+        {
+            this._taskService = taskService;
+            this._adminService = adminService;            
+            CreateCategory = new AwaitableDelegateCommand(OnCreateCategory);
+        }
+
         private async System.Threading.Tasks.Task OnCreateCategory()
         {
-            await taskService.CreateCategoryInProjectAsync(Project);
+            DomainModel.Category newCategory = await _taskService.CreateCategoryInProjectAsync(Project);
+            Categories.Add(new CategoryModel(newCategory, Project));
         }
 
         private async System.Threading.Tasks.Task LoadCategories()
@@ -47,13 +47,13 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             if (Project != null)
             {
                 Project.Categories = new ObservableCollection<CategoryModel>();
-                var categories = await taskService.ReadAllCategoriesByProjectAsync(Project);
+                var categories = await _taskService.ReadAllCategoriesByProjectAsync(Project);
                 foreach (var category in categories)
                 {
                     Categories.Add(new CategoryModel(category, Project));
                 }
 
-                var users = await adminService.ReadAllUsersByProjectAsync(Project);
+                var users = await _adminService.ReadAllUsersByProjectAsync(Project);
                 Project.ProjectUsers.Clear();
                 foreach (var user in users)
                 {

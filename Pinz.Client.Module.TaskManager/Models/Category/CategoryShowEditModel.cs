@@ -10,6 +10,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -47,6 +48,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         public DelegateCommand CancelEditCategory { get; private set; }
         public AwaitableDelegateCommand UpdateCategory { get; private set; }
         public AwaitableDelegateCommand DeleteCategory { get; private set; }
+        public InteractionRequest<IConfirmation> DeleteConfirmation { get; private set; }
 
         private readonly IEventAggregator _eventAggregator;
         private readonly ITaskRemoteService _service;
@@ -69,6 +71,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
             var taskEditStartedEvent = eventAggregator.GetEvent<TaskEditStartedEvent>();
             taskEditStartedEvent.Subscribe(CategoryEditStartedEventHandler);
+            this.DeleteConfirmation = new InteractionRequest<IConfirmation>();
         }
 
 
@@ -114,10 +117,20 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             if (IsDeleteEnabled)
             {
-                IsEditorEnabled = false;
-                await _service.DeleteCategoryAsync(Category);
-                var project = Category.Project;
-                project.Categories.Remove(Category);                
+                this.DeleteConfirmation.Raise(new Confirmation
+                {
+                    Title = Properties.Resources.DeleteConfirmation_Title,
+                    Content = Properties.Resources.DeleteConfirmation_Content
+                }, async (dialog) =>
+                {
+                    if (dialog.Confirmed)
+                    {
+                        IsEditorEnabled = false;
+                        await _service.DeleteCategoryAsync(Category);
+                        var project = Category.Project;
+                        project.Categories.Remove(Category);
+                    }
+                });
             }
         }
 

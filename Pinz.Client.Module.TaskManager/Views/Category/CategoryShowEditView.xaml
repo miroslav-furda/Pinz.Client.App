@@ -8,6 +8,7 @@
              xmlns:p="clr-namespace:Com.Pinz.Client.Module.TaskManager.Properties"
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
              xmlns:ext="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.TaskManager.DesignModels;assembly=Pinz.Client.Module.TaskManager.DesignModels"
              d:DataContext ="{d:DesignInstance {x:Type dvm:CategoryShowEditDesignModel}, IsDesignTimeCreatable=True}"
@@ -21,7 +22,12 @@
         <Image x:Key="DeleteImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding DeleteConfirmation, Mode=OneWay}">
+            <prism:PopupWindowAction  CenterOverAssociatedObject="True" IsModal="True" />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid Margin="0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
