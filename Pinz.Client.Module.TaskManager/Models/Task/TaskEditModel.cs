@@ -7,14 +7,14 @@ using Ninject;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
 using System.Linq;
 using Com.Pinz.Client.Module.TaskManager.Models.Category;
+using System.ComponentModel.DataAnnotations;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
-    public class TaskEditModel : BindableBase
+    public class TaskEditModel : BindableValidationBase
     {
         private Task _task;
         public Task Task
@@ -57,6 +57,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
         private User _selectedUser;
+        [Required]
         public User SelectedUser
         {
             get
@@ -134,7 +135,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async System.Threading.Tasks.Task OnOkExecute()
         {
-            if (Task.ValidateModel())
+            if (Task.ValidateModel() && this.ValidateModel())
             {
                 Task.UserId = SelectedUser.UserId;
                 await _service.UpdateTaskAsync(Task);

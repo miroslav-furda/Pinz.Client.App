@@ -93,7 +93,7 @@
             <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Task.StartDate, StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>
 
             <Label Grid.Column="0" Grid.Row="2"  Content="{x:Static p:Resources.DueDateLabel}" Style="{StaticResource FormLabel}" />
-            <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding Task.DueDate, StringFormat=\{0:d\} }" Style="{StaticResource FormField}"
+            <DatePicker Grid.Column="1" Grid.Row="2" SelectedDate="{Binding Task.DueDate}" Style="{StaticResource FormField}"
                         Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
             <Label Grid.Column="2" Grid.Row="2"  Content="{x:Static p:Resources.DateCompletedLabel}" Style="{StaticResource FormLabel}" />
             <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding Task.DateCompleted, StringFormat=\{0:d\} }" IsEnabled="False" Style="{StaticResource FormField}"/>

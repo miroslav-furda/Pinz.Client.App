@@ -11,7 +11,9 @@ using Ninject;
 using Ninject.Activation;
 using Prism.Modularity;
 using Prism.Ninject;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace Com.Pinz.Client.Wpf.App
 {
@@ -24,6 +26,10 @@ namespace Com.Pinz.Client.Wpf.App
 
         protected override void InitializeShell()
         {
+            //set current culture
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+            new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
             Application.Current.MainWindow = (Window)this.Shell;
             Application.Current.MainWindow.Show();
         }
