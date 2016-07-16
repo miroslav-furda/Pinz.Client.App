@@ -32,6 +32,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 SetProperty(ref this._isUserInEditMode, value);
             }
         }
+
         public DelegateCommand StartUserChangesCommand { get; private set; }
         public AwaitableDelegateCommand SaveUserChangesCommand { get; private set; }
         public DelegateCommand CancelUserChangesCommand { get; private set; }
@@ -48,21 +49,24 @@ namespace Com.Pinz.Client.Module.Administration.Model
                 SetProperty(ref this._isPasswordInEditMode, value);
             }
         }
+
         public DelegateCommand StartPasswordChangeCommand { get; private set; }
         public AwaitableDelegateCommand ChangeUserPasswordCommand { get; private set; }
         public DelegateCommand CancelPasswordChangeCommand { get; private set; }
 
-        private IAdministrationRemoteService adminService;
-        private IMapper mapper;
+        private readonly IAdministrationRemoteService _adminService;
+        private readonly IMapper _mapper;
+        private readonly UserNameClientCredentials _userCredentials;
 
         public InteractionRequest<INotification> ChangeNotification { get; private set; }
 
         [Inject]
-        public UserSelfAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel,
-            [Named("WpfClientMapper")]  IMapper mapper)
+        public UserSelfAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel, 
+            UserNameClientCredentials userCredentials, [Named("WpfClientMapper")]  IMapper mapper)
         {
-            this.adminService = adminService;
-            this.mapper = mapper;
+            this._adminService = adminService;
+            this._mapper = mapper;
+            this._userCredentials = userCredentials;
 
             TabModel = new TabModel()
             {
@@ -97,9 +101,9 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async System.Threading.Tasks.Task ChangeUserPassword()
         {
-            if (!PasswordChangeModel.ValidateModel())
+            if (PasswordChangeModel.ValidateModel())
             {
-                bool success = await adminService.ChangeUserPasswordAsync(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2);
+                bool success = await _adminService.ChangeUserPasswordAsync(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2);
                 if (success)
                 {
                     ChangeNotification.Raise(new Notification()
@@ -108,6 +112,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
                         Content = Properties.Resources.PasswordChange_Success
                     });
                     IsPasswordInEditMode = false;
+                    _userCredentials.Password = PasswordChangeModel.NewPassword;
+                    _userCredentials.UpdateCredentialsForAllFactories();
                 }
                 else
                 {
@@ -130,13 +136,13 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private void CancelUserChanges()
         {
-            mapper.Map(BackupUser, CurrentUser);
+            _mapper.Map(BackupUser, CurrentUser);
             IsUserInEditMode = false;
         }
 
         private async System.Threading.Tasks.Task SaveUserChanges()
         {
-            await adminService.UpdateUserAsync(CurrentUser);
+            await _adminService.UpdateUserAsync(CurrentUser);
             IsUserInEditMode = false;
         }
 
@@ -144,7 +150,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (IsPasswordInEditMode)
                 CancelPasswordChange();
-            mapper.Map(CurrentUser, BackupUser);
+            _mapper.Map(CurrentUser, BackupUser);
             IsUserInEditMode = true;
         }
     }
