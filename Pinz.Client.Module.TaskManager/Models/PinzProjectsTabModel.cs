@@ -7,35 +7,45 @@ using Com.Pinz.Client.Model;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Logging;
+using Prism.Mvvm;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
-    public class PinzProjectsTabModel : INavigationAware
+    public class PinzProjectsTabModel : BindableBase, INavigationAware
     {
         private static readonly ILog Log = LogManager.GetLogger<PinzProjectsTabModel>();
 
         public ObservableCollection<ProjectModel> Projects { get; private set; }
-        private ITaskRemoteService taskService;
+
+        private ProjectModel _selectedProject;
+        public ProjectModel SelectedProject
+        {
+            get { return _selectedProject; }
+            set { SetProperty(ref _selectedProject, value); }
+        }
+
+        private ITaskRemoteService _taskService;
 
         [Inject]
         public PinzProjectsTabModel(ITaskRemoteService taskService, ApplicationGlobalModel globalModel)
         {
             Log.Debug("Constructor");
-            this.taskService = taskService;
+            this._taskService = taskService;
             Projects = new ObservableCollection<ProjectModel>();
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             Log.Debug("OnNavigatedTo called ...");
-            var projects = await taskService.ReadAllProjectsForCurrentUserAsync();
+            var projects = await _taskService.ReadAllProjectsForCurrentUserAsync();
             Log.DebugFormat("OnNavigatedTo projects loaded from remote. Count: {0}", projects.Count);
             Projects.Clear();
             Log.Debug("OnNavigatedTo Projects cleared");            
             foreach (var project in projects)
             {
                 Projects.Add(new ProjectModel(project));
-            }            
+            }
+            SelectedProject = Projects.FirstOrDefault();
             Log.DebugFormat("OnNavigatedTo called Projects populated. Count: {0}", Projects.Count);
         }
 

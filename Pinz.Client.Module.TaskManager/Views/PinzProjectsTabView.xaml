@@ -11,7 +11,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
-        <TabControl ItemsSource="{Binding Projects, Mode=OneWay}">
+        <TabControl ItemsSource="{Binding Projects, Mode=OneWay}" SelectedValue="{Binding SelectedProject}">
             <TabControl.ItemTemplate>
                 <!-- this is the header template-->
                 <DataTemplate>
