@@ -84,6 +84,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public AwaitableDelegateCommand RemoveUserFromProjectCommand { get; private set; }
         public AwaitableDelegateCommand CompanyAdminCheckCommand { get; private set; }
         public AwaitableDelegateCommand ProjectSetAsAdminCommand { get; private set; }
+        public AwaitableDelegateCommand InitializeCommand { get; private set; }
+        
 
         private bool _isProjectSelected;
         public bool IsProjectSelected
@@ -144,10 +146,9 @@ namespace Com.Pinz.Client.Module.Administration.Model
             InviteUserCommand = new AwaitableDelegateCommand(InviteUser, CanExecuteInviteUser);
             CompanyAdminCheckCommand = new AwaitableDelegateCommand(CompanyAdminCheck);
             ProjectSetAsAdminCommand = new AwaitableDelegateCommand(SetAsAdmin, CanSetAsAdmin);
+            InitializeCommand = new AwaitableDelegateCommand(LoadProjects);
 
             ChangeNotification = new InteractionRequest<INotification>();
-
-            LoadProjects();
         }
 
         private async System.Threading.Tasks.Task CompanyAdminCheck()
