@@ -5,7 +5,6 @@ using Com.Pinz.Client.Module.TaskManager.Models.Category;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using GongSolutions.Wpf.DragDrop;
 using Ninject;
-using Prism.Commands;
 using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.Commons.Model;
@@ -13,6 +12,9 @@ using Com.Pinz.DomainModel;
 using System.Collections.Generic;
 using Com.Pinz.Client.Module.TaskManager.Models.Task;
 using Com.Pinz.Client.Model;
+using Prism.Events;
+using Com.Pinz.Client.Module.TaskManager.Events;
+using System.Linq;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -42,17 +44,29 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         private readonly TaskFilter _taskFilter;
         private List<DomainModel.Task> _allTasksFromServer;
         private DomainModel.User _currentUser;
+        private IEventAggregator _eventAggregator;
 
 
         [Inject]
-        public TaskListModel(ITaskRemoteService service, TaskFilter filter, ApplicationGlobalModel applicationGlobalModel)
+        public TaskListModel(ITaskRemoteService service, TaskFilter filter, ApplicationGlobalModel applicationGlobalModel, IEventAggregator eventAggregator)
         {
             this._service = service;
             this._taskFilter = filter;
+            this._eventAggregator = eventAggregator;
             this.Tasks = new ObservableCollection<TaskModel>();
             CreateTask = new AwaitableDelegateCommand(OnCreateTask);
             this._taskFilter.PropertyChanged += Filter_PropertyChanged;
             _currentUser = applicationGlobalModel.CurrentUser;
+
+            TaskDeletedEvent taskDeletedEvent = eventAggregator.GetEvent<TaskDeletedEvent>();
+            taskDeletedEvent.Subscribe(OnDeleteTask, ThreadOption.UIThread, false, t => Category != null && t.CategoryId == Category.CategoryId);
+        }
+
+        private void OnDeleteTask(TaskModel taskToDelete)
+        {
+            Tasks.Remove(taskToDelete);
+            var allTaskToDelete = _allTasksFromServer.Where(t => t.TaskId == taskToDelete.TaskId).First();
+            _allTasksFromServer.Remove(allTaskToDelete);
         }
 
 
@@ -137,7 +151,9 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async System.Threading.Tasks.Task OnCreateTask()
         {
-            await _service.CreateTaskInCategoryAsync(Category);
+            var newTask = await _service.CreateTaskInCategoryAsync(Category);
+            _allTasksFromServer.Add(newTask);
+            Tasks.Add(new TaskModel(newTask, _category));
         }
 
         private async System.Threading.Tasks.Task LoadTasks()

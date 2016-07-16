@@ -100,6 +100,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                     EditMode = false;
                     _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
                     await _service.DeleteTaskAsync(this.Task);
+                    _eventAggregator.GetEvent<TaskDeletedEvent>().Publish(Task);
                 }
             });
         }

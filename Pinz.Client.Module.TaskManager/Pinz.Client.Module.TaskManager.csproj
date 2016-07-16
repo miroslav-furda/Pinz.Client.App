@@ -110,6 +110,7 @@
     <Compile Include="Components\AutoCompleteCombo\LivePreviewComboBox.cs" />
     <Compile Include="Components\AutoCompleteCombo\ViewModel.cs" />
     <Compile Include="Events\CategoryEditStartedEvent.cs" />
+    <Compile Include="Events\TaskDeletedEvent.cs" />
     <Compile Include="Events\TaskEditFinishedEvent.cs" />
     <Compile Include="Events\TaskEditStartedEvent.cs" />
     <Compile Include="Infrastructure\Converter\CategoryToCompleteBool.cs" />
