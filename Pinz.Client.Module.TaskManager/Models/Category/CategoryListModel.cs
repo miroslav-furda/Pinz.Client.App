@@ -21,7 +21,12 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             }
         }
 
-        public ObservableCollection<CategoryModel> Categories => _project?.Categories;
+        private ObservableCollection<CategoryModel> _categories;
+        public ObservableCollection<CategoryModel> Categories
+        {
+            get { return _categories; }
+            set { SetProperty(ref _categories, value); }
+        }
 
         public AwaitableDelegateCommand CreateCategory { get; private set; }
 
@@ -34,6 +39,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             this._taskService = taskService;
             this._adminService = adminService;            
             CreateCategory = new AwaitableDelegateCommand(OnCreateCategory);
+            Categories = new ObservableCollection<CategoryModel>();
         }
 
         private async System.Threading.Tasks.Task OnCreateCategory()
@@ -43,10 +49,11 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
         private async System.Threading.Tasks.Task LoadCategories()
-        {                        
+        {
+            Categories.Clear();
             if (Project != null)
             {
-                Project.Categories = new ObservableCollection<CategoryModel>();
+                Project.Categories = Categories;
                 var categories = await _taskService.ReadAllCategoriesByProjectAsync(Project);
                 foreach (var category in categories)
                 {

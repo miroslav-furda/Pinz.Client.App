@@ -57,7 +57,6 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
         private User _selectedUser;
-        [Required]
         public User SelectedUser
         {
             get
@@ -137,7 +136,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             if (Task.ValidateModel() && this.ValidateModel())
             {
-                Task.UserId = SelectedUser.UserId;
+                Task.UserId = SelectedUser?.UserId;
                 await _service.UpdateTaskAsync(Task);
                 EditMode = false;
                 _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
@@ -147,7 +146,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         private void StartEdit(Task obj)
         {
             _originalTask = _mapper.Map<Task>(Task);
-            SelectedUser = Users.Single(u => u.UserId == Task.UserId);
+            SelectedUser = Users.SingleOrDefault(u => u.UserId == Task.UserId);
             EditMode = true;
         }
     }
