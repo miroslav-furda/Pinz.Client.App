@@ -142,6 +142,42 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This project will be deleted fro the database. All work will be lost! Are you sure?.
+        /// </summary>
+        public static string DeleteProjectConfirmation_Content {
+            get {
+                return ResourceManager.GetString("DeleteProjectConfirmation_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete project.
+        /// </summary>
+        public static string DeleteProjectConfirmation_Title {
+            get {
+                return ResourceManager.GetString("DeleteProjectConfirmation_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user will be deleted. Tasks owned by this user will be preserved without owner..
+        /// </summary>
+        public static string DeleteUserConfirmation_Content {
+            get {
+                return ResourceManager.GetString("DeleteUserConfirmation_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete user.
+        /// </summary>
+        public static string DeleteUserConfirmation_Title {
+            get {
+                return ResourceManager.GetString("DeleteUserConfirmation_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -250,7 +286,7 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set as admin.
+        ///   Looks up a localized string similar to Un/Set as admin.
         /// </summary>
         public static string Project_SetAsAdmin {
             get {
@@ -259,7 +295,7 @@ namespace Com.Pinz.Client.Module.Administration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Grand the selected user the project administration rights.
+        ///   Looks up a localized string similar to Revoke/Grand the selected user the project administration rights.
         /// </summary>
         public static string Project_SetAsAdmin_Tooltip {
             get {

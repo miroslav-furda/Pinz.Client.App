@@ -108,7 +108,9 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Project_ProjectUsers}"/>
-                    <Button Grid.Row="0" Grid.Column="1"  Content="{x:Static p:Resources.Project_SetAsAdmin}" ToolTip="{x:Static p:Resources.Project_SetAsAdmin_Tooltip}" Command="{Binding ProjectSetAsAdminCommand}" Margin="5"/>
+                    <Button Grid.Row="0" Grid.Column="1"  Content="{x:Static p:Resources.Project_SetAsAdmin}" 
+                            ToolTip="{x:Static p:Resources.Project_SetAsAdmin_Tooltip}" 
+                            Command="{Binding ProjectSetAsAdminCommand}" Margin="5"/>
                 </Grid>
                 <ListBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding ProjectUsers}" SelectedItem="{Binding ProjectSelectedUser}" Margin="2">
                     <ListBox.ItemTemplate>

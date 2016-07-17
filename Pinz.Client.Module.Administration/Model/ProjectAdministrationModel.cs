@@ -174,7 +174,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private bool CanSetAsAdmin()
         {
-            return ProjectSelectedUser != null && !ProjectSelectedUser.IsProjectAdmin;
+            return ProjectSelectedUser != null;
         }
         #endregion
 
@@ -238,6 +238,8 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public async System.Threading.Tasks.Task LoadProjects()
         {
             Projects = await adminService.ReadAdminProjectsForUserAsync(globalModel.CurrentUser);
+            ProjectUsers.Clear();
+            AllCompanyUsers.Clear();
         }
     }
 }

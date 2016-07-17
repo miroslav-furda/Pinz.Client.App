@@ -9,155 +9,111 @@ using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Ninject;
 using Prism.Commands;
 using Task = System.Threading.Tasks.Task;
+using Prism.Interactivity.InteractionRequest;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
     public class CompanyAdministrationModel : BindableValidationBase
     {
-        private readonly IAdministrationRemoteService adminService;
-        private readonly IPinzAdminRemoteService pinzAdminService;
-        private readonly ApplicationGlobalModel globalModel;
-
-        private Company company;
-
-        private bool isCompanyEditorEnabled;
-
-        private bool isCompanyEditorVisible;
-
-        private bool isNewProjectEnabled = true;
-        private bool isProjectEditorEnabled;
-        private bool isProjectEditorVisible;
-        private bool isUserEditorEnabled;
-        private bool isUserEditorVisible;
-
-        private string originalCompanyName;
-        private Project selectedProject;
-        private User selectedUser;
-
-        [Inject]
-        public CompanyAdministrationModel(IAdministrationRemoteService adminService, IPinzAdminRemoteService pinzAdminService, ApplicationGlobalModel globalModel)
-        {
-            this.globalModel = globalModel;
-            TabModel = new TabModel
-            {
-                Title = Resources.AdministrationTab_Title_Company,
-                CanClose = false,
-                IsModified = false
-            };
-            this.adminService = adminService;
-            this.pinzAdminService = pinzAdminService;
-
-            StartEditCompany = new DelegateCommand(OnStartEditCompany);
-            CancelEditCompany = new DelegateCommand(OnCancelEditCompany);
-            UpdateCompany = new AwaitableDelegateCommand(OnUpdateCompany);
-
-            NewProject = new DelegateCommand(OnNewProject);
-            StartEditProject = new DelegateCommand(OnEditProject);
-            DeleteProject = new AwaitableDelegateCommand(OnDeleteProject);
-            UpdateProject = new AwaitableDelegateCommand(OnSaveProject);
-            CancelEditProject = new DelegateCommand(OnCancelEditProject);
-
-            StartEditUser = new DelegateCommand(OnEditUser);
-            DeleteUser = new AwaitableDelegateCommand(OnDeleteUser);
-            UpdateUser = new AwaitableDelegateCommand(OnUpdateUser);
-            CancelEditUser = new DelegateCommand(OnCancelEditUser);
-
-            Projects = new ObservableCollection<Project>();
-            Users = new ObservableCollection<User>();
-
-            LoadCompany();
-        }
-
         public TabModel TabModel { get; private set; }
-
-
         public DelegateCommand StartEditCompany { get; private set; }
         public DelegateCommand CancelEditCompany { get; private set; }
         public AwaitableDelegateCommand UpdateCompany { get; private set; }
-
         public DelegateCommand NewProject { get; private set; }
         public DelegateCommand StartEditProject { get; private set; }
         public DelegateCommand CancelEditProject { get; private set; }
         public AwaitableDelegateCommand UpdateProject { get; private set; }
         public AwaitableDelegateCommand DeleteProject { get; private set; }
-
         public DelegateCommand StartEditUser { get; private set; }
         public DelegateCommand CancelEditUser { get; private set; }
         public AwaitableDelegateCommand UpdateUser { get; private set; }
         public AwaitableDelegateCommand DeleteUser { get; private set; }
+        public AwaitableDelegateCommand InitializeCommand { get; private set; }
 
+        public InteractionRequest<IConfirmation> DeleteConfirmation { get; private set; }
+
+        private bool _isCompanyEditorVisible;
         public bool IsCompanyEditorVisible
         {
-            get { return isCompanyEditorVisible; }
-            set { SetProperty(ref isCompanyEditorVisible, value); }
+            get { return _isCompanyEditorVisible; }
+            set { SetProperty(ref _isCompanyEditorVisible, value); }
         }
 
+        private bool _isProjectEditorVisible;
         public bool IsProjectEditorVisible
         {
-            get { return isProjectEditorVisible; }
+            get { return _isProjectEditorVisible; }
             set
             {
-                SetProperty(ref isProjectEditorVisible, value);
+                SetProperty(ref _isProjectEditorVisible, value);
                 IsNewProjectEnabled = !IsNewProjectEnabled;
             }
         }
 
+        private bool _isUserEditorVisible;
         public bool IsUserEditorVisible
         {
-            get { return isUserEditorVisible; }
-            set { SetProperty(ref isUserEditorVisible, value); }
+            get { return _isUserEditorVisible; }
+            set { SetProperty(ref _isUserEditorVisible, value); }
         }
 
+        private bool _isCompanyEditorEnabled;
         public bool IsCompanyEditorEnabled
         {
-            get { return isCompanyEditorEnabled; }
-            set { SetProperty(ref isCompanyEditorEnabled, value); }
+            get { return _isCompanyEditorEnabled; }
+            set { SetProperty(ref _isCompanyEditorEnabled, value); }
         }
 
+        private bool _isProjectEditorEnabled;
         public bool IsProjectEditorEnabled
         {
-            get { return isProjectEditorEnabled; }
-            set { SetProperty(ref isProjectEditorEnabled, value); }
+            get { return _isProjectEditorEnabled; }
+            set { SetProperty(ref _isProjectEditorEnabled, value); }
         }
 
+        private bool _isUserEditorEnabled;
         public bool IsUserEditorEnabled
         {
-            get { return isUserEditorEnabled; }
-            set { SetProperty(ref isUserEditorEnabled, value); }
+            get { return _isUserEditorEnabled; }
+            set { SetProperty(ref _isUserEditorEnabled, value); }
         }
 
+        private bool _isNewProjectEnabled = true;
         public bool IsNewProjectEnabled
         {
-            get { return isNewProjectEnabled; }
-            set { SetProperty(ref isNewProjectEnabled, value); }
+            get { return _isNewProjectEnabled; }
+            set { SetProperty(ref _isNewProjectEnabled, value); }
         }
 
+        private Company _company;
         public Company Company
         {
-            get { return company; }
+            get { return _company; }
             set
             {
-                SetProperty(ref company, value);
+                SetProperty(ref _company, value);
                 IsCompanyEditorEnabled = value != null;
             }
         }
 
+        private Project _selectedProject;
         public Project SelectedProject
         {
-            get { return selectedProject; }
+            get { return _selectedProject; }
             set
             {
-                SetProperty(ref selectedProject, value);
+                SetProperty(ref _selectedProject, value);
                 IsProjectEditorEnabled = value != null;
             }
         }
 
+        private User _selectedUser;
         public User SelectedUser
         {
-            get { return selectedUser; }
+            get { return _selectedUser; }
             set
             {
-                SetProperty(ref selectedUser, value);
+                SetProperty(ref _selectedUser, value);
                 IsUserEditorEnabled = value != null;
             }
         }
@@ -165,36 +121,90 @@ namespace Com.Pinz.Client.Module.Administration.Model
         public ObservableCollection<Project> Projects { get; set; }
         public ObservableCollection<User> Users { get; set; }
 
+        private string _originalCompanyName;
+
+        private readonly IAdministrationRemoteService _adminService;
+        private readonly IPinzAdminRemoteService _pinzAdminService;
+        private readonly ApplicationGlobalModel _globalModel;
+
+        [Inject]
+        public CompanyAdministrationModel(IAdministrationRemoteService adminService, IPinzAdminRemoteService pinzAdminService, ApplicationGlobalModel globalModel)
+        {
+            this._globalModel = globalModel;
+            TabModel = new TabModel
+            {
+                Title = Resources.AdministrationTab_Title_Company,
+                CanClose = false,
+                IsModified = false
+            };
+            this._adminService = adminService;
+            this._pinzAdminService = pinzAdminService;
+
+            StartEditCompany = new DelegateCommand(OnStartEditCompany, IsCompanyAdmin);
+            CancelEditCompany = new DelegateCommand(OnCancelEditCompany, IsCompanyAdmin);
+            UpdateCompany = new AwaitableDelegateCommand(OnUpdateCompany, IsCompanyAdmin);
+
+            NewProject = new DelegateCommand(OnNewProject, IsCompanyAdmin);
+            StartEditProject = new DelegateCommand(OnEditProject, IsCompanyAdmin);
+            DeleteProject = new AwaitableDelegateCommand(OnDeleteProject, IsCompanyAdmin);
+            UpdateProject = new AwaitableDelegateCommand(OnSaveProject, IsCompanyAdmin);
+            CancelEditProject = new DelegateCommand(OnCancelEditProject, IsCompanyAdmin);
+
+            StartEditUser = new DelegateCommand(OnEditUser, IsCompanyAdmin);
+            DeleteUser = new AwaitableDelegateCommand(OnDeleteUser, IsCompanyAdmin);
+            UpdateUser = new AwaitableDelegateCommand(OnUpdateUser, IsCompanyAdmin);
+            CancelEditUser = new DelegateCommand(OnCancelEditUser, IsCompanyAdmin);
+
+            Projects = new ObservableCollection<Project>();
+            Users = new ObservableCollection<User>();
+
+            InitializeCommand = new AwaitableDelegateCommand(LoadCompany);
+
+            this.DeleteConfirmation = new InteractionRequest<IConfirmation>();
+        }
+
         private async Task LoadCompany()
         {
-            Company = await adminService.ReadCompanyByIdAsync(globalModel.CurrentUser.CompanyId);
+            Company = await _adminService.ReadCompanyByIdAsync(_globalModel.CurrentUser.CompanyId);
 
-            var projects = await adminService.ReadProjectsForCompanyAsync(Company);
+            var projects = await _adminService.ReadProjectsForCompanyAsync(Company);
             Projects.Clear();
             Projects.AddRange(projects);
 
-            var users = await adminService.ReadAllUsersForCompanyAsync(Company.CompanyId);
+            var users = await _adminService.ReadAllUsersForCompanyAsync(Company.CompanyId);
             Users.Clear();
             Users.AddRange(users);
+
+            IsCompanyEditorVisible = false;
+            IsProjectEditorVisible = false;
+            IsUserEditorVisible = false;
+        }
+
+        private bool IsCompanyAdmin()
+        {
+            return _globalModel.CurrentUser.IsCompanyAdmin;
         }
 
         #region Company
 
         private void OnStartEditCompany()
         {
-            originalCompanyName = Company.Name;
+            _originalCompanyName = Company.Name;
             IsCompanyEditorVisible = true;
         }
 
         private async Task OnUpdateCompany()
         {
-            await pinzAdminService.UpdateCompanyAsync(Company);
-            IsCompanyEditorVisible = false;
+            if (Company.ValidateModel())
+            {
+                await _pinzAdminService.UpdateCompanyAsync(Company);
+                IsCompanyEditorVisible = false;
+            }
         }
 
         private void OnCancelEditCompany()
         {
-            Company.Name = originalCompanyName;
+            Company.Name = _originalCompanyName;
             IsCompanyEditorVisible = false;
         }
 
@@ -223,22 +233,35 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async Task OnSaveProject()
         {
-            if (SelectedProject.ProjectId == Guid.Empty)
-                SelectedProject = await adminService.CreateProjectAsync(selectedProject);
-            else
-                await adminService.UpdateProjectAsync(selectedProject);
-            if (!Projects.Contains(SelectedProject))
-                Projects.Add(SelectedProject);
-            IsProjectEditorVisible = false;
+            if (_selectedProject.ValidateModel())
+            {
+                if (SelectedProject.ProjectId == Guid.Empty)
+                    SelectedProject = await _adminService.CreateProjectAsync(_selectedProject);
+                else
+                    await _adminService.UpdateProjectAsync(_selectedProject);
+                if (!Projects.Contains(SelectedProject))
+                    Projects.Add(SelectedProject);
+                IsProjectEditorVisible = false;
+            }
         }
 
         private async Task OnDeleteProject()
         {
-            if (SelectedProject.ProjectId != Guid.Empty)
-                await adminService.DeleteProjectAsync(SelectedProject);
-            Projects.Remove(SelectedProject);
-            SelectedProject = null;
-            IsProjectEditorVisible = false;
+            this.DeleteConfirmation.Raise(new Confirmation
+            {
+                Title = Resources.DeleteProjectConfirmation_Title,
+                Content = Resources.DeleteProjectConfirmation_Content
+            }, async (dialog) =>
+            {
+                if (dialog.Confirmed)
+                {
+                    if (SelectedProject.ProjectId != Guid.Empty)
+                        await _adminService.DeleteProjectAsync(SelectedProject);
+                    Projects.Remove(SelectedProject);
+                    SelectedProject = null;
+                    IsProjectEditorVisible = false;
+                }
+            });
         }
 
         private void OnCancelEditProject()
@@ -274,16 +297,29 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async Task OnUpdateUser()
         {
-            await adminService.UpdateUserAsync(SelectedUser);            
-            IsUserEditorVisible = false;
+            if (SelectedUser.ValidateModel())
+            {
+                await _adminService.UpdateUserAsync(SelectedUser);
+                IsUserEditorVisible = false;
+            }
         }
 
         private async Task OnDeleteUser()
         {
-            await adminService.DeleteUserAsync(SelectedUser);
-            Users.Remove(SelectedUser);
-            SelectedUser = null;
-            IsUserEditorVisible = false;
+            this.DeleteConfirmation.Raise(new Confirmation
+            {
+                Title = Resources.DeleteUserConfirmation_Title,
+                Content = Resources.DeleteUserConfirmation_Content
+            }, async (dialog) =>
+            {
+                if (dialog.Confirmed)
+                {
+                    await _adminService.DeleteUserAsync(SelectedUser);
+                    Users.Remove(SelectedUser);
+                    SelectedUser = null;
+                    IsUserEditorVisible = false;
+                }
+            });
         }
 
         private void OnCancelEditUser()

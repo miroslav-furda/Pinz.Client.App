@@ -160,10 +160,10 @@
     <value>Project users</value>
   </data>
   <data name="Project_SetAsAdmin" xml:space="preserve">
-    <value>Set as admin</value>
+    <value>Un/Set as admin</value>
   </data>
   <data name="Project_SetAsAdmin_Tooltip" xml:space="preserve">
-    <value>Grand the selected user the project administration rights</value>
+    <value>Revoke/Grand the selected user the project administration rights</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Users</value>
@@ -224,5 +224,17 @@
   </data>
   <data name="User_NewPasswordStrength" xml:space="preserve">
     <value>Password strength</value>
+  </data>
+  <data name="DeleteProjectConfirmation_Content" xml:space="preserve">
+    <value>This project will be deleted fro the database. All work will be lost! Are you sure?</value>
+  </data>
+  <data name="DeleteProjectConfirmation_Title" xml:space="preserve">
+    <value>Delete project</value>
+  </data>
+  <data name="DeleteUserConfirmation_Content" xml:space="preserve">
+    <value>This user will be deleted. Tasks owned by this user will be preserved without owner.</value>
+  </data>
+  <data name="DeleteUserConfirmation_Title" xml:space="preserve">
+    <value>Delete user</value>
   </data>
 </root>
