@@ -5,11 +5,14 @@ using Ninject;
 using Prism.Commands;
 using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
+using Prism.Events;
+using System;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
     public class CategoryListModel : BindableBase
-    {        
+    {
         private ProjectModel _project;
         public ProjectModel Project
         {
@@ -32,20 +35,29 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private readonly ITaskRemoteService _taskService;
         private readonly IAdministrationRemoteService _adminService;
+        private readonly IEventAggregator _eventAggregator;
 
         [Inject]
-        public CategoryListModel(ITaskRemoteService taskService, IAdministrationRemoteService adminService)
+        public CategoryListModel(ITaskRemoteService taskService, IAdministrationRemoteService adminService, IEventAggregator eventAggregator)
         {
             this._taskService = taskService;
-            this._adminService = adminService;            
+            this._adminService = adminService;
+            this._eventAggregator = eventAggregator;
             CreateCategory = new AwaitableDelegateCommand(OnCreateCategory);
             Categories = new ObservableCollection<CategoryModel>();
         }
 
         private async System.Threading.Tasks.Task OnCreateCategory()
         {
-            DomainModel.Category newCategory = await _taskService.CreateCategoryInProjectAsync(Project);
-            Categories.Add(new CategoryModel(newCategory, Project));
+            try
+            {
+                DomainModel.Category newCategory = await _taskService.CreateCategoryInProjectAsync(Project);
+                Categories.Add(new CategoryModel(newCategory, Project));
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
         }
 
         private async System.Threading.Tasks.Task LoadCategories()
@@ -53,18 +65,25 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             Categories.Clear();
             if (Project != null)
             {
-                Project.Categories = Categories;
-                var categories = await _taskService.ReadAllCategoriesByProjectAsync(Project);
-                foreach (var category in categories)
+                try
                 {
-                    Categories.Add(new CategoryModel(category, Project));
-                }
+                    Project.Categories = Categories;
+                    var categories = await _taskService.ReadAllCategoriesByProjectAsync(Project);
+                    foreach (var category in categories)
+                    {
+                        Categories.Add(new CategoryModel(category, Project));
+                    }
 
-                var users = await _adminService.ReadAllUsersByProjectAsync(Project);
-                Project.ProjectUsers.Clear();
-                foreach (var user in users)
+                    var users = await _adminService.ReadAllUsersByProjectAsync(Project);
+                    Project.ProjectUsers.Clear();
+                    foreach (var user in users)
+                    {
+                        Project.ProjectUsers.Add(user);
+                    }
+                }
+                catch (TimeoutException timeoutEx)
                 {
-                    Project.ProjectUsers.Add(user);
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
                 }
             }
         }

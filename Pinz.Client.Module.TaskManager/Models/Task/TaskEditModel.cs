@@ -11,6 +11,8 @@ using Com.Pinz.Client.Commons.Prism;
 using System.Linq;
 using Com.Pinz.Client.Module.TaskManager.Models.Category;
 using System.ComponentModel.DataAnnotations;
+using Com.Pinz.Client.Commons.Event;
+using System;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -111,10 +113,17 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             {
                 if (dialog.Confirmed)
                 {
-                    EditMode = false;
-                    _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
-                    await _service.DeleteTaskAsync(this.Task);
-                    _eventAggregator.GetEvent<TaskDeletedEvent>().Publish(Task);
+                    try
+                    {
+                        await _service.DeleteTaskAsync(this.Task);
+                        _eventAggregator.GetEvent<TaskDeletedEvent>().Publish(Task);
+                        EditMode = false;
+                        _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+                    }
+                    catch (TimeoutException timeoutEx)
+                    {
+                        _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                    }
                 }
             });
         }
@@ -136,10 +145,17 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             if (Task.ValidateModel() && this.ValidateModel())
             {
-                Task.UserId = SelectedUser?.UserId;
-                await _service.UpdateTaskAsync(Task);
-                EditMode = false;
-                _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+                try
+                {
+                    Task.UserId = SelectedUser?.UserId;
+                    await _service.UpdateTaskAsync(Task);
+                    EditMode = false;
+                    _eventAggregator.GetEvent<TaskEditFinishedEvent>().Publish(Task);
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
             }
         }
 

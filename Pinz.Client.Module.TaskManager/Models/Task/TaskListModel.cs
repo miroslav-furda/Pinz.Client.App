@@ -15,6 +15,8 @@ using Prism.Events;
 using Com.Pinz.Client.Module.TaskManager.Events;
 using System.Linq;
 using Com.Pinz.Client.DomainModel;
+using System;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -96,7 +98,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             if (retval && _taskFilter.InProgress && _taskFilter.NotStarted)
             {
                 retval = taskitem.Status == TaskStatus.TaskInProgress ||
-                   taskitem.Status  == TaskStatus.TaskNotStarted;
+                   taskitem.Status == TaskStatus.TaskNotStarted;
             }
             else if (retval && _taskFilter.InProgress)
             {
@@ -144,25 +146,47 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             var sourceItem = dropInfo.Data as Task;
             var targetItem = dropInfo.TargetItem as Task;
 
-            await _service.MoveTaskToCategoryAsync(sourceItem, Category);
+            try
+            {
+                await _service.MoveTaskToCategoryAsync(sourceItem, Category);
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
+
         }
 
         #endregion
 
         private async System.Threading.Tasks.Task OnCreateTask()
         {
-            var newTask = await _service.CreateTaskInCategoryAsync(Category);
-            _allTasksFromServer.Add(newTask);
-            Tasks.Add(newTask);
+            try
+            {
+                var newTask = await _service.CreateTaskInCategoryAsync(Category);
+                _allTasksFromServer.Add(newTask);
+                Tasks.Add(newTask);
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
         }
 
         private async System.Threading.Tasks.Task LoadTasks()
         {
             if (Category != null)
             {
-                _allTasksFromServer = await _service.ReadAllTasksByCategoryAsync(Category);
-                updateTaskObservableCollection();
-                Category.Tasks = Tasks;
+                try
+                {
+                    _allTasksFromServer = await _service.ReadAllTasksByCategoryAsync(Category);
+                    updateTaskObservableCollection();
+                    Category.Tasks = Tasks;
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
             }
             else
             {

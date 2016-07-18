@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.DomainModel;
+using Prism.Events;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Category
 {
@@ -36,7 +37,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Category
             adminService.Setup(x => x.ReadAllUsersByProjectAsync(It.IsAny<DomainModel.Project>())).Returns(
                 System.Threading.Tasks.Task.FromResult(users));
 
-            model = new CategoryListModel(taskService.Object, adminService.Object);
+            model = new CategoryListModel(taskService.Object, adminService.Object, new Mock<EventAggregator>().Object);
         }
 
         [TestMethod]

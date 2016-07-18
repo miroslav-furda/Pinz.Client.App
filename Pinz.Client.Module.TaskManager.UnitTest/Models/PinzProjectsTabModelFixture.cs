@@ -2,6 +2,7 @@
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Prism.Events;
 using System.Collections.Generic;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
@@ -24,7 +25,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 System.Threading.Tasks.Task.FromResult(projects));
             Mock<ApplicationGlobalModel> globalModel = new Mock<ApplicationGlobalModel>();
 
-            model = new PinzProjectsTabModel(taskService.Object, globalModel.Object);
+            model = new PinzProjectsTabModel(taskService.Object, globalModel.Object, new Mock<EventAggregator>().Object);
         }
 
         [TestMethod]

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Com.Pinz.Client.Module.Login.Infrastructure;
 using System.Windows.Input;
 using System.ServiceModel.Security;
+using Prism.Events;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.Login.Model
 {
@@ -62,17 +64,19 @@ namespace Com.Pinz.Client.Module.Login.Model
         private ApplicationGlobalModel applicationGlobalModel;
         private UserNameClientCredentials userCredentials;
         private IAuthorisationRemoteService authorisationService;
+        private readonly IEventAggregator _eventAggregator;
 
         private TaskScheduler scheduler;
 
         [Inject]
         public LoginModel(ApplicationGlobalModel applicationGlobalModel, UserNameClientCredentials userCredentials,
-            IAuthorisationRemoteService authorisationService, IRegionManager regionManager)
+            IAuthorisationRemoteService authorisationService, IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.applicationGlobalModel = applicationGlobalModel;
             this.regionManager = regionManager;
             this.userCredentials = userCredentials;
             this.authorisationService = authorisationService;
+            this._eventAggregator = eventAggregator;
 
             LoginCommand = new AwaitableDelegateCommand(Login);
             LoadedCommand = new AwaitableDelegateCommand(Loaded);
@@ -109,6 +113,10 @@ namespace Com.Pinz.Client.Module.Login.Model
                 {
                     Log.ErrorFormat("Error logging in with user {0}", ex, UserName);
                     ErrorMessage = Properties.Resources.BadLogin;
+                }
+                catch(TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
                 }
             }
         }

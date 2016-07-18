@@ -11,6 +11,8 @@ using Prism.Events;
 using Prism.Mvvm;
 using Com.Pinz.Client.Commons.Prism;
 using Prism.Interactivity.InteractionRequest;
+using System;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -88,7 +90,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 {
                     _category.Tasks.CollectionChanged += Tasks_CollectionChanged;
                     IsDeleteEnabled = Category.Tasks.All(nav => nav.Status == TaskStatus.TaskComplete);
-                }                                
+                }
             }
         }
 
@@ -102,8 +104,15 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         {
             if (Category.ValidateModel())
             {
-                await _service.UpdateCategoryAsync(Category);
-                IsEditorEnabled = false;
+                try
+                {
+                    await _service.UpdateCategoryAsync(Category);
+                    IsEditorEnabled = false;
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
             }
         }
 
@@ -125,10 +134,17 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
                 {
                     if (dialog.Confirmed)
                     {
-                        IsEditorEnabled = false;
-                        await _service.DeleteCategoryAsync(Category);
-                        var project = Category.Project;
-                        project.Categories.Remove(Category);
+                        try
+                        {
+                            await _service.DeleteCategoryAsync(Category);
+                            var project = Category.Project;
+                            project.Categories.Remove(Category);
+                            IsEditorEnabled = false;
+                        }
+                        catch (TimeoutException timeoutEx)
+                        {
+                            _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                        }
                     }
                 });
             }

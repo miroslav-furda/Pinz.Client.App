@@ -10,6 +10,8 @@ using Ninject;
 using Prism.Commands;
 using Task = System.Threading.Tasks.Task;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Events;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
@@ -126,9 +128,11 @@ namespace Com.Pinz.Client.Module.Administration.Model
         private readonly IAdministrationRemoteService _adminService;
         private readonly IPinzAdminRemoteService _pinzAdminService;
         private readonly ApplicationGlobalModel _globalModel;
+        private readonly IEventAggregator _eventAggregator;
 
         [Inject]
-        public CompanyAdministrationModel(IAdministrationRemoteService adminService, IPinzAdminRemoteService pinzAdminService, ApplicationGlobalModel globalModel)
+        public CompanyAdministrationModel(IAdministrationRemoteService adminService, IPinzAdminRemoteService pinzAdminService,
+            ApplicationGlobalModel globalModel, IEventAggregator eventAggregator)
         {
             this._globalModel = globalModel;
             TabModel = new TabModel
@@ -139,6 +143,7 @@ namespace Com.Pinz.Client.Module.Administration.Model
             };
             this._adminService = adminService;
             this._pinzAdminService = pinzAdminService;
+            this._eventAggregator = eventAggregator;
 
             StartEditCompany = new DelegateCommand(OnStartEditCompany, IsCompanyAdmin);
             CancelEditCompany = new DelegateCommand(OnCancelEditCompany, IsCompanyAdmin);
@@ -165,15 +170,22 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async Task LoadCompany()
         {
-            Company = await _adminService.ReadCompanyByIdAsync(_globalModel.CurrentUser.CompanyId);
+            try
+            {
+                Company = await _adminService.ReadCompanyByIdAsync(_globalModel.CurrentUser.CompanyId);
 
-            var projects = await _adminService.ReadProjectsForCompanyAsync(Company);
-            Projects.Clear();
-            Projects.AddRange(projects);
+                var projects = await _adminService.ReadProjectsForCompanyAsync(Company);
+                Projects.Clear();
+                Projects.AddRange(projects);
 
-            var users = await _adminService.ReadAllUsersForCompanyAsync(Company.CompanyId);
-            Users.Clear();
-            Users.AddRange(users);
+                var users = await _adminService.ReadAllUsersForCompanyAsync(Company.CompanyId);
+                Users.Clear();
+                Users.AddRange(users);
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
 
             IsCompanyEditorVisible = false;
             IsProjectEditorVisible = false;
@@ -197,8 +209,15 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (Company.ValidateModel())
             {
-                await _pinzAdminService.UpdateCompanyAsync(Company);
-                IsCompanyEditorVisible = false;
+                try
+                {
+                    await _pinzAdminService.UpdateCompanyAsync(Company);
+                    IsCompanyEditorVisible = false;
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
             }
         }
 
@@ -235,13 +254,20 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (_selectedProject.ValidateModel())
             {
-                if (SelectedProject.ProjectId == Guid.Empty)
-                    SelectedProject = await _adminService.CreateProjectAsync(_selectedProject);
-                else
-                    await _adminService.UpdateProjectAsync(_selectedProject);
-                if (!Projects.Contains(SelectedProject))
-                    Projects.Add(SelectedProject);
-                IsProjectEditorVisible = false;
+                try
+                {
+                    if (SelectedProject.ProjectId == Guid.Empty)
+                        SelectedProject = await _adminService.CreateProjectAsync(_selectedProject);
+                    else
+                        await _adminService.UpdateProjectAsync(_selectedProject);
+                    if (!Projects.Contains(SelectedProject))
+                        Projects.Add(SelectedProject);
+                    IsProjectEditorVisible = false;
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
             }
         }
 
@@ -255,11 +281,18 @@ namespace Com.Pinz.Client.Module.Administration.Model
             {
                 if (dialog.Confirmed)
                 {
-                    if (SelectedProject.ProjectId != Guid.Empty)
-                        await _adminService.DeleteProjectAsync(SelectedProject);
-                    Projects.Remove(SelectedProject);
-                    SelectedProject = null;
-                    IsProjectEditorVisible = false;
+                    try
+                    {
+                        if (SelectedProject.ProjectId != Guid.Empty)
+                            await _adminService.DeleteProjectAsync(SelectedProject);
+                        Projects.Remove(SelectedProject);
+                        SelectedProject = null;
+                        IsProjectEditorVisible = false;
+                    }
+                    catch (TimeoutException timeoutEx)
+                    {
+                        _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                    }
                 }
             });
         }
@@ -299,8 +332,15 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (SelectedUser.ValidateModel())
             {
-                await _adminService.UpdateUserAsync(SelectedUser);
-                IsUserEditorVisible = false;
+                try
+                {
+                    await _adminService.UpdateUserAsync(SelectedUser);
+                    IsUserEditorVisible = false;
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
             }
         }
 
@@ -314,10 +354,17 @@ namespace Com.Pinz.Client.Module.Administration.Model
             {
                 if (dialog.Confirmed)
                 {
-                    await _adminService.DeleteUserAsync(SelectedUser);
-                    Users.Remove(SelectedUser);
-                    SelectedUser = null;
-                    IsUserEditorVisible = false;
+                    try
+                    {
+                        await _adminService.DeleteUserAsync(SelectedUser);
+                        Users.Remove(SelectedUser);
+                        SelectedUser = null;
+                        IsUserEditorVisible = false;
+                    }
+                    catch (TimeoutException timeoutEx)
+                    {
+                        _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                    }
                 }
             });
         }

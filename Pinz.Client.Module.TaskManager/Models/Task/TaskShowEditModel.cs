@@ -1,4 +1,5 @@
-﻿using Com.Pinz.Client.Commons.Prism;
+﻿using Com.Pinz.Client.Commons.Event;
+using Com.Pinz.Client.Commons.Prism;
 using Com.Pinz.Client.DomainModel;
 using Com.Pinz.Client.Module.TaskManager.Events;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
@@ -7,6 +8,7 @@ using Ninject;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using System;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -84,13 +86,20 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async System.Threading.Tasks.Task OnComplete(bool? selected)
         {
-            if (selected == true)
+            try
             {
-                await _service.ChangeTaskStatusAsync(Task, TaskStatus.TaskComplete);
+                if (selected == true)
+                {
+                    await _service.ChangeTaskStatusAsync(Task, TaskStatus.TaskComplete);
+                }
+                else if (selected == false)
+                {
+                    await _service.ChangeTaskStatusAsync(Task, TaskStatus.TaskNotStarted);
+                }
             }
-            else if (selected == false)
+            catch (TimeoutException timeoutEx)
             {
-                await _service.ChangeTaskStatusAsync(Task, TaskStatus.TaskNotStarted);
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
             }
             CompleteCommand.RaiseCanExecuteChanged();
             StartCommand.RaiseCanExecuteChanged();
@@ -98,7 +107,14 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private async System.Threading.Tasks.Task OnStart()
         {
-            await _service.ChangeTaskStatusAsync(Task, TaskStatus.TaskInProgress);
+            try
+            {
+                await _service.ChangeTaskStatusAsync(Task, TaskStatus.TaskInProgress);
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
             StartCommand.RaiseCanExecuteChanged();
         }
 

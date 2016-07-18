@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Main.View"
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
@@ -12,6 +13,13 @@
     <UserControl.Resources>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding TimeoutNotification, Mode=OneWay}">
+            <prism:PopupWindowAction  CenterOverAssociatedObject="True" IsModal="True"  />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
         <ContentControl Name="MainContentRegion" prism:RegionManager.RegionName="MainContentRegion" Margin="5"/>
 

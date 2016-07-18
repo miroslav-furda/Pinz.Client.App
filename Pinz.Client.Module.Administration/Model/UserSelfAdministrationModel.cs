@@ -8,6 +8,9 @@ using Com.Pinz.Client.Commons.Wpf.Extensions;
 using Com.Pinz.Client.RemoteServiceConsumer.Service;
 using Com.Pinz.Client.Model;
 using Com.Pinz.Client.Commons.Prism;
+using Prism.Events;
+using System;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.Administration.Model
 {
@@ -60,13 +63,16 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         public InteractionRequest<INotification> ChangeNotification { get; private set; }
 
+        private readonly IEventAggregator _eventAggregator;
+
         [Inject]
-        public UserSelfAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel, 
-            UserNameClientCredentials userCredentials, [Named("WpfClientMapper")]  IMapper mapper)
+        public UserSelfAdministrationModel(IAdministrationRemoteService adminService, ApplicationGlobalModel globalModel,
+            UserNameClientCredentials userCredentials, [Named("WpfClientMapper")]  IMapper mapper, IEventAggregator eventAggregator)
         {
             this._adminService = adminService;
             this._mapper = mapper;
             this._userCredentials = userCredentials;
+            this._eventAggregator = eventAggregator;
 
             TabModel = new TabModel()
             {
@@ -103,25 +109,32 @@ namespace Com.Pinz.Client.Module.Administration.Model
         {
             if (PasswordChangeModel.ValidateModel())
             {
-                bool success = await _adminService.ChangeUserPasswordAsync(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2);
-                if (success)
+                try
                 {
-                    ChangeNotification.Raise(new Notification()
+                    bool success = await _adminService.ChangeUserPasswordAsync(CurrentUser, PasswordChangeModel.OldPassword, PasswordChangeModel.NewPassword, PasswordChangeModel.NewPassword2);
+                    if (success)
                     {
-                        Title = Properties.Resources.PasswordChange_Title,
-                        Content = Properties.Resources.PasswordChange_Success
-                    });
-                    IsPasswordInEditMode = false;
-                    _userCredentials.Password = PasswordChangeModel.NewPassword;
-                    _userCredentials.UpdateCredentialsForAllFactories();
+                        ChangeNotification.Raise(new Notification()
+                        {
+                            Title = Properties.Resources.PasswordChange_Title,
+                            Content = Properties.Resources.PasswordChange_Success
+                        });
+                        IsPasswordInEditMode = false;
+                        _userCredentials.Password = PasswordChangeModel.NewPassword;
+                        _userCredentials.UpdateCredentialsForAllFactories();
+                    }
+                    else
+                    {
+                        ChangeNotification.Raise(new Notification()
+                        {
+                            Title = Properties.Resources.PasswordChange_Title,
+                            Content = Properties.Resources.PasswordChange_Failed
+                        });
+                    }
                 }
-                else
+                catch (TimeoutException timeoutEx)
                 {
-                    ChangeNotification.Raise(new Notification()
-                    {
-                        Title = Properties.Resources.PasswordChange_Title,
-                        Content = Properties.Resources.PasswordChange_Failed
-                    });
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
                 }
             }
         }
@@ -142,8 +155,15 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async System.Threading.Tasks.Task SaveUserChanges()
         {
-            await _adminService.UpdateUserAsync(CurrentUser);
-            IsUserInEditMode = false;
+            try
+            {
+                await _adminService.UpdateUserAsync(CurrentUser);
+                IsUserInEditMode = false;
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
         }
 
         private void StartUserChanges()

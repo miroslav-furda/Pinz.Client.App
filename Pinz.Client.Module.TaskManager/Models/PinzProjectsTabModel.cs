@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Logging;
 using Prism.Mvvm;
+using Prism.Events;
+using System;
+using Com.Pinz.Client.Commons.Event;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -25,28 +28,37 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         }
 
         private ITaskRemoteService _taskService;
+        private readonly IEventAggregator _eventAggregator;
 
         [Inject]
-        public PinzProjectsTabModel(ITaskRemoteService taskService, ApplicationGlobalModel globalModel)
+        public PinzProjectsTabModel(ITaskRemoteService taskService, ApplicationGlobalModel globalModel, IEventAggregator eventAggregator)
         {
             Log.Debug("Constructor");
             this._taskService = taskService;
+            this._eventAggregator = eventAggregator;
             Projects = new ObservableCollection<ProjectModel>();
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Log.Debug("OnNavigatedTo called ...");
-            var projects = await _taskService.ReadAllProjectsForCurrentUserAsync();
-            Log.DebugFormat("OnNavigatedTo projects loaded from remote. Count: {0}", projects.Count);
-            Projects.Clear();
-            Log.Debug("OnNavigatedTo Projects cleared");            
-            foreach (var project in projects)
+            try
             {
-                Projects.Add(new ProjectModel(project));
+                Log.Debug("OnNavigatedTo called ...");
+                var projects = await _taskService.ReadAllProjectsForCurrentUserAsync();
+                Log.DebugFormat("OnNavigatedTo projects loaded from remote. Count: {0}", projects.Count);
+                Projects.Clear();
+                Log.Debug("OnNavigatedTo Projects cleared");
+                foreach (var project in projects)
+                {
+                    Projects.Add(new ProjectModel(project));
+                }
+                SelectedProject = Projects.FirstOrDefault();
+                Log.DebugFormat("OnNavigatedTo called Projects populated. Count: {0}", Projects.Count);
             }
-            SelectedProject = Projects.FirstOrDefault();
-            Log.DebugFormat("OnNavigatedTo called Projects populated. Count: {0}", Projects.Count);
+            catch (TimeoutException timeoutEx)
+            {
+                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+            }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

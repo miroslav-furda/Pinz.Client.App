@@ -59,5 +59,23 @@ namespace Com.Pinz.Client.Module.Main.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The operation was NOT successfull. The execution has taken too much time. Please try again..
+        /// </summary>
+        internal static string Error_Timeout_Content {
+            get {
+                return ResourceManager.GetString("Error_Timeout_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation timeout.
+        /// </summary>
+        internal static string Error_Timeout_Title {
+            get {
+                return ResourceManager.GetString("Error_Timeout_Title", resourceCulture);
+            }
+        }
     }
 }
