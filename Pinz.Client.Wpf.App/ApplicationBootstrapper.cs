@@ -66,8 +66,6 @@ namespace Com.Pinz.Client.Wpf.App
             MapperConfiguration config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Task, Task>();
-                cfg.CreateMap<Task, Task>();
-                cfg.CreateMap<Task, Task>();
                 cfg.CreateMap<User, User>();
                 cfg.CreateMap<User, ProjectUser>();
             });
