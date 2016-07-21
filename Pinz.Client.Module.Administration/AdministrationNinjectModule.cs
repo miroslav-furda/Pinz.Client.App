@@ -7,7 +7,7 @@ namespace Com.Pinz.Client.Module.Administration
     {
         public override void Load()
         {
-            Kernel.Bind<object>().To<AdministrationMainView>().Named("AdministrationMainView");
+            Kernel.Bind<object>().To<AdministrationMainView>().InSingletonScope().Named("AdministrationMainView");
         }
     }
 }
