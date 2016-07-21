@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.Logging;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +20,28 @@ namespace Com.Pinz.Client.Module.Administration.View
     /// <summary>
     /// Interaction logic for AdministrationMainView.xaml
     /// </summary>
-    public partial class AdministrationMainView : UserControl
+    public partial class AdministrationMainView : UserControl, INavigationAware
     {
+        private readonly ILog Log = LogManager.GetLogger<AdministrationMainView>();
+
         public AdministrationMainView()
         {
             InitializeComponent();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            Log.Debug("On navigation from ...");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Log.Debug("On navigation to ...");
         }
     }
 }

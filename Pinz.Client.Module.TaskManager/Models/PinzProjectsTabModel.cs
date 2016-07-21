@@ -63,8 +63,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            Log.Debug("IsNavigationTarget executed ... returning true");
-            return true;
+            Log.Debug("IsNavigationTarget executed ... returning false");
+            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
