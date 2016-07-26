@@ -17,6 +17,7 @@ using System.Linq;
 using Com.Pinz.Client.DomainModel;
 using System;
 using Com.Pinz.Client.Commons.Event;
+using AutoMapper;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models
 {
@@ -47,10 +48,11 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
         private List<DomainModel.Task> _allTasksFromServer;
         private DomainModel.User _currentUser;
         private IEventAggregator _eventAggregator;
-
+        private readonly IMapper _mapper;
 
         [Inject]
-        public TaskListModel(ITaskRemoteService service, TaskFilter filter, ApplicationGlobalModel applicationGlobalModel, IEventAggregator eventAggregator)
+        public TaskListModel(ITaskRemoteService service, TaskFilter filter, ApplicationGlobalModel applicationGlobalModel, 
+            IEventAggregator eventAggregator, [Named("WpfClientMapper")] IMapper mapper)
         {
             this._service = service;
             this._taskFilter = filter;
@@ -59,6 +61,7 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
             CreateTask = new AwaitableDelegateCommand(OnCreateTask);
             this._taskFilter.PropertyChanged += Filter_PropertyChanged;
             _currentUser = applicationGlobalModel.CurrentUser;
+            _mapper = mapper;
 
             TaskDeletedEvent taskDeletedEvent = eventAggregator.GetEvent<TaskDeletedEvent>();
             taskDeletedEvent.Subscribe(OnDeleteTask, ThreadOption.UIThread, false, t => Category != null && t.CategoryId == Category.CategoryId);
@@ -66,9 +69,10 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
         private void OnDeleteTask(Task taskToDelete)
         {
-            Tasks.Remove(taskToDelete);
-            var allTaskToDelete = _allTasksFromServer.Where(t => t.TaskId == taskToDelete.TaskId).First();
-            _allTasksFromServer.Remove(allTaskToDelete);
+            var toDelete = Tasks.Where(t => t.TaskId == taskToDelete.TaskId).First();
+            Tasks.Remove(toDelete);
+            var allTaskFromServerToDelete = _allTasksFromServer.Where(t => t.TaskId == taskToDelete.TaskId).First();
+            _allTasksFromServer.Remove(allTaskFromServerToDelete);
         }
 
 
@@ -148,7 +152,13 @@ namespace Com.Pinz.Client.Module.TaskManager.Models
 
             try
             {
+                Task originalTask = _mapper.Map<Task>(sourceItem);
+
                 await _service.MoveTaskToCategoryAsync(sourceItem, Category);
+
+                _eventAggregator.GetEvent<TaskDeletedEvent>().Publish(originalTask);
+                Tasks.Add(sourceItem);
+                _allTasksFromServer.Add(sourceItem);
             }
             catch (TimeoutException timeoutEx)
             {
