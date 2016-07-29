@@ -261,25 +261,31 @@ namespace Com.Pinz.Client.Module.Administration.Model
 
         private async System.Threading.Tasks.Task SelectProjectRefs()
         {
-            try
+            if (SelectedProject != null)
             {
-                List<ProjectUser> projectUserList = await adminService.ReadAllProjectUsersInProjectAsync(SelectedProject);
-                ProjectUsers.Clear();
-                projectUserList.ForEach(ProjectUsers.Add);
-
-                List<User> users = await adminService.ReadAllUsersForCompanyAsync(globalModel.CurrentUser.CompanyId);
-                AllCompanyUsers.Clear();
-                users.ForEach(u =>
+                try
                 {
-                    if (projectUserList.All(pu => pu.UserId != u.UserId))
-                        AllCompanyUsers.Add(u);
-                });
+                    List<ProjectUser> projectUserList = await adminService.ReadAllProjectUsersInProjectAsync(SelectedProject);
+                    ProjectUsers.Clear();
+                    projectUserList.ForEach(ProjectUsers.Add);
 
-                IsProjectSelected = true;
-            }
-            catch (TimeoutException timeoutEx)
+                    List<User> users = await adminService.ReadAllUsersForCompanyAsync(globalModel.CurrentUser.CompanyId);
+                    AllCompanyUsers.Clear();
+                    users.ForEach(u =>
+                    {
+                        if (projectUserList.All(pu => pu.UserId != u.UserId))
+                            AllCompanyUsers.Add(u);
+                    });
+
+                    IsProjectSelected = true;
+                }
+                catch (TimeoutException timeoutEx)
+                {
+                    _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                }
+            }else
             {
-                _eventAggregator.GetEvent<TimeoutErrorEvent>().Publish(timeoutEx);
+                IsProjectSelected = false;
             }
         }
 
