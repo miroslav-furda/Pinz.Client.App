@@ -17,9 +17,6 @@
              d:DataContext ="{d:DesignInstance {x:Type dvm:TaskShowEditDesignModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
-        <Image x:Key="OkImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-        <Image x:Key="CancelImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-        <Image x:Key="DeleteImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
         <convert:Enum2LocalizedStringConverter x:Key="Enum2LocString"/>
 
@@ -138,10 +135,36 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="{StaticResource DeleteImage}" ToolTip="{x:Static p:Resources.Button_Delete_Tooltip}" Command="{Binding Path=DeleteCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  />
-            <Button Grid.Column="1" Content="{StaticResource OkImage}" ToolTip="{x:Static p:Resources.Button_Ok}" Command="{Binding Path=OkCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  />
-            <Button Grid.Column="2" Content="{StaticResource CancelImage}" ToolTip="{x:Static p:Resources.Button_Cancel}" Command="{Binding Path=CancelCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left"  />
-
+            <Button Grid.Column="0" ToolTip="{x:Static p:Resources.Button_Delete_Tooltip}" 
+                    Command="{Binding Path=DeleteCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"
+                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_delete}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Grid.Column="1" ToolTip="{x:Static p:Resources.Button_Ok}" Command="{Binding Path=OkCommand}" 
+                    VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"
+                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Grid.Column="2" ToolTip="{x:Static p:Resources.Button_Cancel}" Command="{Binding Path=CancelCommand}" 
+                    VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left"
+                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

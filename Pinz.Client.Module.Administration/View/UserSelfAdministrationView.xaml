@@ -12,13 +12,8 @@
              mc:Ignorable="d" 
              xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.Administration.DesignModel"
              d:DataContext ="{d:DesignInstance {x:Type dvm:UserSelfAdministrationDesignModel}, IsDesignTimeCreatable=True}"             
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="300">
     <UserControl.Resources>
-        <Image x:Key="OkImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-        <Image x:Key="CancelImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-        <Image x:Key="OkImage2" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-        <Image x:Key="CancelImage2" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-        <Image x:Key="EditImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <i:Interaction.Triggers>
@@ -26,7 +21,7 @@
             <prism:PopupWindowAction  CenterOverAssociatedObject="True" IsModal="True" />
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -60,8 +55,15 @@
                 <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CurrentUser.FamilyName}" IsEnabled="{Binding IsUserInEditMode}" Margin="2"
                          Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
-                <Button Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="2"  Content="{StaticResource EditImage}" Command="{Binding Path=StartUserChangesCommand}" VerticalAlignment="Center" Margin="5" 
-                        Visibility="{Binding IsUserInEditMode, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" HorizontalAlignment="Right"  />
+                <Button Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="2"  Command="{Binding Path=StartUserChangesCommand}" VerticalAlignment="Center" Margin="5" 
+                        Visibility="{Binding IsUserInEditMode, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" HorizontalAlignment="Right"  
+                        Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_edit}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
                 <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Visibility="{Binding IsUserInEditMode, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -70,8 +72,22 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Content="{StaticResource OkImage}" Command="{Binding Path=SaveUserChangesCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  />
-                    <Button Grid.Column="1" Content="{StaticResource CancelImage}" Command="{Binding Path=CancelUserChangesCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left"  />
+                    <Button Grid.Column="0" Command="{Binding Path=SaveUserChangesCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  
+                        Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    <Button Grid.Column="1" Command="{Binding Path=CancelUserChangesCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left" 
+                        Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
                 </Grid>
 
             </Grid>
@@ -116,8 +132,23 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="{StaticResource OkImage2}" Command="{Binding Path=ChangeUserPasswordCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"  />
-                        <Button Grid.Column="1" Content="{StaticResource CancelImage2}" Command="{Binding Path=CancelPasswordChangeCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left"  />
+                        <Button Grid.Column="0" Command="{Binding Path=ChangeUserPasswordCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Right"
+                        Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                            <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+
+                        <Button Grid.Column="1" Command="{Binding Path=CancelPasswordChangeCommand}" VerticalAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Left"  
+                                Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                            <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>

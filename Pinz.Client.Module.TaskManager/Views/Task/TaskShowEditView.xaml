@@ -67,19 +67,36 @@
                   Command="{Binding CompleteCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}"
                   IsEnabled="{Binding EditMode, Converter={StaticResource InverseBool}}"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Task.TaskName}" Margin="3,2,0,0"  VerticalAlignment="Bottom" 
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Task.TaskName}" Margin="3,2,0,0"  VerticalAlignment="Center"  
                    Visibility="{Binding EditMode, Converter={StaticResource BoolToVisibilityConv}, ConverterParameter=Inverted}"
                    Style="{StaticResource finishedTask}"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Task.TaskName}" MinWidth="100" Margin="3,2,0,0"  VerticalAlignment="Bottom" 
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Task.TaskName}" MinWidth="100" Margin="3,2,0,0"  VerticalAlignment="Center" 
                  Visibility="{Binding EditMode, Converter={StaticResource BoolToVisibilityConv}, ConverterParameter=Normal}"
                  ext:FocusExtension.IsFocused="{Binding EditMode}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
 
-        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Task.Owner}" Margin="5,0,0,0" FontSize="10" VerticalAlignment="Bottom"   Foreground="#FF6E6C6C"/>
-        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding Task.CreationTime, StringFormat=\{0:d\}}" Margin="5,0,0,0" FontSize="10" VerticalAlignment="Bottom" Foreground="#FF6E6C6C" />
-        <Button Grid.Column="4" Content="{StaticResource StartImage}" ToolTip="{x:Static p:Resources.StartButton}" Command="{Binding Path=StartCommand}" VerticalAlignment="Bottom" Margin="5,0,0,0"/>
+        <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Task.Owner}" Margin="5,0,0,0" FontSize="10" VerticalAlignment="Center"   Foreground="#FF6E6C6C"/>
+        <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding Task.CreationTime, StringFormat=\{0:d\}}" Margin="5,0,0,0" FontSize="10" VerticalAlignment="Center" Foreground="#FF6E6C6C" />
+        <Button Grid.Column="4" ToolTip="{x:Static p:Resources.StartButton}" Command="{Binding Path=StartCommand}" 
+                VerticalAlignment="Bottom" Margin="5,0,0,0" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_progress}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
 
-        <Button Grid.Column="5" Content="{StaticResource EditImage}" ToolTip="{x:Static p:Resources.Edit_Button}" Command="{Binding Path=EditCommand}" VerticalAlignment="Bottom" Margin="5,0,0,0" HorizontalAlignment="Left"  />
+        <Button Grid.Column="5" ToolTip="{x:Static p:Resources.Edit_Button}" Command="{Binding Path=EditCommand}" 
+                VerticalAlignment="Bottom" Margin="5,0,0,0" HorizontalAlignment="Left"  Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+            <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_edit}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+
+        </Button>
 
         <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Name="TaskEdit" prism:RegionManager.RegionName="TaskEditRegion" prism:RegionManager.RegionContext="{Binding Task}" />
     </Grid>

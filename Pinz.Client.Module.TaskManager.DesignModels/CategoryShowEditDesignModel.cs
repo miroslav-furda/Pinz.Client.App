@@ -10,7 +10,7 @@ namespace Com.Pinz.Client.Module.TaskManager.DesignModels
 
         public CategoryShowEditDesignModel()
         {
-            IsEditorEnabled = false;
+            IsEditorEnabled = true;
             Category = new Category()
             {
                 Name = "Category"

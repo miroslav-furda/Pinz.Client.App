@@ -13,21 +13,6 @@
              xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.Administration.DesignModel"
              d:DataContext ="{d:DesignInstance {x:Type dvm:CompanyAdministrationDesignModel}, IsDesignTimeCreatable=True}" d:DesignWidth="400">
     <UserControl.Resources>
-        <Image x:Key="EditUserImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
-        <Image x:Key="CancelUserImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-        <Image x:Key="DeleteUserImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
-        <Image x:Key="SaveUserImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-
-        <Image x:Key="EditCompanyImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
-        <Image x:Key="OkCompanyImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-        <Image x:Key="CancelCompanyImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-
-        <Image x:Key="EditProjectImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
-        <Image x:Key="CancelProjectImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-        <Image x:Key="DeleteProjectImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
-        <Image x:Key="SaveProjectImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-        <Image x:Key="AddProjectImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/add.png" Width="10" Height="10"/>
-
         <converter:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <i:Interaction.Triggers>
@@ -38,7 +23,7 @@
             <i:InvokeCommandAction Command="{Binding InitializeCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -66,9 +51,30 @@
                          Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}"
                          Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
                 <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Margin="2" Content="{StaticResource EditCompanyImage}" ToolTip="{x:Static p:Resources.Edit}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartEditCompany, Mode=OneWay}" IsEnabled="{Binding IsCompanyEditorEnabled}" Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"></Button>
-                    <Button Content="{StaticResource OkCompanyImage}"  ToolTip="{x:Static p:Resources.Ok}" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateCompany, Mode=OneWay}" Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
-                    <Button Content="{StaticResource CancelCompanyImage}"  ToolTip="{x:Static p:Resources.Cancel}" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding CancelEditCompany, Mode=OneWay}" Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
+                    <Button Margin="2" ToolTip="{x:Static p:Resources.Edit}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartEditCompany, Mode=OneWay}" IsEnabled="{Binding IsCompanyEditorEnabled}" Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"
+                            Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_edit}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    <Button ToolTip="{x:Static p:Resources.Ok}" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateCompany, Mode=OneWay}" Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                            Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    <Button ToolTip="{x:Static p:Resources.Cancel}" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding CancelEditCompany, Mode=OneWay}" Visibility="{Binding IsCompanyEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                            Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                        <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -90,7 +96,16 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Grid.Row="0" Grid.Column="1" Margin="5,2,2,2"  Content="{StaticResource AddProjectImage}"  ToolTip="{x:Static p:Resources.CreateNewProject}" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding NewProject, Mode=OneWay}" IsEnabled="{Binding IsNewProjectEnabled}"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Margin="5,2,2,2" ToolTip="{x:Static p:Resources.CreateNewProject}" 
+                        HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding NewProject, Mode=OneWay}" IsEnabled="{Binding IsNewProjectEnabled}"
+                        Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_add}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
                 <GroupBox Grid.Row="1" Grid.Column="1" Header="{x:Static p:Resources.Project}" Margin="3">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -110,10 +125,38 @@
                                  Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
                                  Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                            <Button Margin="2" Content="{StaticResource EditProjectImage}" ToolTip="{x:Static p:Resources.Edit}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartEditProject, Mode=OneWay}" IsEnabled="{Binding IsProjectEditorEnabled}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"></Button>
-                            <Button Content="{StaticResource DeleteProjectImage}" ToolTip="{x:Static p:Resources.Delete}"  Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding DeleteProject, Mode=OneWay}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
-                            <Button Content="{StaticResource SaveProjectImage}" ToolTip="{x:Static p:Resources.Save}"  Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateProject, Mode=OneWay}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
-                            <Button Content="{StaticResource CancelProjectImage}" ToolTip="{x:Static p:Resources.Cancel}"  Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding CancelEditProject, Mode=OneWay}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
+                            <Button Margin="2" ToolTip="{x:Static p:Resources.Edit}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartEditProject, Mode=OneWay}" IsEnabled="{Binding IsProjectEditorEnabled}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}" 
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_edit}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button ToolTip="{x:Static p:Resources.Delete}"  Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding DeleteProject, Mode=OneWay}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_delete}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button ToolTip="{x:Static p:Resources.Save}"  Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateProject, Mode=OneWay}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button ToolTip="{x:Static p:Resources.Cancel}"  Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding CancelEditProject, Mode=OneWay}" Visibility="{Binding IsProjectEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </GroupBox>
@@ -179,10 +222,38 @@
                                   Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
 
                         <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Margin="2" Content="{StaticResource EditUserImage}" ToolTip="{x:Static p:Resources.Edit}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartEditUser, Mode=OneWay}" IsEnabled="{Binding IsUserEditorEnabled}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"></Button>
-                            <Button Margin="2" Content="{StaticResource DeleteUserImage}" ToolTip="{x:Static p:Resources.Delete}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding DeleteUser, Mode=OneWay}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
-                            <Button Margin="2" Content="{StaticResource SaveUserImage}" ToolTip="{x:Static p:Resources.Save}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateUser, Mode=OneWay}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
-                            <Button Margin="2" Content="{StaticResource CancelUserImage}" ToolTip="{x:Static p:Resources.Cancel}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding CancelEditUser, Mode=OneWay}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"></Button>
+                            <Button Margin="2" ToolTip="{x:Static p:Resources.Edit}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding StartEditUser, Mode=OneWay}" IsEnabled="{Binding IsUserEditorEnabled}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Inverted}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_edit}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button Margin="2" ToolTip="{x:Static p:Resources.Delete}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding DeleteUser, Mode=OneWay}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_delete}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button Margin="2" ToolTip="{x:Static p:Resources.Save}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding UpdateUser, Mode=OneWay}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button Margin="2" ToolTip="{x:Static p:Resources.Cancel}" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding CancelEditUser, Mode=OneWay}" Visibility="{Binding IsUserEditorVisible, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}"
+                                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </GroupBox>

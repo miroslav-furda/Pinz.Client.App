@@ -10,10 +10,6 @@
              xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.TaskManager.DesignModels;assembly=Pinz.Client.Module.TaskManager.DesignModels"
              d:DataContext ="{d:DesignInstance {x:Type dvm:CategoryListDesignModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/add.png" Width="10" Height="10"/>
-    </UserControl.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -23,8 +19,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Column="0" Grid.Row="0" Content="{StaticResource AddImage}" ToolTip="{x:Static p:Resources.CreateCategory_Button}" Command="{Binding CreateCategory, Mode=OneWay}"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,5,0"/>
+        <Button Grid.Column="0" Grid.Row="0" ToolTip="{x:Static p:Resources.CreateCategory_Button}" Style="{DynamicResource MetroCircleButtonStyle}"
+                Command="{Binding CreateCategory, Mode=OneWay}"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,5,0" Width="30" Height="30">
+            <Rectangle Width="15" Height="15" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_add}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
         <ItemsControl  Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Categories}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                        Grid.ColumnSpan="3">
             <ItemsControl.ItemTemplate>

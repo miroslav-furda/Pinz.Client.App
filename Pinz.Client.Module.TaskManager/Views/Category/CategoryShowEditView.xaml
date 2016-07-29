@@ -13,13 +13,8 @@
              xmlns:dvm="clr-namespace:Com.Pinz.Client.Module.TaskManager.DesignModels;assembly=Pinz.Client.Module.TaskManager.DesignModels"
              d:DataContext ="{d:DesignInstance {x:Type dvm:CategoryShowEditDesignModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
-        <Image x:Key="EditImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/edit.png" Width="10" Height="10"/>
-        <Image x:Key="AddImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/add.png" Width="10" Height="10"/>
-        <Image x:Key="OkImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/ok.png" Width="10" Height="10"/>
-        <Image x:Key="CancelImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/cancel.png" Width="10" Height="10"/>
-        <Image x:Key="DeleteImage" Source="pack://application:,,,/Pinz.Client.Commons;Component/Resources/delete.png" Width="10" Height="10"/>
         <convert:ParametrizedBooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <i:Interaction.Triggers>
@@ -27,7 +22,7 @@
             <prism:PopupWindowAction  CenterOverAssociatedObject="True" IsModal="True" />
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-    
+
     <Grid Margin="0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -46,8 +41,16 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name}" VerticalAlignment="Center"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="{StaticResource EditImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                    Command="{Binding StartEditCategory, Mode=OneWay}"/>
+            <Button Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="30" Height="30"
+                                    Command="{Binding StartEditCategory, Mode=OneWay}" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_edit}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
         </Grid>
         <!--Edit Category Name-->
         <Grid Grid.Row="0" Grid.Column="0"  Visibility="{Binding IsEditorEnabled, Converter={StaticResource BoolToVis},  ConverterParameter=Normal}">
@@ -62,9 +65,34 @@
             </Grid.RowDefinitions>
             <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" MinWidth="100" 
                      ext:FocusExtension.IsFocused="{Binding IsEditorEnabled}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="{StaticResource OkImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding UpdateCategory, Mode=OneWay}"/>
-            <Button Grid.Row="0" Grid.Column="2" Content="{StaticResource CancelImage}"  Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding CancelEditCategory, Mode=OneWay}"/>
-            <Button Grid.Row="0" Grid.Column="3" Content="{StaticResource DeleteImage}"  Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding IsDeleteEnabled, Mode=TwoWay}" Command="{Binding DeleteCategory, Mode=OneWay}"/>
+            <Button Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    Command="{Binding UpdateCategory, Mode=OneWay}" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Grid.Row="0" Grid.Column="2" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    Command="{Binding CancelEditCategory, Mode=OneWay}"  Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_cancel}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Grid.Row="0" Grid.Column="3" Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                    IsEnabled="{Binding IsDeleteEnabled, Mode=TwoWay}" Command="{Binding DeleteCategory, Mode=OneWay}"
+                    Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" 
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_delete}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

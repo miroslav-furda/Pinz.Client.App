@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://www.codeplex.com/prism"
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.Administration.View"
+             xmlns:views="clr-namespace:Com.Pinz.Client.Module.Administration.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -15,6 +16,11 @@
     </UserControl.Resources>
  
     <Grid>
-        <TabControl  Name="UserSelfAdministration" prism:RegionManager.RegionName="UserSelfAdministrationRegion" Margin="5" ItemContainerStyle="{StaticResource HeaderStyle}" VerticalContentAlignment="Top"/>    
+        <TabControl  Name="UserSelfAdministration" prism:RegionManager.RegionName="UserSelfAdministrationRegion" Margin="5" ItemContainerStyle="{StaticResource HeaderStyle}" VerticalContentAlignment="Top"/>
+        <!--TabControl Margin="5" VerticalContentAlignment="Top">
+            <TabItem Header="buttons">
+                <views:UserSelfAdministrationView/>
+            </TabItem>
+        </TabControl-->
     </Grid>
 </UserControl>
