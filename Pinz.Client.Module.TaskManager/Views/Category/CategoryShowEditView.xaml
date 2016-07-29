@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Com.Pinz.Client.Module.TaskManager.Views"
              xmlns:p="clr-namespace:Com.Pinz.Client.Module.TaskManager.Properties"
              xmlns:convert="clr-namespace:Com.Pinz.Client.Commons.Wpf.Converter;assembly=Pinz.Client.Commons"
+             xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:ext="clr-namespace:Com.Pinz.Client.Commons.Wpf.Extensions;assembly=Pinz.Client.Commons"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
@@ -63,8 +64,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" MinWidth="100" 
-                     ext:FocusExtension.IsFocused="{Binding IsEditorEnabled}" Validation.ErrorTemplate="{StaticResource errorTemplateSilverlightStyle}"/>
+            <TextBox Name="EditBox" Grid.Row="0" Grid.Column="0" Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" VerticalAlignment="Center" MinWidth="100" 
+                     ext:FocusExtension.IsFocused="{Binding IsEditorEnabled}"
+                     metro:TextBoxHelper.IsWaitingForData="true"/>
             <Button Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" 
                     Command="{Binding UpdateCategory, Mode=OneWay}" Width="30" Height="30" Style="{DynamicResource MetroCircleButtonStyle}">
                 <Rectangle Width="10" Height="10" 
