@@ -7,6 +7,7 @@ using Com.Pinz.Client.Commons.Model;
 using Com.Pinz.Client.Model;
 using Com.Pinz.Client.Module.TaskManager.Events;
 using Prism.Events;
+using AutoMapper;
 
 namespace Com.Pinz.Client.Module.TaskManager.Models.Task
 {
@@ -34,7 +35,8 @@ namespace Com.Pinz.Client.Module.TaskManager.Models.Task
             var taskDeltedEvent = new Mock<TaskDeletedEvent>();
             eventAgregator.Setup(x => x.GetEvent<TaskDeletedEvent>()).Returns(taskDeltedEvent.Object);
 
-            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel.Object, eventAgregator.Object);
+            model = new TaskListModel(taskService.Object, taskFilter, applicationGlobalModel.Object, eventAgregator.Object,
+                new Mock<IMapper>().Object);
         }
 
         [TestMethod]
